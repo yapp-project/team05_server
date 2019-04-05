@@ -33,5 +33,5 @@ app.listen(port ,function(){
 });
 var meetDetailRouter = require('./routes/meet/detail.js')(app,connection);
 var meetAttendantRouter = require('./routes/meet/attendant.js')(app, connection);
-var meetScheduledMeeting = require('./route/meet/scheduledMeeting.js')(app,connection);
+var meetScheduledMeetingRouter = require('./routes/meet/scheduledMeeting.js')(app,connection);
 var logRouter = require('./routes/join.js')(app,connection);
