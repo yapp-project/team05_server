@@ -1,27 +1,37 @@
-var express     = require('express');
-var app         = express();
-var bodyParser  = require('body-parser');
-var mongoose    = require('mongoose');
-//var multer 		= require('multer');
-//var upload = multer({dest:'./static/'});
+var express = require('express');
+var bodyParser = require('body-parser');
+var mysql = require('mysql');
+var config = require('./db_info.js').local;
+var session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
-var db = mongoose.connection;
 
-db.on('error', console.error);
-db.once('open', function(){
-	console.log("Connected to mongod server");
-});
-
-mongoose.connect('mongodb://localhost:27017/real_test');
-
-//Define model
-var Join = require('./models/join');
-app.use(bodyParser.urlencoded({limit:'50mb', extended: true }));
-app.use(bodyParser.json({limit:'50mb'}));
+var app = express();
+app.use(bodyParser.urlencoded({ extended : true }));
+app.use(bodyParser.json());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  store: new FileStore()
+}));
 
 var port = process.env.PORT || 8078;
-// var router =require('./routes')(app, Book);
-var logrouter = require('./routes/join.js')(app, Join);
-var server = app.listen(port, function(){
- console.log("Express server has started on port " + port)
- });
+
+
+var connection = mysql.createConnection({
+                    host: config.host,
+                    port: config.port,
+                    user: config.user,
+                    password: config.password,
+                    database: config.database
+                });
+
+connection.connect();
+app.listen(port ,function(){
+    console.log("Express server has started on port " + port);
+});
+var meetDetailRouter = require('./routes/meet/detail.js')(app,connection);
+var meetAttendantRouter = require('./routes/meet/attendant.js')(app, connection);
+var meetScheduledMeeting = require('./route/meet/scheduledMeeting.js')(app,connection);
+var logRouter = require('./routes/join.js')(app,connection);
