@@ -38,9 +38,9 @@ module.exports = function(app,connection)
     // 모임정보 상세 전달
     app.get('/meet/detail', function(req, res){
         console.log("get /meet/detail");
-        var meetName = req.query.meet_name;
-        var sql = "select m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax "
-        +"from meettable AS m where m.meet_name = '" + meetName +"';" ;
+        var meeId = req.query.meet_Id;
+        var sql = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax "
+        +"from meettable AS m where m.meet_Id = " + meetId +";" ;
         connection.query(sql, function(error,result, fields){
             if(error)
             res.status(400).json({"states" : 400});
