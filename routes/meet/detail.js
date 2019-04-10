@@ -12,7 +12,7 @@ module.exports = function(app,connection)
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
             "meet_name" : req.body.name,
-            "meet_datetime" : req.boy.datetime,
+            "meet_datetime" : req.body.datetime,
             "meet_location" : req.body.location,
             "meet_latitude" : req.body.latitude,
             "meet_longitude" : req.body.longitude,
@@ -35,7 +35,7 @@ module.exports = function(app,connection)
                     "fk_meet_Id" : result.insertId,
                     "meet_keyword" : req.body.keyword
                 }
-                connection.query(sqltwo, parameter, function(error, result, fields){
+                connection.query(sqltwo, parameter, function(error, results, fields){
                     if(error) {
                         res.json({"state" : 400});
                         res.status(400).end('err :' + error);
