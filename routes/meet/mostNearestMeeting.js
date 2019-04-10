@@ -36,7 +36,7 @@ module.exports = function(app,connection){
                     var destlong = result[i].meet_longitude;
                     meetId[count] = result[i].meet_Id;
                     var distance = computeDistance(latitude,longitude,destlat,destlong);
-                    if(distance <= 123.0 && count < 4 ){
+                    if(distance <= 1.0 && count < 4 ){
                         count = count + 1;
                     }
                     else if(count == 4) break;
