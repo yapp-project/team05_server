@@ -1,9 +1,9 @@
 --모임참여자, 모임 참여 인원 수에 쓰임
 CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
-  `fk_meet_Id` INT(20) UNSIGNED NOT NULL,
+  `fk_meet_Id` INT UNSIGNED NOT NULL,
   `fk_attendants_Id` VARCHAR(20) NOT NULL,
   `meetAttendants_Id` INT NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`meetAttendants_Id`, `fk_meet_Id`, `fk_attendants_Id`),
+  PRIMARY KEY (`meetAttendants_Id`),
   UNIQUE INDEX `meetAttendants_Id_UNIQUE` (`meetAttendants_Id` ASC) VISIBLE,
     CONSTRAINT `fk_meet_Id`
     FOREIGN KEY (`fk_meet_Id`)
