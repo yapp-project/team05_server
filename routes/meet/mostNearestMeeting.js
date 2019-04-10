@@ -36,27 +36,25 @@ module.exports = function(app,connection){
                     var destlong = result[i].meet_longitude;
                     meetId[count] = result[i].meet_Id;
                     var distance = computeDistance(latitude,longitude,destlat,destlong);
-                    if(distance <= 123.0 && count <= 4 ){
+                    if(distance <= 123.0 && count < 4 ){
                         count = count + 1;
-                        console.log(count);
-                        var sqltwo = "select meet_name, meet_datetime, meet_Id, fk_meetcaptain, meet_personNumMax,"+
-                        "meet_location from meettable where meet_scheduledEnd = 0 and meet_Id = "+meetId+";";
-                        connection.query(sqltwo,function(error,results,fields){
-                            if(error){
-                                res.status(400).json({"state" : 400});
-                            }
-                            else{
-                                res.status(200).json({"state" : 200, "list" : [results[0]],"myId" : myId });
-                                console.log(results[0]);
-                            }
-                         });
                     }
-                    else if(count > 4) {
-                        console.log('end');
-                       break;
-                    }
+                    else if(count == 4) break;
                 }
-                res.end();
+                var sqltwo = "select meet_name, meet_datetime, meet_Id, fk_meetcaptain, meet_personNumMax,"+
+                "meet_location from meettable where meet_scheduledEnd = 0 and (meet_Id = "+meetId[0]+" or meet_Id = "+meetId[1]+ " or meet_Id ="
+                +meetId[2]+" or meet_Id = "+meetId[3]+");";
+                connection.query(sqltwo,function(error,results,fields){
+                if(error){
+                    res.status(400).json({"state" : 400});
+                    console.log(error);
+                }
+                else{
+                        res.status(400).json({"state" : 200, "list" : results});
+                        console.log(results[0]);
+                        res.end();
+                    }
+                });
             }
         });
         
