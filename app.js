@@ -24,7 +24,8 @@ var connection = mysql.createConnection({
                     port: config.port,
                     user: config.user,
                     password: config.password,
-                    database: config.database
+                    database: config.database,
+                    multipleStatements: true
                 });
 
 connection.connect();
@@ -33,5 +34,8 @@ app.listen(port ,function(){
 });
 var meetDetailRouter = require('./routes/meet/detail.js')(app,connection);
 var meetAttendantRouter = require('./routes/meet/attendant.js')(app, connection);
-var meetScheduledMeetingRouter = require('./routes/meet/scheduledMeeting.js')(app,connection);
+var meetAttendantEndRouter = require('./routes/meet/attendantEnd.js')(app, connection);
+var meetScheduledMeeting = require('./routes/meet/scheduledMeeting.js')(app,connection);
+var mostNearestMeeting = require('./routes/meet/mostNearestMeeting.js')(app, connection);
+var searchKeyword = require('./routes/meet/searchKeyword.js')(app,connection);
 var logRouter = require('./routes/join.js')(app,connection);
