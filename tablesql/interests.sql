@@ -19,8 +19,8 @@ CREATE TABLE `test`.`interests` (
   CONSTRAINT `fk_meetId`
     FOREIGN KEY (`fk_meetId`)
     REFERENCES `test`.`meettable` (`meet_Id`)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_userId`
     FOREIGN KEY (`fk_userId`)
     REFERENCES `test`.`jointable` (`userId`)
