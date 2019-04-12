@@ -1,7 +1,7 @@
 module.exports = function(app, connection){
     //모임 마감하기 버튼 눌렀을 시 meet_personNumMax부분을 현재 인원수로 변경
-    app.put('/meet/attendantEnd', function(req, res){
-        console.log('put /meet/attendantEnd');
+    app.put('/meet/personnummax', function(req, res){
+        console.log('put /meet/personnummax');
         var meetId = req.body.meet_Id;
         var count;
         var query = "select count(*) + 1 as count from meettable where meet_Id = " + meetId +";";

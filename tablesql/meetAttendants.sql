@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
   `meetAttendants_Id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`meetAttendants_Id`),
   UNIQUE INDEX `meetAttendants_Id_UNIQUE` (`meetAttendants_Id` ASC) VISIBLE,
-    CONSTRAINT `fk_meet_Id`
+    CONSTRAINT `fkmeetId`
     FOREIGN KEY (`fk_meet_Id`)
     REFERENCES `test`.`meettable` (`meet_Id`)
     ON DELETE CASCADE

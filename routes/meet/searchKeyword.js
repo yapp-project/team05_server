@@ -1,8 +1,9 @@
+//사용자 키워드 검색 결과
 module.exports = function(app,connection){
 
-    app.get('/meet/searchKeyword',function(req,res){
+    app.get('/meet/keyword',function(req,res){
         var keyword = req.query.keyword;
-        var sql = "select fk_meet_Id AS meetId, meet_keyword AS word from meetkeyword;";
+        var sql = "select fk_meet_Id AS meetId, meet_keyword AS word from meetkeywords;";
         var idKeyArray = new Array();
         var index = 0;
 
@@ -40,6 +41,9 @@ module.exports = function(app,connection){
                                     console.log(results);
                                 }
                             });
+                }
+                else{
+                    res.status(300).json({"states" : 300, "string" : "there is no meeting for the keyword."});
                 }
             }
                 

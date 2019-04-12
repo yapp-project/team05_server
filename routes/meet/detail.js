@@ -7,8 +7,11 @@ module.exports = function(app,connection)
         var fk_meetcaptain = req.session.userId;
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
+        var key;
         var sql = 'INSERT INTO meettable SET ?;';
-        var sqltwo = 'INSERT INTO meetkeyword SET ?;';
+        var sqltwo = 'INSERT INTO meetkeywords SET ?;';
+        var sqlthree = 'INSERT INTO interests SET ?;'
+        var lists = ["sports","activity","write","study","festival","music","diy","volunteer","picture","game","cooking"];
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
             "meet_name" : req.body.name,
@@ -23,7 +26,8 @@ module.exports = function(app,connection)
             "meet_filterSameAgeGroup" : req.body.filterSameAgeGroup
         
         };
-       
+        
+      
         connection.query(sql,params, function (error, result,fields){
             if(error) {
                 res.json({"state" : 400});
@@ -35,6 +39,19 @@ module.exports = function(app,connection)
                     "fk_meet_Id" : result.insertId,
                     "meet_keyword" : req.body.keyword
                 }
+                for(var i = 0; i < lists.length; i++){
+                    if(lists[i]== req.body.list)
+                        key = i;
+                }
+                var param = new Object();
+                for(var i = 0; i < lists.length; i++){
+                    if(key == i)
+                        param[lists[i]] = 1;
+                    else
+                        param[lists[i]] = 0;
+                }
+                param.fk_meetId = result.insertId;
+                
                 connection.query(sqltwo, parameter, function(error, results, fields){
                     if(error) {
                         res.json({"state" : 400});
@@ -42,19 +59,24 @@ module.exports = function(app,connection)
                         console.error('error', error);
                     }
                     else{
-                        console.log(fk_meetcaptain + ',' + meet_name + ',' +meet_longitude);
-                res.json({"state" : 200,
-                          "insertId" : result.insertId});
-                res.status(200).end('success');
+                        connection.query(sqlthree, param, function(error, rows, fields){
+                            if(error){
+                                res.json({"state" : 400});
+                                res.status(400).end('err :' + error);
+                                console.error('error', error);
+                            }
+                            else
+                                res.status(200).json({"state" : 200, "meetId" : result.insertId, "intId" : rows.insertId});
+                        });
                     }
                 });
             }
-        });
+    });
     });
     // 모임정보 상세 전달
     app.get('/meet/detail', function(req, res){
         console.log("get /meet/detail");
-        var meeId = req.query.meet_Id;
+        var meetId = req.query.meet_Id;
         var sql = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax "
         +"from meettable AS m where m.meet_Id = " + meetId +";" ;
         connection.query(sql, function(error,result, fields){
