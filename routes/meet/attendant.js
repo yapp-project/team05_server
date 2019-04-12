@@ -39,10 +39,12 @@ module.exports = function(app,connection)
     app.get('/meet/attendant', function(req, res){
         console.log("get /meet/attendant");
         var meetId = req.query.meet_Id;
-        var sql= "select count(*)+1 from meetAttendants AS m where m.fk_meet_Id = " + meetId + ";";
+        var sql= "select count(*)+1 AS count from meetAttendants AS m where m.fk_meet_Id = " + meetId + ";";
         connection.query(sql, function(error, result, fields){
-            if(error)
+            if(error){
                 res.status(400).json({"states" : 400});
+                console.error(error);
+            }
             else{
                 res.status(200).json({"state" : 200 , "list" : [result[0]]});
                 console.log(result);
@@ -57,11 +59,13 @@ module.exports = function(app,connection)
         var meetId = req.body.meet_Id;
         var sql = "UPDATE meettable AS m SET m.meet_scheduledEnd = 1 WHERE m.meet_Id = " +meetId+";";
         connection.query(sql, function(error,result, fields){
-            if(error)
+            if(error){
             res.status(400).json({"states" : 400});
+            console.log(error);
+        }
             else{
                 res.status(200).json({"states" : 200});
-                conslole.log(result);
+                console.log(result);
             }
             res.end();
         });
