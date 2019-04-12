@@ -38,4 +38,5 @@ var meetAttendantEndRouter = require('./routes/meet/attendantEnd.js')(app, conne
 var meetScheduledMeeting = require('./routes/meet/scheduledMeeting.js')(app,connection);
 var mostNearestMeeting = require('./routes/meet/mostNearestMeeting.js')(app, connection);
 var searchKeyword = require('./routes/meet/searchKeyword.js')(app,connection);
+var categorySearch = require('./routes/meet/categorySearch.js')(app, connection);
 var logRouter = require('./routes/join.js')(app,connection);
