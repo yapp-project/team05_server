@@ -5,22 +5,29 @@ module.exports = function(app,connection)
         console.log('post /meet/detail');
 
         var fk_meetcaptain = req.session.userId;
-        var meet_name = req.body.meet_name;
-        var meet_longitude = req.body.meet_longitude;
+        var meet_name = req.body.name;
+        var meet_longitude = req.body.longitude;
+        var key;
         var sql = 'INSERT INTO meettable SET ?;';
+        var sqltwo = 'INSERT INTO meetkeywords SET ?;';
+        var sqlthree = 'INSERT INTO interests SET ?;'
+        var lists = ["sports","activity","write","study","festival","music","diy","volunteer","picture","game","cooking"];
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
-            "meet_name" : req.body.meet_name,
-            "meet_datetime" : req.body.meet_datetime,
-            "meet_location" : req.body.meet_location,
-            "meet_latitude" : req.body.meet_latitude,
-            "meet_longitude" : req.body.meet_longitude,
-            "meet_explanation" : req.body.meet_explanation,
-            "meet_personNumMax" : req.body.meet_personNumMax,
-            "meet_personnumMin" : req.body.meet_personnumMin,
-            "meet_filterSameGender" : req.body.meet_filterSameGender,
-            "meet_filterSameAgeGroup" : req.body.meet_filterSameAgeGroup
+            "meet_name" : req.body.name,
+            "meet_datetime" : req.body.datetime,
+            "meet_location" : req.body.location,
+            "meet_latitude" : req.body.latitude,
+            "meet_longitude" : req.body.longitude,
+            "meet_explanation" : req.body.explanation,
+            "meet_personNumMax" : req.body.personNumMax,
+            "meet_personnumMin" : req.body.personNumMin,
+            "meet_filterSameGender" : req.body.filterSameGender,
+            "meet_filterSameAgeGroup" : req.body.filterSameAgeGroup
+        
         };
+        
+      
         connection.query(sql,params, function (error, result,fields){
             if(error) {
                 res.json({"state" : 400});
@@ -28,19 +35,50 @@ module.exports = function(app,connection)
                 console.error('error', error);
             }
             else{
-                console.log(fk_meetcaptain + ',' + meet_name + ',' +meet_longitude);
-                res.json({"state" : 200,
-                            "insertId" : result.insertId});
-                res.status(200).end('success');
+                var parameter = {
+                    "fk_meet_Id" : result.insertId,
+                    "meet_keyword" : req.body.keyword
+                }
+                for(var i = 0; i < lists.length; i++){
+                    if(lists[i]== req.body.list)
+                        key = i;
+                }
+                var param = new Object();
+                for(var i = 0; i < lists.length; i++){
+                    if(key == i)
+                        param[lists[i]] = 1;
+                    else
+                        param[lists[i]] = 0;
+                }
+                param.fk_meetId = result.insertId;
+                
+                connection.query(sqltwo, parameter, function(error, results, fields){
+                    if(error) {
+                        res.json({"state" : 400});
+                        res.status(400).end('err :' + error);
+                        console.error('error', error);
+                    }
+                    else{
+                        connection.query(sqlthree, param, function(error, rows, fields){
+                            if(error){
+                                res.json({"state" : 400});
+                                res.status(400).end('err :' + error);
+                                console.error('error', error);
+                            }
+                            else
+                                res.status(200).json({"state" : 200, "meetId" : result.insertId, "intId" : rows.insertId});
+                        });
+                    }
+                });
             }
-        });
+    });
     });
     // 모임정보 상세 전달
     app.get('/meet/detail', function(req, res){
         console.log("get /meet/detail");
-        var meetName = req.query.meet_name;
-        var sql = "select m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax "
-        +"from meettable AS m where m.meet_name = '" + meetName +"';" ;
+        var meetId = req.query.meet_Id;
+        var sql = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax "
+        +"from meettable AS m where m.meet_Id = " + meetId +";" ;
         connection.query(sql, function(error,result, fields){
             if(error)
             res.status(400).json({"states" : 400});
