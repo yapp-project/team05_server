@@ -1,6 +1,6 @@
 module.exports = function(app,connection){
  //메인화면 내 예정 모임 전달
-    app.get('/meet/scheduledMeeting', function(req,res){
+    app.get('/meet/scheduled', function(req,res){
         console.log("get /meet/scheduedMeeting");
         var myId = req.session.userId;
         var sql = "select t.meet_Id, t.meet_name, t.meet_datetime, t.meet_location," +
