@@ -8,10 +8,8 @@ module.exports = function(app,connection){
         };
         connection.query(sql,params,function(error,rows,fields){
             if(error)res.status(400).json({"state": 400});
-            else{
-                res.status(200).json({"state" : 200, "list" : rows});
-                console.log(rows);
-            }
+            else
+                res.status(200).json({"state" : 200});
         });
     });
 }

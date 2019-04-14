@@ -3,7 +3,7 @@ module.exports = function(app,connection)
 //모임정보 상세 내 참여 신청
     app.post('/meet/attendant', function(req,res){
         console.log("post /meet/attendant");
-        var meetId = req.query.meet_Id;
+        var meetId = req.body.meet_Id;
         var meetCaptain;
         var attendantId = req.session.userId; 
         var sql_one = "select m.fk_meetcaptain from meettable As m where m.meet_Id = " + meetId + ";";
