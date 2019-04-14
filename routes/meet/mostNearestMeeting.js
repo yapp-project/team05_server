@@ -74,7 +74,7 @@ module.exports = function(app,connection){
                         console.log(error);
                     }
                     else{
-                        res.status(400).json({"state" : 200, "list" : results});
+                        res.status(200).json({"state" : 200, "list" : results});
                         console.log(results);
                         res.end();
                     }
