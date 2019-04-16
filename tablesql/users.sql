@@ -1,6 +1,6 @@
 CREATE TABLE `test`.`users` (
   `userId` VARCHAR(20) NOT NULL,
-  `usePw` VARCHAR(20) NOT NULL,
+  `userPw` VARCHAR(20) NOT NULL,
   `userBirth` DATE NULL,
   `userGen` TINYINT NULL,
   `userNick` VARCHAR(20) NOT NULL,

@@ -21,7 +21,7 @@ module.exports = function(app, connection)
   app.post('/login/login', function(req, res){
     var userId = req.body.userId;
     var userPw = req.body.userPw;
-    connection.query('SELECT * FROM jointable WHERE userId = ?', [userId],
+    connection.query('SELECT * FROM users WHERE userId = ?', [userId],
     function(error,results,fields){
         if (error) {
           res.json({
@@ -52,7 +52,7 @@ module.exports = function(app, connection)
   //아이디 중복 확인
   app.get('/login/join/userId', function(req, res){
     var userId = req.query.userId;
-    var sql = "select userId from jointable where userId = '" + userId + "' ;";
+    var sql = "select userId from users where userId = '" + userId + "' ;";
     connection.query(sql,function(error, rows, fields){
       if(error) res.status(400).json({"state": 400});
       else{
@@ -72,31 +72,45 @@ module.exports = function(app, connection)
     var userNick = req.body.userNick;
     var userImg = req.body.userImg;
     var gps_lat = req.body.gps_lat;
-    var gps_lon = req.body.gps_lon;
-    var sql = 'INSERT INTO jointable SET ?;';
+    var gps_lan = req.body.gps_lan;
+    var sql = 'INSERT INTO users SET ?;';
     var params = {
         "userId" : userId,
         "userPw" : userPw,
         "userGen" : userGen,
         "userBirth" : userBirth,
         "userNick" : userNick,
-        "userImg" : userImg,
-        "gps_lat" : gps_lat,
-        "gps_lon" : gps_lon
+        "userImg" : userImg
     };
     connection.query(sql,params, function (error, result,fields){
         if(error) {
             res.json({
               'status': 400
-              // 'err :' + error
             });
             console.error('error', error);
         }
         else{
-            console.log(userId + ',' + userPw + ',' +gps_lon);
-            res.json({
-              'status': 200
-            });
+          var sql = 'INSERT INTO userGps SET ?;';
+          var params = {
+              "fk_userId": userId,
+              "gps_lat" : gps_lat,
+              "gps_lan" : gps_lan
+          };
+          connection.query(sql,params, function (error, result,fields){
+              if(error) {
+                  res.json({
+                    'status': 400
+                  });
+                  console.error('error', error);
+              }
+              else{
+
+                  console.log(userId + ',' + userPw + ',' +gps_lan);
+                  res.json({
+                    'status': 200
+                  });
+              }
+          });
         }
     });
   });
@@ -104,7 +118,7 @@ module.exports = function(app, connection)
   // get all user data
  app.get('/login/join', function(req,res){
    console.log('get /login/join');
-   var statement = 'select * from jointable';
+   var statement = 'select * from users';
         connection.query(statement, function (err, rows, fields){
             if(err) return res.status(4000).send({error: 'database failure'});
             else{
@@ -115,27 +129,5 @@ module.exports = function(app, connection)
 
       });
 
-// app.get('/login/join', function(req,res){
-//     console.log('get /login/join');
-//     var statement = 'select * from jointable';
-//          connection.query(statement, function (err, rows, fields){
-//              if(err) return res.status(500).send({error: 'database failure'});
-//              else{
-//                  console.log('success ', rows);
-//                  res.send(rows);
-//              }
-//          });
-//
-//  });
-//    app.delete('/login/join', function(req,res){
-//                 console.log('/login/join delete');
-//                 statement = 'delete from jointable where userId = "' + req.body.userId +'";';
-//                 connection.query(statement, function (err, rows, fields){
-//                     if(err) return res.status(4000).send({error: 'database failure'});
-//                     else {
-//                         console.log('delete success');
-//                   }
-//                });
-//             });
 
 }

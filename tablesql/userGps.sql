@@ -1,4 +1,4 @@
-CREATE TABLE `test`.`usesgps` (
+CREATE TABLE `test`.`usergps` (
   `fk_userId` VARCHAR(20) NOT NULL,
   `gps_lat` DOUBLE NULL,
   `gps_lan` DOUBLE NULL,
