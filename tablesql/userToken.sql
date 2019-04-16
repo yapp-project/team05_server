@@ -7,7 +7,7 @@ CREATE TABLE `test`.`usertoken` (
   UNIQUE INDEX `fk_userId_UNIQUE` (`fk_userId` ASC) VISIBLE,
   CONSTRAINT `fk_user_id`
     FOREIGN KEY (`fk_userId`)
-    REFERENCES `test`.`jointable` (`userId`)
+    REFERENCES `test`.`users` (`userId`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
    ENGINE = InnoDB 

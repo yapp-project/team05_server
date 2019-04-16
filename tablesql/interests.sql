@@ -23,7 +23,7 @@ CREATE TABLE `test`.`interests` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_userId`
     FOREIGN KEY (`fk_userId`)
-    REFERENCES `test`.`jointable` (`userId`)
+    REFERENCES `test`.`users` (`userId`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;

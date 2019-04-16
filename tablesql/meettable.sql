@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `test`.`meettable` (
   UNIQUE INDEX `meet_Id_UNIQUE` (`meet_Id` ASC) VISIBLE,
   CONSTRAINT `userId`
     FOREIGN KEY (`fk_meetcaptain`)
-    REFERENCES `test`.`jointable` (`userId`)
+    REFERENCES `test`.`users` (`userId`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

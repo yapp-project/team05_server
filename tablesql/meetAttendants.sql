@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_attendants_Id`
     FOREIGN KEY (`fk_attendants_Id`)
-    REFERENCES `test`.`jointable` (`userId`)
+    REFERENCES `test`.`users` (`userId`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
