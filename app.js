@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var config = require('./db_info.js').local;
 var session = require('express-session');
+var moment = require('moment');
 const FileStore = require('session-file-store')(session);
 
 
@@ -41,4 +42,6 @@ var meetingcancelRouter = require('./routes/meet/meetingcancel.js')(app,connecti
 var meetingAlarmRouter = require('./routes/meet/meetingAlarm.js')(app,connection);
 var clientTokenRouter = require('./routes/meet/clientToken.js')(app,connection);
 var cancelReasonRouter = require('./routes/meet/cancelreason.js')(app,connection);
-var logRouter = require('./routes/join.js')(app,connection);
+var logRouter = require('./routes/login/join.js')(app,connection);
+var logRouter = require('./routes/login/login.js')(app,connection);
+var myPage = require('./routes/mypage/mypage.js')(app,connection);
