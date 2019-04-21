@@ -10,8 +10,8 @@ module.exports = function(app,connection)
         var key;
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
-        var sqlthree = 'INSERT INTO interests SET ?;'
-        var lists = ["sports","activity","write","study","festival","music","diy","volunteer","picture","game","cooking"];
+        var sqlthree = 'INSERT INTO meetinterests SET ?;'
+        var lists = ["sports","activity","writing","study","exhibition","music","movie","diy","volunteer","picture","game","cooking","coffee","nail","car","interior","concert","etc"];
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
             "meet_name" : req.body.name,
@@ -24,10 +24,10 @@ module.exports = function(app,connection)
             "meet_personnumMin" : req.body.personNumMin,
             "meet_filterSameGender" : req.body.filterSameGender,
             "meet_filterSameAgeGroup" : req.body.filterSameAgeGroup
-        
+
         };
-        
-      
+
+
         connection.query(sql,params, function (error, result,fields){
             if(error) {
                 res.json({"state" : 400});
@@ -51,7 +51,7 @@ module.exports = function(app,connection)
                         param[lists[i]] = 0;
                 }
                 param.fk_meetId = result.insertId;
-                
+
                 connection.query(sqltwo, parameter, function(error, results, fields){
                     if(error) {
                         res.json({"state" : 400});
@@ -90,5 +90,5 @@ module.exports = function(app,connection)
         });
     });
 
-    
+
 }
