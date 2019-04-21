@@ -1,6 +1,5 @@
-CREATE TABLE `interests` (
-  `intId` int(11) NOT NULL AUTO_INCREMENT,
-  `fk_userId` varchar(20) DEFAULT NULL,
+CREATE TABLE `meetinterests` (
+  `intId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `sports` tinyint(4) DEFAULT '0',
   `activity` tinyint(4) DEFAULT '0',
   `writing` tinyint(4) DEFAULT '0',
@@ -19,8 +18,9 @@ CREATE TABLE `interests` (
   `interior` tinyint(4) DEFAULT '0',
   `concert` tinyint(4) DEFAULT '0',
   `etc` tinyint(4) DEFAULT '0',
-  `interestscol` varchar(45) DEFAULT '0',
+  `fk_meetId` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`intId`),
-  KEY `fk_userId_idx` (`fk_userId`),
-  CONSTRAINT `fk_userId2` FOREIGN KEY (`fk_userId`) REFERENCES `users` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+  UNIQUE KEY `intId_UNIQUE` (`intId`),
+  KEY `fk_meetId_idx` (`fk_meetId`),
+  CONSTRAINT `fk_meetId` FOREIGN KEY (`fk_meetId`) REFERENCES `meettable` (`meet_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
