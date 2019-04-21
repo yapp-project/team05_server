@@ -1,29 +1,28 @@
 CREATE TABLE `test`.`interests` (
-  `intId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `intId` INT NOT NULL AUTO_INCREMENT,
+  `fk_userId` VARCHAR(20) NULL,
   `sports` TINYINT NOT NULL DEFAULT 0,
   `activity` TINYINT NOT NULL DEFAULT 0,
-  `write` TINYINT NOT NULL DEFAULT 0,
+  `writing` TINYINT NOT NULL DEFAULT 0,
   `study` TINYINT NOT NULL DEFAULT 0,
-  `festival` TINYINT NOT NULL DEFAULT 0,
+  `exhibition` TINYINT NOT NULL DEFAULT 0,
   `music` TINYINT NOT NULL DEFAULT 0,
+  `movie` TINYINT NOT NULL DEFAULT 0,
   `diy` TINYINT NOT NULL DEFAULT 0,
   `volunteer` TINYINT NOT NULL DEFAULT 0,
   `picture` TINYINT NOT NULL DEFAULT 0,
   `game` TINYINT NOT NULL DEFAULT 0,
   `cooking` TINYINT NOT NULL DEFAULT 0,
-  `fk_userId` VARCHAR(20),
-  `fk_meetId` INT UNSIGNED,
+  `coffee` TINYINT NOT NULL DEFAULT 0,
+  `nail` TINYINT NOT NULL DEFAULT 0,
+  `car` TINYINT NOT NULL DEFAULT 0,
+  `interior` TINYINT NOT NULL DEFAULT 0,
+  `concert` TINYINT NOT NULL DEFAULT 0,
+  `etc` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`intId`),
-  UNIQUE INDEX `fk_userId_idx` (`fk_userId` ASC) VISIBLE,
-  UNIQUE INDEX `fk_meetId_idx` (`fk_meetId` ASC) VISIBLE,
-  CONSTRAINT `fk_meetId`
-    FOREIGN KEY (`fk_meetId`)
-    REFERENCES `test`.`meettable` (`meet_Id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_userId`
+  INDEX `fk_userId_idx` (`fk_userId` ASC) VISIBLE,
+  CONSTRAINT `fk_userId2`
     FOREIGN KEY (`fk_userId`)
     REFERENCES `test`.`users` (`userId`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
