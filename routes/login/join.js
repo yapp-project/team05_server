@@ -96,10 +96,6 @@ module.exports = function(app, connection)
                         });
                     }
                 });
-                  // console.log(userId + ',' + userPw + ',' +gps_lan);
-                  // res.json({
-                  //   'status': 200
-                  // });
               }
           });
         }
@@ -120,5 +116,30 @@ module.exports = function(app, connection)
 
       });
 
+
+    app.post('/login/withdraw', function(req, res){
+      var userId = req.body.userId;
+      var userPw = req.body.userPw;
+      connection.query('SELECT * FROM users WHERE userId = ?', [userId], function(error,results,fields){
+          if (error) {
+            res.json({
+              'status': 400
+            });
+          } else {
+            connection.query('DELETE FROM users WHERE userId = ?', [userId], function(error,results,fields){
+                if (error) {
+                  console.log(error);
+                  res.json({
+                    'status': 400
+                  });
+                } else {
+                  res.json({
+                    'status': 200
+                  });
+                }
+            })
+          }
+      })
+    });
 
 }
