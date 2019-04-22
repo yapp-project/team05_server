@@ -1,53 +1,6 @@
 module.exports = function(app, connection)
 {
 
-  //session login
-  app.get('/', (req, res) => {      // 1
-    console.log(req.session.logined);
-    if(req.session.logined) {
-      res.send({'code': 400});
-    } else {
-      res.send({'code':500});
-    }
-  });
-
-  //session logout
-  app.post('/logout', (req, res) => {      // 3
-    req.session.destroy();
-    // res.redirect('/');
-  });
-
-  //login
-  app.post('/login/login', function(req, res){
-    var userId = req.body.userId;
-    var userPw = req.body.userPw;
-    connection.query('SELECT * FROM users WHERE userId = ?', [userId],
-    function(error,results,fields){
-        if (error) {
-          res.json({
-            'status': 500
-          });
-        } else {
-            if(results.length > 0) {
-                if(results[0].userPw == userPw) {
-                  req.session.logined = true;
-                  req.session.userId = req.body.userId;
-                  res.json({
-                    'status': 200
-                  });
-                } else {
-                  res.json({
-                    'status': 300
-                  });
-                }
-            } else {
-              res.json({
-                'status': 400
-              });
-            }
-        }
-    })
-  });
 
   //아이디 중복 확인
   app.get('/login/join/userId', function(req, res){
@@ -62,6 +15,7 @@ module.exports = function(app, connection)
       }
     });
   });
+
   //join
    app.post('/login/join', function(req, res){
     console.log('post /login/join');
@@ -73,6 +27,7 @@ module.exports = function(app, connection)
     var userImg = req.body.userImg;
     var gps_lat = req.body.gps_lat;
     var gps_lan = req.body.gps_lan;
+    var interest = req.body.interest;
     var sql = 'INSERT INTO users SET ?;';
     var params = {
         "userId" : userId,
@@ -104,11 +59,47 @@ module.exports = function(app, connection)
                   console.error('error', error);
               }
               else{
+                var sql = 'INSERT INTO interests SET ?;';
+                var params = {
+                    "fk_userId":userId,
+                    "sports": interest.sports,
+                    "activity":interest.activity,
+                    "writing" : interest.writing,
+                    "study":interest.study,
+                    "exhibition":interest.exhibition,
+                    "music":interest.music,
+                    "movie": interest.movie,
+                    "diy":interest.diy,
+                    "volunteer":interest.volunteer,
+                    "picture":interest.picture,
+                    "game":interest.game,
+                    "cooking" : interest.cooking,
+                    "coffee" : interest.coffee,
+                    "nail":interest.nail,
+                    "car":interest.car,
+                    "interior":interest.interior,
+                    "concert":interest.concert,
+                    "etc":interest.etc
+                };
+                connection.query(sql,params, function (error, result,fields){
+                    if(error) {
+                        res.json({
+                          'status': 400
+                        });
+                        console.error('error', error);
+                    }
+                    else{
 
-                  console.log(userId + ',' + userPw + ',' +gps_lan);
-                  res.json({
-                    'status': 200
-                  });
+                        console.log(userId + ',' + userPw + ',' +gps_lan);
+                        res.json({
+                          'status': 200
+                        });
+                    }
+                });
+                  // console.log(userId + ',' + userPw + ',' +gps_lan);
+                  // res.json({
+                  //   'status': 200
+                  // });
               }
           });
         }
