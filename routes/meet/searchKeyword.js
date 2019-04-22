@@ -32,8 +32,8 @@ module.exports = function(app,connection){
                             else
                                 sqltwo = sqltwo.concat("m.meet_Id="+idKeyArray[i]+" ;");
                         }
-                        
-                        
+
+
                             connection.query(sqltwo,function(error,results,fields){
                                 if(error) res.status(400).json({"states": 400});
                                 else{
@@ -43,11 +43,21 @@ module.exports = function(app,connection){
                             });
                 }
                 else{
-                    res.status(300).json({"states" : 300, "string" : "there is no meeting for the keyword."});
+                  var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc limit 3;"
+                  connection.query(sqlthree,function(error,results,fields){
+                      if(error) {
+                        console.log(error);
+                        res.status(400).json({"states": 400});
+                      }else{
+                          res.status(300).json({"states": 300, "list" : results});
+                          console.log(results);
+                      }
+                  });
+                    // res.status(300).json({"states" : 300, "string" : "there is no meeting for the keyword."});
                 }
             }
-                
+
         });
-        
+
     });
 }
