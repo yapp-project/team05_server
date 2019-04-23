@@ -45,7 +45,7 @@ module.exports = function(app, connection)
             console.error('error', error);
         }
         else{
-          var sql = 'INSERT INTO userGps SET ?;';
+          var sql = 'INSERT INTO usergps SET ?;';
           var params = {
               "fk_userId": userId,
               "gps_lat" : gps_lat,
