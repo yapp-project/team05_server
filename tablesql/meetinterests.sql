@@ -22,5 +22,5 @@ CREATE TABLE `meetinterests` (
   PRIMARY KEY (`intId`),
   UNIQUE KEY `intId_UNIQUE` (`intId`),
   KEY `fk_meetId_idx` (`fk_meetId`),
-  CONSTRAINT `fk_meetId` FOREIGN KEY (`fk_meetId`) REFERENCES `meettable` (`meet_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+  CONSTRAINT `fk_meetId` FOREIGN KEY (`fk_meetId`) REFERENCES `meettable` (`meet_Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

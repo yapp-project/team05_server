@@ -22,5 +22,5 @@ CREATE TABLE `interests` (
   `interestscol` varchar(45) DEFAULT '0',
   PRIMARY KEY (`intId`),
   KEY `fk_userId_idx` (`fk_userId`),
-  CONSTRAINT `fk_userId2` FOREIGN KEY (`fk_userId`) REFERENCES `users` (`userId`)
+  CONSTRAINT `fk_userId2` FOREIGN KEY (`fk_userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

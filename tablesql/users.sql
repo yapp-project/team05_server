@@ -1,10 +1,11 @@
-CREATE TABLE `test`.`users` (
-  `userId` VARCHAR(20) NOT NULL,
-  `userPw` VARCHAR(20) NOT NULL,
-  `userBirth` DATE NULL,
-  `userGen` TINYINT NULL,
-  `userNick` VARCHAR(20) NOT NULL,
-  `userImg` MEDIUMBLOB NULL,
+CREATE TABLE `users` (
+  `userId` varchar(20) NOT NULL,
+  `userPw` varchar(20) NOT NULL,
+  `userBirth` date DEFAULT NULL,
+  `userGen` tinyint(4) DEFAULT NULL,
+  `userNick` varchar(20) NOT NULL,
+  `userImg` mediumblob,
   PRIMARY KEY (`userId`),
-  UNIQUE INDEX `userId_UNIQUE` (`userId` ASC) VISIBLE,
-  UNIQUE INDEX `userNick_UNIQUE` (`userNick` ASC) VISIBLE);
+  UNIQUE KEY `userId_UNIQUE` (`userId`),
+  UNIQUE KEY `userNick_UNIQUE` (`userNick`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
