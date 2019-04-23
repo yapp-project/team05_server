@@ -1,4 +1,4 @@
-CREATE TABLE `meettable` (
+CREATE TABLE `meett` (
   `fk_meetcaptain` varchar(20) DEFAULT NULL,
   `meet_Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `meet_name` varchar(50) NOT NULL,
@@ -16,4 +16,4 @@ CREATE TABLE `meettable` (
   UNIQUE KEY `meet_Id_UNIQUE` (`meet_Id`),
   KEY `userId` (`fk_meetcaptain`),
   CONSTRAINT `userId` FOREIGN KEY (`fk_meetcaptain`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

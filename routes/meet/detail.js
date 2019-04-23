@@ -27,7 +27,6 @@ module.exports = function(app,connection)
 
         };
 
-
         connection.query(sql,params, function (error, result,fields){
             if(error) {
                 res.json({"state" : 400});
@@ -39,17 +38,28 @@ module.exports = function(app,connection)
                     "fk_meet_Id" : result.insertId,
                     "meet_keyword" : req.body.keyword
                 }
-                for(var i = 0; i < lists.length; i++){
-                    if(lists[i]== req.body.list)
-                        key = i;
-                }
                 var param = new Object();
-                for(var i = 0; i < lists.length; i++){
-                    if(key == i)
-                        param[lists[i]] = 1;
-                    else
-                        param[lists[i]] = 0;
+                var count = 0;
+                var key = new Array();
+                for(var i = 0; i < req.body.list.length; i++){
+                    for(var j = 0; j < lists.length; j++){
+                    if(lists[j]== req.body.list[i]){
+                        key[count] = j;
+                        count = count + 1;
+                        }
+                    }
                 }
+                console.log(count);
+                for(var i = 0; i < key.length; i++){
+                for(var j = 0; j < lists.length; j++){
+                    if(key[i] == j){
+                        param[lists[j]] = 1;
+                        console.log(lists[j]);
+                    }
+                    else
+                        param[lists[j]] = 0;
+                }
+            }
                 param.fk_meetId = result.insertId;
 
                 connection.query(sqltwo, parameter, function(error, results, fields){
@@ -77,25 +87,25 @@ module.exports = function(app,connection)
     app.get('/meet/detail', function(req, res){
         console.log("get /meet/detail");
         var meetId = req.query.meet_Id;
-        var sql = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax "
+        var sql = "select m.meet_Id,m.meet_name,m.fk_meetcaptain, m.meet_datetime, m.meet_location,m.meet_latitude,m.meet_longitude,m.meet_explanation, m.meet_personNumMax "
         +"from meettable AS m where m.meet_Id = " + meetId +";" ;
-        var sqltwo = 'INSERT INTO meetviews(fk_meetId,views) VALUES(' + meetId + ',1) ON DUPLICATE KEY UPDATE fk_meetId='+meetId+', views=views+1;';
-        console.log(sqltwo);
+        //var sqltwo = 'INSERT INTO meetviews(fk_meetId,views) VALUES(' + meetId + ',1) ON DUPLICATE KEY UPDATE fk_meetId='+meetId+', views=views+1;';
+        //console.log(sqltwo);
         // var sqltwo = 'IF EXISTS( SELECT fk_meetId FROM meetviews where fk_meetId='+meetId+') BEGIN UPDATE meetviews SET views = views+1 where fk_meetId ='+ meetId+'END ELSE BEGIN INSERT INTO meetviews(fk_meetId,views) VALUES('+meetId+',1) END';
         connection.query(sql, function(error,result, fields){
             if(error)
             res.status(400).json({"states" : 400});
             else{
-              connection.query(sqltwo, function(errortwo,resulttwo, fieldstwo){
-                  if(errortwo)
-                  res.status(300).json({"states" : 300});
-                  else{
+              //connection.query(sqltwo, function(errortwo,resulttwo, fieldstwo){
+                  //if(errortwo)
+                  //res.status(300).json({"states" : 300});
+                  //else{
 
                       res.status(200).json({"state" : 200 , "list" : [result[0]]});
                       console.log(result[0]);
-                  }
+                  //}
                   // res.end();
-              });
+              //});
             }
             // res.end();
         });
