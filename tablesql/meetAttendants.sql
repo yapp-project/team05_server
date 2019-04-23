@@ -1,4 +1,3 @@
---모임참여자, 모임 참여 인원 수에 쓰임
 CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
   `fk_meet_Id` INT UNSIGNED NOT NULL,
   `fk_attendants_Id` VARCHAR(20) NOT NULL,
@@ -16,5 +15,3 @@ CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
