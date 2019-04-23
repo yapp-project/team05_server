@@ -5,12 +5,12 @@ CREATE TABLE `test`.`usertoken` (
   PRIMARY KEY (`userToken_Id`, `fk_userId`),
   UNIQUE INDEX `userToken_Id_UNIQUE` (`userToken_Id` ASC) VISIBLE,
   UNIQUE INDEX `fk_userId_UNIQUE` (`fk_userId` ASC) VISIBLE,
-  CONSTRAINT `fk_user_id`
+  CONSTRAINT `fk_user_id5`
     FOREIGN KEY (`fk_userId`)
-    REFERENCES `test`.`jointable` (`userId`)
+    REFERENCES `test`.`users` (`userId`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-   ENGINE = InnoDB 
+   ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
