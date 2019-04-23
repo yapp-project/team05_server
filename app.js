@@ -34,7 +34,7 @@ app.listen(port ,function(){
     console.log("Express server has started on port " + port);
 });
 var meetDetailRouter = require('./routes/meet/detail.js')(app,connection);
-var meetKeywordRouter = require('./routes/meet/searchkeyword.js')(app,connection);
+var meetKeywordRouter = require('./routes/meet/searchKeyword.js')(app,connection);
 var meetCategoryRouter = require('./routes/meet/searchCategory.js')(app,connection);
 var meetAttendantRouter = require('./routes/meet/attendant.js')(app, connection);
 var meetAttendantEndRouter = require('./routes/meet/attendantEnd.js')(app, connection);
