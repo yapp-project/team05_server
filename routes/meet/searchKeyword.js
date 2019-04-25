@@ -43,7 +43,7 @@ module.exports = function(app,connection){
                             });
                 }
                 else{
-                  var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc limit 3;"
+                  var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc ;"
                   connection.query(sqlthree,function(error,results,fields){
                       if(error) {
                         console.log(error);
