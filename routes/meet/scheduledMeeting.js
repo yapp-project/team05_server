@@ -4,8 +4,7 @@ module.exports = function(app,connection){
         console.log("get /meet/scheduedMeeting");
         var myId = req.session.userId;
         var sql = "select t.meet_Id, t.meet_name, t.meet_datetime, t.meet_location," +
-        "t.meet_personNumMax from meettable AS t where t.meet_scheduledEnd = 0 AND t.meet_Id IN (select fk_meet_Id"+
-        " from meetAttendants where fk_attendants_Id = '"+ myId +"')ORDER BY t.meet_datetime;";
+        "t.meet_personNumMax from meettable AS t where t.meet_scheduledEnd = 0 ORDER BY t.meet_datetime;";
         connection.query(sql,function(error,result,fields){
             if(error) res.status(400).json({"states" : 400});
             else{
