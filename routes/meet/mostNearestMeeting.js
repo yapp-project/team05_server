@@ -1,4 +1,4 @@
-//지금 나와 1km 이내에 있는 가장 가까운 모임 전달 4개까지 업로드
+//지금 나와 1km 이내에 있는 가장 가까운 모임 전달 5개까지 업로드
 module.exports = function(app,connection){
     function computeDistance(startlati,startlongi,destlati,destlongi) {
         var startLatitude = degreesToRadians(startlati);
@@ -22,7 +22,7 @@ module.exports = function(app,connection){
         var meetId = new Array();
         var longitude = req.query.myLongitude;
         var latitude = req.query.myLatitude;
-        var myId = null;
+        var myId = req.session.userId;
         var distance;
         var count = 0;
         var sqlone = "select meet_latitude, meet_longitude,meet_Id from meettable where meet_scheduledEnd = 0;";
@@ -39,33 +39,33 @@ module.exports = function(app,connection){
                 for(var i = 0; i < Object.keys(result).length; i++){
                     if(i != 0)
                         past.push(current);
-                    console.log(past);
                     current = Math.floor(Math.random() * Object.keys(result).length);
+                    console.log("현재 값 " + current);
+                    
+                    console.log("존재하는지 아닌지 여부 " + past.indexOf(current) + " 과거 " +past);
+		            while(past.indexOf(current) != -1){
+                                        current = Math.floor(Math.random() * Object.keys(result).length);
+                                        console.log("변화하는 값 "+current);
+                                }
+                    
                     var destlat = result[current].meet_latitude;
                     var destlong = result[current].meet_longitude;
                     meetId[count] = result[current].meet_Id;
                     distance = computeDistance(latitude,longitude,destlat,destlong);
-                    console.log("meetId" + meetId[count]);
                     if(distance <= 1.0 ){
                         if(count == 0)
                             sqltwo = sqltwo.concat(" meet_Id = " + meetId[count]);
                         else{
-                            console.log("같은 거 보기 " + past.indexOf(current)+ "현재" + current);
-                            while(past.indexOf(current) != -1)
-                                current = Math.floor(Math.random() * count);
-                            meetId[count] = result[current].meet_Id;
-                            console.log(past + "현재 : " + current);
-                            if(count < 4)
-                                sqltwo = sqltwo.concat(" or meet_Id = " + meetId[count]);
-                            else{
-                                sqltwo = sqltwo.concat(" or meet_Id = " + meetId[count] + " ;");
-                                break;
-                            }
+                                if(count < 4)
+                                	sqltwo = sqltwo.concat(" or meet_Id = " + meetId[count]);
+                                else
+                                    sqltwo = sqltwo.concat(" or meet_Id = " + meetId[count] + " ;");
                         }
-                    
-                    count = count + 1;
-                    }       
+                        console.log(past + " 현재 : " + current + " count " + count);
+                        count = count + 1;  
                 }
+                if(count == 5) break;
+                    }
                 if(count == 0) res.status(300).json({"state" : 300, "string" : "there is no closest meeting."});
                 else {
                     connection.query(sqltwo,function(error,results,fields){
