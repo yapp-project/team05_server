@@ -10,7 +10,8 @@ module.exports = function(app,connection)
         var key;
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
-        var sqlthree = 'INSERT INTO meetinterests SET ?;'
+        var sqlthree = 'INSERT INTO meetinterests SET ?;';
+        var sqlfour = 'INSERT INTO meetimage SET ?;';
         var lists = ["sports","activity","writing","study","exhibition","music","movie","diy","volunteer","picture","game","cooking","coffee","nail","car","interior","concert","etc"];
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
@@ -89,25 +90,24 @@ module.exports = function(app,connection)
         var meetId = req.query.meet_Id;
         var sql = "select m.meet_Id,m.meet_name,m.fk_meetcaptain, m.meet_datetime, m.meet_location,m.meet_latitude,m.meet_longitude,m.meet_explanation, m.meet_personNumMax "
         +"from meettable AS m where m.meet_Id = " + meetId +";" ;
-        //var sqltwo = 'INSERT INTO meetviews(fk_meetId,views) VALUES(' + meetId + ',1) ON DUPLICATE KEY UPDATE fk_meetId='+meetId+', views=views+1;';
-        //console.log(sqltwo);
-        // var sqltwo = 'IF EXISTS( SELECT fk_meetId FROM meetviews where fk_meetId='+meetId+') BEGIN UPDATE meetviews SET views = views+1 where fk_meetId ='+ meetId+'END ELSE BEGIN INSERT INTO meetviews(fk_meetId,views) VALUES('+meetId+',1) END';
+        var sqltwo = 'INSERT INTO meetviews(fk_meetId,views) VALUES(' + meetId + ',1) ON DUPLICATE KEY UPDATE fk_meetId='+meetId+', views=views+1;';
+        console.log(sqltwo);
+        //var sqltwo = 'IF EXISTS( SELECT fk_meetId FROM meetviews where fk_meetId='+meetId+') BEGIN UPDATE meetviews SET views = views+1 where fk_meetId ='+ meetId+'END ELSE BEGIN INSERT INTO meetviews(fk_meetId,views) VALUES('+meetId+',1) END';
         connection.query(sql, function(error,result, fields){
             if(error)
             res.status(400).json({"states" : 400});
             else{
-              //connection.query(sqltwo, function(errortwo,resulttwo, fieldstwo){
-                  //if(errortwo)
-                  //res.status(300).json({"states" : 300});
-                  //else{
+              connection.query(sqltwo, function(errortwo,resulttwo, fieldstwo){
+                  if(errortwo)
+                  res.status(300).json({"states" : 300});
+                  else{
 
                       res.status(200).json({"state" : 200 , "list" : [result[0]]});
                       console.log(result[0]);
-                  //}
-                  // res.end();
-              //});
+                  }
+                   res.end();
+              });
             }
-            // res.end();
         });
     });
 
