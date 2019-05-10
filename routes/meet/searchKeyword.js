@@ -14,13 +14,18 @@ module.exports = function(app,connection){
             }
             else{
                 for(var i = 0; i < Object.keys(result).length; i++){
-                    var comparisonTarget = result[i].word;
-                       var target = comparisonTarget.search(keyword);
-                       if(target != -1){
+                    var target = result[i].word;
+                    var comparisonTargetArray = target.split('#');
+                    console.log(comparisonTargetArray);
+                    for(var j = 0; j < comparisonTargetArray.length; j++){
+                       if(comparisonTargetArray[j] == keyword){
                            idKeyArray[index] = result[i].meetId;
                            index = index + 1;
+                           break;
                        }
                     }
+                }
+            
                     if(idKeyArray.length > 0){
                         var sqltwo = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax "
                             +"from meettable AS m where ";
