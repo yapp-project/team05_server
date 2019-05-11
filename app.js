@@ -37,7 +37,6 @@ var meetDetailRouter = require('./routes/meet/detail.js')(app,connection);
 var meetKeywordRouter = require('./routes/meet/searchKeyword.js')(app,connection);
 var meetCategoryRouter = require('./routes/meet/searchCategory.js')(app,connection);
 var meetAttendantRouter = require('./routes/meet/attendant.js')(app, connection);
-var meetAttendantEndRouter = require('./routes/meet/attendantEnd.js')(app, connection);
 var meetScheduledMeetingRouter = require('./routes/meet/scheduledMeeting.js')(app,connection);
 var mostNearestMeetingRouter = require('./routes/meet/mostNearestMeeting.js')(app, connection);
 var meetingcancelRouter = require('./routes/meet/meetingcancel.js')(app,connection);

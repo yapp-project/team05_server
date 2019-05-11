@@ -1,30 +1,46 @@
 module.exports = function(app, connection)
 {
+    //aws s3 세팅
+    let AWS = require("aws-sdk");
+    AWS.config.loadFromPath(__dirname + "/../../config/awsconfig.json");
+    let s3 = new AWS.S3();
 
+    let multer = require("multer");
+    let path = require('path');
+    let multerS3 = require('multer-s3');
+    let upload = multer({
+        storage: multerS3({
+            s3: s3,
+            bucket: "yappsimmo",
+            key:
+            function (req, file, cb) {
+                 cb(null, req.body.userId+".png")
+            }
+            ,
+            acl: 'public-read-write',
+        })
+    })
 
-  //아이디 중복 확인
-  app.get('/login/join/userId', function(req, res){
-    var userId = req.query.userId;
-    var sql = "select userId from users where userId = '" + userId + "' ;";
-    connection.query(sql,function(error, rows, fields){
-      if(error) res.status(400).json({"state": 400});
-      else{
-        console.log(rows);
-        if(Object.keys(rows).equal ==='userId') res.status(200).json({"state" : 200, "duplicate Id" : true});
-        else res.status(200).json({"state" : 200, "duplicate id": false});
-      }
-    });
-  });
+      //이미지 업로드 to s3
+      app.post('/upload', upload.single("userImg"), function(req, res, next){
+        console.log('post');
+          let imgFile = req.file;
+          res.json(imgFile);
+      })
+
+      app.get('/upload', function(req, res, next) {
+          res.render('upload');
+      });
 
   //join
-   app.post('/login/join', function(req, res){
+   app.post('/login/join',upload.single("userImg"), function(req, res, next){
     console.log('post /login/join');
     var userId = req.body.userId;
     var userPw = req.body.userPw;
     var userGen = req.body.userGen;
     var userBirth = req.body.userBirth;
     var userNick = req.body.userNick;
-    var userImg = req.body.userImg;
+    var userImg = req.file;
     var gps_lat = req.body.gps_lat;
     var gps_lan = req.body.gps_lan;
     var interest = req.body.interest;
@@ -34,8 +50,7 @@ module.exports = function(app, connection)
         "userPw" : userPw,
         "userGen" : userGen,
         "userBirth" : userBirth,
-        "userNick" : userNick,
-        "userImg" : userImg
+        "userNick" : userNick
     };
     connection.query(sql,params, function (error, result,fields){
         if(error) {
@@ -45,11 +60,27 @@ module.exports = function(app, connection)
             console.error('error', error);
         }
         else{
-          var sql = 'INSERT INTO usergps SET ?;';
+          var sql = 'INSERT INTO interests SET ?;';
           var params = {
-              "fk_userId": userId,
-              "gps_lat" : gps_lat,
-              "gps_lan" : gps_lan
+              "fk_userId":userId,
+              "sports": interest.sports,
+              "activity":interest.activity,
+              "writing" : interest.writing,
+              "study":interest.study,
+              "exhibition":interest.exhibition,
+              "music":interest.music,
+              "movie": interest.movie,
+              "diy":interest.diy,
+              "volunteer":interest.volunteer,
+              "picture":interest.picture,
+              "game":interest.game,
+              "cooking" : interest.cooking,
+              "coffee" : interest.coffee,
+              "nail":interest.nail,
+              "car":interest.car,
+              "interior":interest.interior,
+              "concert":interest.concert,
+              "etc":interest.etc
           };
           connection.query(sql,params, function (error, result,fields){
               if(error) {
@@ -59,48 +90,45 @@ module.exports = function(app, connection)
                   console.error('error', error);
               }
               else{
-                var sql = 'INSERT INTO interests SET ?;';
-                var params = {
-                    "fk_userId":userId,
-                    "sports": interest.sports,
-                    "activity":interest.activity,
-                    "writing" : interest.writing,
-                    "study":interest.study,
-                    "exhibition":interest.exhibition,
-                    "music":interest.music,
-                    "movie": interest.movie,
-                    "diy":interest.diy,
-                    "volunteer":interest.volunteer,
-                    "picture":interest.picture,
-                    "game":interest.game,
-                    "cooking" : interest.cooking,
-                    "coffee" : interest.coffee,
-                    "nail":interest.nail,
-                    "car":interest.car,
-                    "interior":interest.interior,
-                    "concert":interest.concert,
-                    "etc":interest.etc
-                };
-                connection.query(sql,params, function (error, result,fields){
-                    if(error) {
-                        res.json({
-                          'status': 400
-                        });
-                        console.error('error', error);
-                    }
-                    else{
 
-                        console.log(userId + ',' + userPw + ',' +gps_lan);
-                        res.json({
-                          'status': 200
-                        });
-                    }
-                });
+                  console.log(userId + ',' + userPw);
+                  res.json({
+                    'status': 200
+                  });
               }
           });
         }
     });
   });
+
+
+  //아이디&닉네임 중복 확인
+  app.get('/login/join/check', function(req, res){
+    var userId = req.query.userId;
+    var userNick = req.query.userNick;
+    var sql1 = "select userId from users where userId = '" + userId + "' ;";
+    var sql2 = "select userNick from users where userNick = '" + userNick + "' ;";
+    connection.query(sql1,function(error1, rows1, fields1){
+      if(error1) res.status(400).json({"state": 400});
+      else{
+        connection.query(sql2,function(error2, rows2, fields2){
+          if(error2) res.status(400).json({"state": 400});
+          else{
+            if(rows1.length !== 0 && rows2.length !== 0 ){
+               res.status(300).json({"state" : 300});//둘 다 중복
+            }else if(rows1.length !== 0  && rows2.length == 0){
+                res.status(260).json({"state" : 260});//아이디 중복
+            }else if(rows1.length == 0  && rows2.length !== 0){
+                res.status(230).json({"state" : 230});//닉네임 중복
+            }else{
+                res.status(200).json({"state" : 200});//둘 다 중복 아님
+            }
+        }
+        });
+    }
+    });
+  });
+
 
   // get all user data
  app.get('/login/join', function(req,res){
