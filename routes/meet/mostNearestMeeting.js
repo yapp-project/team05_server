@@ -23,7 +23,7 @@ module.exports = function(app,connection){
         var longitude = req.query.myLongitude;
         var latitude = req.query.myLatitude;
         var myId = req.session.userId;
-        var distance;
+        var distance = new Array(); 
         var count = 0;
         var sqlone = "select meet_latitude, meet_longitude,meet_Id from meettable where meet_scheduledEnd = 0;";
         var sqltwo = "select meet_name, meet_datetime, meet_Id, fk_meetcaptain, meet_personNumMax,"+
@@ -51,7 +51,7 @@ module.exports = function(app,connection){
                     var destlat = result[current].meet_latitude;
                     var destlong = result[current].meet_longitude;
                     meetId[count] = result[current].meet_Id;
-                    distance = computeDistance(latitude,longitude,destlat,destlong);
+                    distance[count] = computeDistance(latitude,longitude,destlat,destlong);
                     if(distance <= 1.0 ){
                         if(count == 0)
                             sqltwo = sqltwo.concat(" meet_Id = " + meetId[count]);
@@ -74,6 +74,9 @@ module.exports = function(app,connection){
                         console.log(error);
                     }
                     else{
+                        for(var i = 0 ; i < count; i++){
+                            results[i].distance = distance[i];
+                        }
                         res.status(200).json({"state" : 200, "list" : results});
                         console.log(results);
                         res.end();
