@@ -8,10 +8,36 @@ module.exports = function(app,connection)
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
         var key;
+        var fs = require("fs");
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
-        var sqlthree = 'INSERT INTO meetinterests SET ?;'
+        var sqlthree = 'INSERT INTO meetinterests SET ?;';
+        var sqlfour = 'INSERT INTO meetimages SET ?;';
         var lists = ["sports","activity","writing","study","exhibition","music","movie","diy","volunteer","picture","game","cooking","coffee","nail","car","interior","concert","etc"];
+        var encodedImage = req.body.meetimage;
+        fs.writeFile("encodedImage.png", encodedImage, 'base64', function(err) {
+            console.log(err);
+          });
+           //aws s3 세팅
+        let aws = require("aws-sdk");
+        aws.config.loadFromPath(__dirname + "/../../config/awsconfig.json");
+        let s3 = new aws.S3();
+        let param = {
+                s3: s3,
+                bucket: "yappsimmo",
+                key:
+                function (req, file, cb) {
+                     cb(null, Date.now().toString()+".png")
+                },
+                acl: 'public-read-write',
+                location : "/test",
+                body : fs.createReadStream('encodedImage.png'),
+                ContentType:'image/png'
+            };
+            s3.upload(param, function(err,data){
+                if(err) console.log(err);
+                else console.log(data);
+            });
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
             "meet_name" : req.body.name,
@@ -24,9 +50,8 @@ module.exports = function(app,connection)
             "meet_personnumMin" : req.body.personNumMin,
             "meet_filterSameGender" : req.body.filterSameGender,
             "meet_filterSameAgeGroup" : req.body.filterSameAgeGroup
-
         };
-
+        
         connection.query(sql,params, function (error, result,fields){
             if(error) {
                 res.json({"state" : 400});
@@ -75,8 +100,21 @@ module.exports = function(app,connection)
                                 res.status(400).end('err :' + error);
                                 console.error('error', error);
                             }
-                            else
-                                res.status(200).json({"state" : 200, "meetId" : result.insertId, "intId" : rows.insertId});
+                            else{
+                                connection.query(sqlfour, parameters,)
+                                var sqlfive = 'CREATE EVENT ' +'event_'+String(result.insertId)+" on schedule AT '"+req.body.datetime
+                                +"' do update meettable set meet_scheduledEnd = 1 WHERE meet_Id = "+result.insertId+';';
+                                connection.query(sqlfive, function(err, row, fields){
+                                    if(err){
+                
+                                        res.status(400).json({"state" : 400,"err" : error + " " +err});
+                                        console.error('error', err);
+                                    }
+                                    else{
+                                        res.status(200).json({"state" : 200});
+                                    }
+                                });
+                            }
                         });
                     }
                 });
@@ -91,7 +129,7 @@ module.exports = function(app,connection)
         +"from meettable AS m where m.meet_Id = " + meetId +";" ;
         //var sqltwo = 'INSERT INTO meetviews(fk_meetId,views) VALUES(' + meetId + ',1) ON DUPLICATE KEY UPDATE fk_meetId='+meetId+', views=views+1;';
         //console.log(sqltwo);
-        // var sqltwo = 'IF EXISTS( SELECT fk_meetId FROM meetviews where fk_meetId='+meetId+') BEGIN UPDATE meetviews SET views = views+1 where fk_meetId ='+ meetId+'END ELSE BEGIN INSERT INTO meetviews(fk_meetId,views) VALUES('+meetId+',1) END';
+        //var sqltwo = 'IF EXISTS( SELECT fk_meetId FROM meetviews where fk_meetId='+meetId+') BEGIN UPDATE meetviews SET views = views+1 where fk_meetId ='+ meetId+'END ELSE BEGIN INSERT INTO meetviews(fk_meetId,views) VALUES('+meetId+',1) END';
         connection.query(sql, function(error,result, fields){
             if(error)
             res.status(400).json({"states" : 400});
@@ -104,11 +142,9 @@ module.exports = function(app,connection)
                       res.status(200).json({"state" : 200 , "list" : [result[0]]});
                       console.log(result[0]);
                   //}
-                  // res.end();
-              //});
-            }
-            // res.end();
-        });
+                   //res.end();
+              }
+            });
     });
 
 
