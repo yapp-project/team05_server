@@ -3,18 +3,17 @@ module.exports = function(app,connection)
     //모임 만들기
     app.post('/meet/detail', function(req, res){
         console.log('post /meet/detail');
-
         var fk_meetcaptain = req.session.userId;
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
         var key;
-        var fs = require("fs");
+        //var fs = require("fs");
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
         var sqlthree = 'INSERT INTO meetinterests SET ?;';
-        var sqlfour = 'INSERT INTO meetimages SET ?;';
+        //var sqlfour = 'INSERT INTO meetimages SET ?;';
         var lists = ["sports","activity","writing","study","exhibition","music","movie","diy","volunteer","picture","game","cooking","coffee","nail","car","interior","concert","etc"];
-        var encodedImage = req.body.meetimage;
+        /*var encodedImage = req.body.meetimage;
         fs.writeFile("encodedImage.png", encodedImage, 'base64', function(err) {
             console.log(err);
           });
@@ -37,12 +36,12 @@ module.exports = function(app,connection)
             s3.upload(param, function(err,data){
                 if(err) console.log(err);
                 else console.log(data);
-            });
+            });*/
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
             "meet_name" : req.body.name,
             "meet_datetime" : req.body.datetime,
-            "meet_location" : req.body.location,
+            "meet_locname" : req.body.location,
             "meet_latitude" : req.body.latitude,
             "meet_longitude" : req.body.longitude,
             "meet_explanation" : req.body.explanation,
