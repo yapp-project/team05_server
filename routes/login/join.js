@@ -21,6 +21,7 @@ module.exports = function(app, connection)
         })
     })
 
+
       //이미지 업로드 to s3
       app.post('/upload', upload.single("userImg"), function(req, res, next){
         console.log('post');
@@ -92,6 +93,7 @@ module.exports = function(app, connection)
               else{
 
                   console.log(userId + ',' + userPw);
+                  console.log(userImg);
                   res.json({
                     'status': 200
                   });
