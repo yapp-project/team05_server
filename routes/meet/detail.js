@@ -7,14 +7,14 @@ module.exports = function(app,connection)
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
         var key;
-        //var fs = require("fs");
+        var fs = require("fs");
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
         var sqlthree = 'INSERT INTO meetinterests SET ?;';
-        //var sqlfour = 'INSERT INTO meetimages SET ?;';
+        var sqlfour = 'INSERT INTO meetimages SET ?;';
         var lists = ["sports","activity","writing","study","exhibition","music","movie","diy","volunteer","picture","game","cooking","coffee","nail","car","interior","concert","etc"];
-        /*var encodedImage = req.body.meetimage;
-        fs.writeFile("encodedImage.png", encodedImage, 'base64', function(err) {
+        var encodedImage = req.body.meetimage;
+        fs.writeFile("encodedImage.png", encodedImage, function(err) {
             console.log(err);
           });
            //aws s3 세팅
@@ -36,7 +36,7 @@ module.exports = function(app,connection)
             s3.upload(param, function(err,data){
                 if(err) console.log(err);
                 else console.log(data);
-            });*/
+            });
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
             "meet_name" : req.body.name,
@@ -100,7 +100,7 @@ module.exports = function(app,connection)
                                 console.error('error', error);
                             }
                             else{
-                                connection.query(sqlfour, parameters,)
+                                //connection.query(sqlfour, parameters,)
                                 var sqlfive = 'CREATE EVENT ' +'event_'+String(result.insertId)+" on schedule AT '"+req.body.datetime
                                 +"' do update meettable set meet_scheduledEnd = 1 WHERE meet_Id = "+result.insertId+';';
                                 connection.query(sqlfive, function(err, row, fields){
