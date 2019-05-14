@@ -52,7 +52,7 @@ module.exports = function(app,connection){
                     var destlong = result[current].meet_longitude;
                     meetId[count] = result[current].meet_Id;
                     distance[count] = computeDistance(latitude,longitude,destlat,destlong);
-                    if(distance <= 1.0 ){
+                    if(distance[count] <= 1.0 ){
                         if(count == 0)
                             sqltwo = sqltwo.concat(" meet_Id = " + meetId[count]);
                         else{
@@ -62,6 +62,7 @@ module.exports = function(app,connection){
                                     sqltwo = sqltwo.concat(" or meet_Id = " + meetId[count] + " ;");
                         }
                         console.log(past + " 현재 : " + current + " count " + count);
+                        console.log(sqltwo);
                         count = count + 1;  
                 }
                 if(count == 5) break;
@@ -74,6 +75,7 @@ module.exports = function(app,connection){
                         console.log(error);
                     }
                     else{
+                        console.log(count);
                         for(var i = 0 ; i < count; i++){
                             results[i].distance = distance[i];
                         }
