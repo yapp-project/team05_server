@@ -23,6 +23,7 @@ module.exports = function(app, connection)
     })
 
       app.post('/upup', function(req, res, next) {
+        console.log("post /upup");
       var form = new multiparty.Form();
 
       // get field name & value
