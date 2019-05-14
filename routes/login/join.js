@@ -4,10 +4,11 @@ module.exports = function(app, connection)
     let AWS = require("aws-sdk");
     AWS.config.loadFromPath(__dirname + "/../../config/awsconfig.json");
     let s3 = new AWS.S3();
-
+    let fs = require("fs");
     let multer = require("multer");
     let path = require('path');
     let multerS3 = require('multer-s3');
+    var multiparty = require('multiparty');
     let upload = multer({
         storage: multerS3({
             s3: s3,
@@ -21,9 +22,53 @@ module.exports = function(app, connection)
         })
     })
 
+      app.post('/upup', function(req, res, next) {
+      var form = new multiparty.Form();
+
+      // get field name & value
+      form.on('field',function(name,value){
+           console.log('normal field / name = '+name+' , value = '+value);
+      });
+
+      // file upload handling
+      form.on('part',function(part){
+           var filename;
+           var size;
+           if (part.filename) {
+                 filename = part.filename;
+                 size = part.byteCount;
+           }else{
+                 part.resume();
+           }
+
+           console.log("Write Streaming file :"+filename);
+           var writeStream = fs.createWriteStream('C:/Users/wonhee/Desktop/포트폴리오/Yapp/git/team05_server/userImg/'+filename);
+           writeStream.filename = filename;
+           part.pipe(writeStream);
+           part.on('data',function(chunk){
+                 console.log(filename+' read '+chunk.length + 'bytes');
+           });
+           part.on('end',function(){
+                 console.log(filename+' Part read complete');
+                 writeStream.end();
+           });
+      });
+      // all uploads are completed
+      form.on('close',function(){
+           res.status(200).send('Upload complete');
+      });
+
+      // track progress
+      form.on('progress',function(byteRead,byteExpected){
+           console.log(' Reading total  '+byteRead+'/'+byteExpected);
+      });
+      form.parse(req);
+});
 
       //이미지 업로드 to s3
-      app.post('/upload', upload.single("userImg"), function(req, res, next){
+      app.post('/upload', function(req, res, next){
+        var form = new multiparty.Form();
+        upload.single("userImg");
         console.log('post');
           let imgFile = req.file;
           res.json(imgFile);
