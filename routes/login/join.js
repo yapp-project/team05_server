@@ -42,7 +42,7 @@ module.exports = function(app, connection)
            }
 
            console.log("Write Streaming file :"+filename);
-           var writeStream = fs.createWriteStream('C:/Users/wonhee/Desktop/포트폴리오/Yapp/git/team05_server/userImg/'+filename);
+           var writeStream = fs.createWriteStream('userImg/'+filename);
            writeStream.filename = filename;
            part.pipe(writeStream);
            part.on('data',function(chunk){
