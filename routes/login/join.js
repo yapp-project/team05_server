@@ -25,7 +25,7 @@ module.exports = function(app, connection)
       app.post('/login/join/uploadImage', function(req, res, next) {
         console.log("post /login/join/uploadImage");
       var form = new multiparty.Form();
-      
+
       // get field name & value
       form.on('field',function(name,value){
            console.log('normal field / name = '+name+' , value = '+value);
@@ -43,7 +43,7 @@ module.exports = function(app, connection)
            }
 
            console.log("Write Streaming file :"+filename);
-           var writeStream = fs.createWriteStream('userImg/'+filename);
+           var writeStream = fs.createWriteStream('userImg'+filename);
            writeStream.filename = filename;
            part.pipe(writeStream);
            part.on('data',function(chunk){
