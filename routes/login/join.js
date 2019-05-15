@@ -5,10 +5,9 @@ module.exports = function(app, connection)
     AWS.config.loadFromPath(__dirname + "/../../config/awsconfig.json");
     let s3 = new AWS.S3();
     let fs = require("fs");
-    let multer = require("multer");
     let path = require('path');
+    let multer = require("multer");
     let multerS3 = require('multer-s3');
-    var multiparty = require('multiparty');
     let upload = multer({
         storage: multerS3({
             s3: s3,
@@ -21,11 +20,12 @@ module.exports = function(app, connection)
             acl: 'public-read-write',
         })
     })
+    var multiparty = require('multiparty');
 
-      app.post('/upup', function(req, res, next) {
-        console.log("post /upup");
+      app.post('/login/join/uploadImage', function(req, res, next) {
+        console.log("post /login/join/uploadImage");
       var form = new multiparty.Form();
-
+      
       // get field name & value
       form.on('field',function(name,value){
            console.log('normal field / name = '+name+' , value = '+value);
@@ -56,7 +56,7 @@ module.exports = function(app, connection)
       });
       // all uploads are completed
       form.on('close',function(){
-           res.status(200).send('Upload complete');
+           res.josn({'status':200});
       });
 
       // track progress
@@ -80,7 +80,7 @@ module.exports = function(app, connection)
       });
 
   //join
-   app.post('/login/join',upload.single("userImg"), function(req, res, next){
+   app.post('/login/join',function(req, res, next){
     console.log('post /login/join');
     var userId = req.body.userId;
     var userPw = req.body.userPw;
