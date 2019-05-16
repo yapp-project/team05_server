@@ -1,25 +1,11 @@
 //지금 나와 1km 이내에 있는 가장 가까운 모임 전달 5개까지 업로드
 module.exports = function(app,connection){
-    function computeDistance(startlati,startlongi,destlati,destlongi) {
-        var startLatitude = degreesToRadians(startlati);
-        var startLongitude = degreesToRadians(startlongi);
-        var destLatitude = degreesToRadians(destlati);
-        var destLongitude = degreesToRadians(destlongi);
+    var computeDistance = require('../module/computeDistance.js');
     
-        var Radius = 6371; //지구의 반경(km)
-        var distance = Math.acos(Math.sin(startLatitude) * Math.sin(destLatitude) + 
-                        Math.cos(startLatitude) * Math.cos(destLatitude) *
-                        Math.cos(startLongitude - destLongitude)) * Radius;
-        
-        return distance;
-    }
-    function degreesToRadians(degrees) {
-        var radians = (degrees * Math.PI)/180;
-        return radians;
-    }
     app.get('/meet/meetId/near',function(req,res){
         console.log('get /meet/meetId/near');
         var meetId = new Array();
+        var computeDistance = require('../module/computeDistance.js');
         var longitude = req.query.myLongitude;
         var latitude = req.query.myLatitude;
         var myId = req.session.userId;
@@ -77,10 +63,10 @@ module.exports = function(app,connection){
                     else{
                         console.log(count);
                         for(var i = 0 ; i < count; i++){
-                            results[i].distance = distance[i];
+                            results[i].distance = distance[i].toFixed(1);
                         }
                         res.status(200).json({"state" : 200, "list" : results});
-                        console.log(results);
+                        
                         res.end();
                     }
                 });

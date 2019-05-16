@@ -53,21 +53,5 @@ module.exports = function(app,connection)
         });
         
     });
-    //모임 기한 지남을 표기 따라서 예정 모임과 추천에 나오지 않음
-    app.put('/meet/attendant', function(req,res){
-        console.log("put /meet/attendant");
-        var meetId = req.body.meet_Id;
-        var sql = "UPDATE meettable AS m SET m.meet_scheduledEnd = 1 WHERE m.meet_Id = " +meetId+";";
-        connection.query(sql, function(error,result, fields){
-            if(error){
-            res.status(400).json({"states" : 400});
-            console.log(error);
-        }
-            else{
-                res.status(200).json({"states" : 200});
-                console.log(result);
-            }
-            res.end();
-        });
-    });
+
 }
