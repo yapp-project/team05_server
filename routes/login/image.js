@@ -19,7 +19,7 @@ let upload = multer({
         bucket: "yappsimmo",
         key:
         function (req, file, cb) {
-             cb(null, req.body.userId+".png")
+             cb(null, req.query.userId+".png")
         }
         ,
         acl: 'public-read-write',
@@ -49,7 +49,7 @@ let upload = multer({
 //     });
 // });
 
-  app.post('/login/join/uploadImage', function(req, res, next) {
+  app.post('/login/join/uploadImage2', function(req, res, next) {
     console.log("post /login/join/uploadImage");
     var form = new multiparty.Form();
 
@@ -90,12 +90,48 @@ let upload = multer({
 });
 
   //이미지 업로드 to s3
-  app.post('/upload',upload.single("userImg"), function(req, res, next){
-    var form = new multiparty.Form();
-    upload.single("userImg");
-    console.log('post');
-      let imgFile = req.file;
-      res.json(imgFile["location"]);
+  app.post('//login/join/uploadImage',upload.single("userImg"), function(req, res, next){
+    console.log('post /upload');
+    var userId = req.query.userId;
+    var up = upload.single("userImg");
+    let imgFile = req.file;
+    console.log(imgFile);
+    if(!imgFile){
+      var sql = 'INSERT INTO userImg(fk_userId,userImg) VALUES ("'+userId+'","null") ON DUPLICATE KEY UPDATE userImg="null";';
+      connection.query(sql, function (error, result,fields){
+          if(error) {
+              res.json({
+                'status': 400
+              });
+              console.error('error', error);
+          }else{
+            res.json({
+              'status': 200
+            });
+          }
+        });
+    }else{
+      up(req,res,function(err){
+        if(err){
+          res.json({'status':400});
+        }else {
+          console.log(imgFile['location']);
+          var sql = 'INSERT INTO userImg(fk_userId,userImg) VALUES ("'+userId+'","'+imgFile["location"]+'") ON DUPLICATE KEY UPDATE userImg="'+imgFile["location"]+'";';
+          connection.query(sql, function (error, result,fields){
+              if(error) {
+                  res.json({
+                    'status': 400
+                  });
+                  console.error('error', error);
+              }else{
+                res.json({
+                  'status': 200
+                });
+              }
+            });
+        }
+      });
+    }
   })
 
   app.get('/upload', function(req, res, next) {
