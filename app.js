@@ -3,13 +3,12 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var config = require('./db_info.js').local;
 var session = require('express-session');
-var moment = require('moment');
 const FileStore = require('session-file-store')(session);
 
 
 var app = express();
-app.use(bodyParser.urlencoded({ extended : true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -50,4 +49,5 @@ var joinRouter = require('./routes/login/join.js')(app,connection);
 var logRouter = require('./routes/login/login.js')(app,connection);
 var myPage = require('./routes/mypage/mypage.js')(app,connection);
 var notice = require('./routes/notice/notice.js')(app,connection);
+var image = require('./routes/login/image.js')(app,connection);
 // var attendantMain = require('./routes/meetAttendant/attendantMain.js')(app,connection);
