@@ -1,40 +1,8 @@
 module.exports = function(app, connection)
 {
-    //aws s3 세팅
-    let AWS = require("aws-sdk");
-    AWS.config.loadFromPath(__dirname + "/../../config/awsconfig.json");
-    let s3 = new AWS.S3();
-
-    let multer = require("multer");
-    let path = require('path');
-    let multerS3 = require('multer-s3');
-    let upload = multer({
-        storage: multerS3({
-            s3: s3,
-            bucket: "yappsimmo",
-            key:
-            function (req, file, cb) {
-                 cb(null, req.body.userId+".png")
-            }
-            ,
-            acl: 'public-read-write',
-        })
-    })
-
-
-      //이미지 업로드 to s3
-      app.post('/upload', upload.single("userImg"), function(req, res, next){
-        console.log('post');
-          let imgFile = req.file;
-          res.json(imgFile);
-      })
-
-      app.get('/upload', function(req, res, next) {
-          res.render('upload');
-      });
 
   //join
-   app.post('/login/join',upload.single("userImg"), function(req, res, next){
+   app.post('/login/join',function(req, res, next){
     console.log('post /login/join');
     var userId = req.body.userId;
     var userPw = req.body.userPw;
