@@ -50,7 +50,7 @@ module.exports = function(app,connection)
                         console.error('error', error);
                     }
                     else{
-                        var keywordCount = require('../search/keywordCount.js');
+                        var keywordCount = require('../module/keywordCount.js');
                         keywordCount(req.body.keyword);
                         connection.query(sqlthree, param, function(error, rows, fields){
                             if(error){
