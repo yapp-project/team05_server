@@ -1,20 +1,28 @@
 module.exports = function(app,connection){
  //메인화면 내 실시간심모
+ var computeDistance = require('../module/computeDistance.js');
     app.get('/meet/scheduled', function(req,res){
         console.log("get /meet/scheduedMeeting");
         var myId = req.session.userId;
+        var latitude = req.query.latitude;
+        var longitude = req.query.longitude;
         var count = req.query.meetPage;
+        var distance = new Array();
         var offset, firstIndex;
         firstIndex = (parseInt(count)-1) * 20;
         offset = 20;
-        var sql = "select t.meet_Id, t.meet_name, t.meet_datetime, t.meet_location," +
-        "t.meet_personNumMax from meettable AS t where t.meet_scheduledEnd = 0 ORDER BY t.meet_datetime" +" limit " + firstIndex +", " + offset +";";
+        var sql = "select meet_Id, meet_name, meet_datetime, meet_location, meet_latitude as latitude, meet_longitude as longitude, " +
+        "meet_personNumMax from meettable where meet_scheduledEnd = 0 ORDER BY meet_datetime" +" limit " + firstIndex +", " + offset +";";
         connection.query(sql,function(error,result,fields){
             if(error) {
                 res.status(400).json({"states" : 400});
                 console.log(error);
             }
             else{
+                for(var i = 0; i < Object.keys(result).length; i++){
+                    distance[i] = computeDistance(latitude,longitude,result[i].latitude,result[i].longitude);
+                    result[i].distance = distance[i].toFixed(1);
+                }
                 res.status(200).json({"state" : 200 , "list" : result});
                 console.log(result);
             }
