@@ -90,7 +90,7 @@ let upload = multer({
 });
 
   //이미지 업로드 to s3
-  app.post('//login/join/uploadImage',upload.single("userImg"), function(req, res, next){
+  app.post('/login/join/uploadImage',upload.single("userImg"), function(req, res, next){
     console.log('post /upload');
     var userId = req.query.userId;
     var up = upload.single("userImg");
