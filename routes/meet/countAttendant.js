@@ -2,7 +2,7 @@ module.exports= function(app,connection){
     //모임정보 상세 내 참여 인원 수, 혹은 예정 모임에서 참여인원 수, +1은 모임장 포함임
     app.get('/meet/attendant', function(req, res){
         console.log("get /meet/attendant");
-        var meetId = req.query.meet_Id;
+        var meetId = req.query.meetId;
         var sql= "select count(*)+1 AS count from meetAttendants AS m where m.fk_meet_Id = " + meetId + ";";
         connection.query(sql, function(error, result, fields){
             if(error){
