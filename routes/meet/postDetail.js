@@ -1,8 +1,8 @@
 module.exports = function(app,connection)
 {
     //모임 만들기
-    app.post('/meet/detail'),function(req, res){
-        console.log('post /meet/detail');
+    app.post('/meet/detail',function(req, res){
+        console.log('post/meet/detail');
         var fk_meetcaptain = req.body.userId;
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
@@ -14,7 +14,7 @@ module.exports = function(app,connection)
         var insertBinaryInCategory = require('../module/insertBinaryInCategory.js');
         param = insertBinaryInCategory(list);
         var params = {
-            "fk_meetcaptain" : fk_meetcaptain,
+            "fk_meetcaptain" : req.body.userId,
             "meet_name" : req.body.name,
             "meet_datetime" : req.body.datetime,
             "meet_location" : req.body.location,
@@ -26,9 +26,8 @@ module.exports = function(app,connection)
         
         connection.query(sql,params, function (error, result,fields){
             if(error) {
-                res.json({"state" : 400});
-                res.status(400).end('err :' + error);
-                console.error('error', error);
+                res.status(400).json({"state" : 400});
+                console.error('error'+ error);
             }
             else{
                 var parameter = {
@@ -38,9 +37,8 @@ module.exports = function(app,connection)
                 param.fk_meetId = result.insertId;
                 connection.query(sqltwo, parameter, function(error, results, fields){
                     if(error) {
-                        res.json({"state" : 400});
-                        res.status(400).end('err :' + error);
-                        console.error('error', error);
+                        res.status(400).json({"state" : 400});
+                        console.error('error'+ error);
                     }
                     else{
                         var keywordCount = require('../module/findkeyword.js');
@@ -48,18 +46,16 @@ module.exports = function(app,connection)
                         keywordCount(key,connection,result.insertId);
                         connection.query(sqlthree, param, function(error, rows, fields){
                             if(error){
-                                res.json({"state" : 400});
-                                res.status(400).end('err :' + error);
-                                console.error('error', error);
+                                res.status(400).json({"state" : 400});
+                                console.error('error'+ error);
                             }
                             else{
                                 var sqlfive = 'CREATE EVENT ' +'event_'+String(result.insertId)+" on schedule AT '"+req.body.datetime
                                 +"' do update meettable set meet_scheduledEnd = 1 WHERE meet_Id = "+result.insertId+';';
                                 connection.query(sqlfive, function(err, row, fields){
                                     if(err){
-                
                                         res.status(400).json({"state" : 400,"err" : error + " " +err});
-                                        console.error('error', err);
+                                        console.error('error'+ err);
                                     }
                                     else{
                                         res.status(200).json({"state" : 200});
