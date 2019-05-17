@@ -59,12 +59,9 @@ module.exports = function(app, connection)
                   console.error('error', error);
               }
               else{
-
-                  console.log(userId + ',' + userPw);
-                  console.log(userImg);
-                  res.json({
-                    'status': 200
-                  });
+                      res.status(200).json({"state" : 200});
+                      console.log(userId + ',' + userPw);
+                      console.log(userImg);
               }
           });
         }

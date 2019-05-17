@@ -6,7 +6,6 @@ module.exports = function(app,connection)
         var fk_meetcaptain = req.session.userId;
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
-        var key;
         var fs = require("fs");
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
@@ -50,8 +49,9 @@ module.exports = function(app,connection)
                         console.error('error', error);
                     }
                     else{
-                        var keywordCount = require('../search/keywordCount.js');
-                        keywordCount(req.body.keyword);
+                        var keywordCount = require('../module/findkeyword.js');
+                        var key = req.body.keyword;
+                        keywordCount(key,connection,result.insertId);
                         connection.query(sqlthree, param, function(error, rows, fields){
                             if(error){
                                 res.json({"state" : 400});
