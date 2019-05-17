@@ -27,8 +27,14 @@ module.exports = function(row,word,meetId){
             }
         }
         var sqlquery = new Array();
-        sqlquery.push(query);
-        sqlquery.push(sql);
+        if(Object.keys(row).length != word.length -1){
+            sqlquery.push(query);
+            sqlquery.push(sql);
+        }
+        else{
+            sqlquery.push(sql);
+        }
+        
     }
     else{
         for(var i = 1; i < word.length; i++){
