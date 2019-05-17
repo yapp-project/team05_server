@@ -1,7 +1,7 @@
 module.exports = function(app,connection)
 {
     //모임 만들기
-    app.post('/meet/detail', function(req, res){
+    app.post('/meet/detail'),function(req, res){
         console.log('post /meet/detail');
         var fk_meetcaptain = req.session.userId;
         var meet_name = req.body.name;
@@ -10,12 +10,10 @@ module.exports = function(app,connection)
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
         var sqlthree = 'INSERT INTO meetinterests SET ?;';
-        var sqlfour = 'INSERT INTO meetimages SET ?;';
-        var insertBinaryInCategory = require('../module/insertBinaryInCategory.js');
         var list = req.body.list;
         var param = new Object();
+        var insertBinaryInCategory = require('../module/insertBinaryInCategory.js');
         param = insertBinaryInCategory(list);
-        //var encodedImage = req.body.meetimage;
         var params = {
             "fk_meetcaptain" : fk_meetcaptain,
             "meet_name" : req.body.name,
@@ -59,7 +57,6 @@ module.exports = function(app,connection)
                                 console.error('error', error);
                             }
                             else{
-                                //connection.query(sqlfour, parameters,)
                                 var sqlfive = 'CREATE EVENT ' +'event_'+String(result.insertId)+" on schedule AT '"+req.body.datetime
                                 +"' do update meettable set meet_scheduledEnd = 1 WHERE meet_Id = "+result.insertId+';';
                                 connection.query(sqlfive, function(err, row, fields){
