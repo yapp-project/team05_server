@@ -4,8 +4,6 @@ var mysql = require('mysql');
 var config = require('./db_info.js').local;
 var session = require('express-session');
 const FileStore = require('session-file-store')(session);
-
-
 var app = express();
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json({limit: '50mb'}));

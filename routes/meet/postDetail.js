@@ -10,13 +10,14 @@ module.exports = function(app,connection)
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
         var sqlthree = 'INSERT INTO meetinterests SET ?;';
         var list = req.body.list;
+        var date = req.body.datetime;
         var param = new Object();
         var insertBinaryInCategory = require('../module/insertBinaryInCategory.js');
         param = insertBinaryInCategory(list);
         var params = {
             "fk_meetcaptain" : req.body.userId,
             "meet_name" : req.body.name,
-            "meet_datetime" : req.body.datetime,
+            "meet_datetime" : date,
             "meet_location" : req.body.location,
             "meet_latitude" : req.body.latitude,
             "meet_longitude" : req.body.longitude,
@@ -50,7 +51,7 @@ module.exports = function(app,connection)
                                 console.error('error'+ error);
                             }
                             else{
-                                var sqlfive = 'CREATE EVENT ' +'event_'+String(result.insertId)+" on schedule AT '"+req.body.datetime
+                                var sqlfive = 'CREATE EVENT ' +'event_'+String(result.insertId)+" on schedule AT '"+date
                                 +"' do update meettable set meet_scheduledEnd = 1 WHERE meet_Id = "+result.insertId+';';
                                 connection.query(sqlfive, function(err, row, fields){
                                     if(err){
