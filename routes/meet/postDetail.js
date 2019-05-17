@@ -3,7 +3,7 @@ module.exports = function(app,connection)
     //모임 만들기
     app.post('/meet/detail'),function(req, res){
         console.log('post /meet/detail');
-        var fk_meetcaptain = req.session.userId;
+        var fk_meetcaptain = req.body.userId;
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
         var sql = 'INSERT INTO meettable SET ?;';

@@ -3,7 +3,7 @@ module.exports = function(app,connection){
  var computeDistance = require('../module/computeDistance.js');
     app.get('/meet/scheduled', function(req,res){
         console.log("get /meet/scheduedMeeting");
-        var myId = req.session.userId;
+        var myId = req.query.userId;
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
         var count = req.query.meetPage;

@@ -5,7 +5,7 @@ module.exports = function(app,connection)
         console.log("post /meet/attendant");
         var meetId = req.body.meet_Id;
         var meetCaptain;
-        var attendantId = req.session.userId; 
+        var attendantId = req.body.user_Id; 
         var sql_one = "select fk_meetcaptain, meet_personNumMax from meettable where meet_Id = " + meetId + ";";
         var sqltwo= "select count(*)+1 AS count from meetAttendants where fk_meet_Id = " + meetId + ";";
         var sql = 'INSERT INTO meetAttendants SET ?;';
