@@ -59,21 +59,10 @@ module.exports = function(app, connection)
                   console.error('error', error);
               }
               else{
-                var usertoken = req.body.usertoken;
-                var sql = "INSERT INTO usertoken SET ?;";
-                var params = {
-                  "fk_userId" : userId,
-                  "client_token" : usertoken
-                };
-                connection.query(sql,params,function(error,rows,fields){
-                    if(error)res.status(400).json({"state": 400});
-                    else{
                       res.status(200).json({"state" : 200});
-                  console.log(userId + ',' + userPw);
-                  console.log(userImg);
+                      console.log(userId + ',' + userPw);
+                      console.log(userImg);
               }
-            });
-          }
           });
         }
     });
