@@ -1,6 +1,6 @@
 module.exports = function(app,connection){
     app.get('/meet/meetcaptain',function(req,res){
-        var meetcaptain = req.session.userId;
+        var meetcaptain = req.query.userId;
         var meetId = req.query.meetId;
         var cancel;
         var sqlone = "select a.fk_attendants_Id AS attendant, c.client_token AS clientToken " +

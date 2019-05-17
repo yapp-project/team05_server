@@ -8,7 +8,7 @@ module.exports = function(app,connection){
         var computeDistance = require('../module/computeDistance.js');
         var longitude = req.query.myLongitude;
         var latitude = req.query.myLatitude;
-        var myId = req.session.userId;
+        var myId = req.query.userId;
         var distance = new Array(); 
         var count = 0;
         var sqlone = "select meet_latitude, meet_longitude,meet_Id from meettable where meet_scheduledEnd = 0;";
