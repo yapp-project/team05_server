@@ -3,7 +3,7 @@ module.exports = function(app,connection){
         var upload = processImage();
   app.post('/meet/image',upload.single("userImg"), function(req, res, next){
         var up = upload.single("userImg");
-        var meetId = req.body.meetId;
+        var meetId = req.query.meetId;
         let imgFile = req.file;
         console.log(imgFile);
         if(!imgFile){

@@ -21,10 +21,7 @@ module.exports = function(app,connection)
             "meet_latitude" : req.body.latitude,
             "meet_longitude" : req.body.longitude,
             "meet_explanation" : req.body.explanation,
-            "meet_personNumMax" : req.body.personNumMax,
-            "meet_personnumMin" : req.body.personNumMin,
-            "meet_filterSameGender" : req.body.filterSameGender,
-            "meet_filterSameAgeGroup" : req.body.filterSameAgeGroup
+            "meet_personNum" : req.body.personNum
         };
         
         connection.query(sql,params, function (error, result,fields){
