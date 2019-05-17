@@ -6,6 +6,7 @@ module.exports = function(app,connection){
         connection.query(sql, function(error,result, fields){
             if(error) res.status(400).json({"state" : 400});
             else{
+                var endingMeetingAlarm = require('../pushAlarm/endingMeetingAlarm.js');
                 endingMeetingAlarm(connection,meetId,res);
             } 
         });
