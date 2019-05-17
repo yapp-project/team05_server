@@ -1,4 +1,4 @@
-module.exports = function(key,connection){
+module.exports = function(key,connection,meetId){
     var word = key.split('#');
     console.log(word);
     var keywordBinary = new Array();
@@ -14,7 +14,7 @@ module.exports = function(key,connection){
             if(error)console.log(error);
             else{
                 var sqlKeyword = require('./writesqlKeyword.js');
-                var sql = sqlKeyword(row,word);
+                var sql = sqlKeyword(row,word,meetId);
                 if(sql.length > 1){
                     connection.query(sql[0],function(err,row,field){
                         if(err)console.log(err);

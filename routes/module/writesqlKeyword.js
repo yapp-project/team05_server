@@ -1,8 +1,8 @@
-module.exports = function(row,word){
+module.exports = function(row,word,meetId){
     var keywordBinary = new Array();
     console.log("word "+ word + "row " + row);
     var sql = "UPDATE keywordnums SET keywordCount = keywordCount + 1 WHERE keyword = '";
-    var query = "INSERT INTO keywordnums (keyword,keywordCount) values ('";
+    var query = "INSERT INTO keywordnums (keyword,keywordCount,fk_meet_Id) values ('";
     if(Object.keys(row).length != 0){
         for(var i = 0; i < Object.keys(row).length; i++){
             if(i == Object.keys(row).length -1)
@@ -21,9 +21,9 @@ module.exports = function(row,word){
         for(var i = 1; i < word.length; i++){
             if(keywordBinary[i] == 0){
                 if(i == word.length -1)
-                    query = query.concat(word[i] + "',1);");
+                    query = query.concat(word[i] + "',1,"+meetId+");");
                 else
-                    query = query.concat(word[i] + "',1),('");
+                    query = query.concat(word[i] + "',1,"+meetId+"),('");
             }
         }
         var sqlquery = new Array();
@@ -33,9 +33,9 @@ module.exports = function(row,word){
     else{
         for(var i = 1; i < word.length; i++){
             if(i == word.length -1)
-                query = query.concat(word[i] + "',1);");
+                query = query.concat(word[i] + "',1,"+meetId+");");
             else
-                query = query.concat(word[i] + "',1),('");
+                query = query.concat(word[i] + "',1,"+meetId+"),('");
         }
         var sqlquery = new Array();
         sqlquery.push(query);
