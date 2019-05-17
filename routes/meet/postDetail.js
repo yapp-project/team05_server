@@ -41,7 +41,7 @@ module.exports = function(app,connection)
                         console.error('error'+ error);
                     }
                     else{
-                        var keywordCount = require('../module/findkeyword.js');
+                        var keywordCount = require('../module/findKeyword.js');
                         var key = req.body.keyword;
                         keywordCount(key,connection,result.insertId);
                         connection.query(sqlthree, param, function(error, rows, fields){
