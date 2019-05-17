@@ -36,6 +36,7 @@ var markEndingScheduleRouter = require('./routes/meet/MarkEndingSchedule.js')(ap
 var countAttendantRouter = require('./routes/meet/countAttendant.js')(app,connection);
 var postDetailRouter = require('./routes/meet/postDetail.js')(app,connection);
 var getDetailRouter = require('./routes/meet/getDetail.js')(app,connection);
+var postMeetImageRouter = require('./routes/meet/postMeetImage.js')(app,connection);
 var meetKeywordRouter = require('./routes/search/searchKeyword.js')(app,connection);
 var meetCategoryRouter = require('./routes/search/searchCategory.js')(app,connection);
 var recommendKeywordRouter = require('./routes/search/recommendKeyword.js')(app,connection);
