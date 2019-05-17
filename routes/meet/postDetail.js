@@ -51,7 +51,7 @@ module.exports = function(app,connection)
                     else{
                         var keywordCount = require('../module/findkeyword.js');
                         var key = req.body.keyword;
-                        keywordCount(key,connection);
+                        keywordCount(key,connection,result.insertId);
                         connection.query(sqlthree, param, function(error, rows, fields){
                             if(error){
                                 res.json({"state" : 400});
