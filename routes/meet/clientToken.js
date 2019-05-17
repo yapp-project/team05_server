@@ -3,7 +3,7 @@ module.exports = function(app,connection){
         var usertoken = req.body.usertoken;
         var sql = "INSERT INTO usertoken SET ?;";
         var params = {
-            "fk_userId" : req.session.userId,
+            "fk_userId" : req.body.userId,
             "client_token" : usertoken
         };
         connection.query(sql,params,function(error,rows,fields){
