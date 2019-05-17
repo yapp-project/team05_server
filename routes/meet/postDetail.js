@@ -6,7 +6,6 @@ module.exports = function(app,connection)
         var fk_meetcaptain = req.session.userId;
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
-        var fs = require("fs");
         var sql = 'INSERT INTO meettable SET ?;';
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
         var sqlthree = 'INSERT INTO meetinterests SET ?;';
@@ -75,8 +74,7 @@ module.exports = function(app,connection)
                 });
             }
     });
-    });
     
-
+    }
 
 }
