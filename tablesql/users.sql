@@ -8,4 +8,4 @@ CREATE TABLE `users` (
   PRIMARY KEY (`userId`),
   UNIQUE KEY `userId_UNIQUE` (`userId`),
   UNIQUE KEY `userNick_UNIQUE` (`userNick`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

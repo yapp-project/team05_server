@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
+CREATE TABLE IF NOT EXISTS `test`.`meetattendants` (
   `fk_meet_Id` INT UNSIGNED NOT NULL,
   `fk_attendants_Id` VARCHAR(20) NOT NULL,
   `meetAttendants_Id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`meetAttendants_Id`),
   UNIQUE INDEX `meetAttendants_Id_UNIQUE` (`meetAttendants_Id` ASC) VISIBLE,
-    CONSTRAINT `fkmeetId`
+    CONSTRAINT `fkmeetidid`
     FOREIGN KEY (`fk_meet_Id`)
     REFERENCES `test`.`meettable` (`meet_Id`)
     ON DELETE CASCADE
@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
     REFERENCES `test`.`users` (`userId`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

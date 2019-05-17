@@ -47,7 +47,6 @@ var meetingcancelRouter = require('./routes/meetCancel/meetingcancel.js')(app,co
 var cancelReasonRouter = require('./routes/meetCancel/cancelreason.js')(app,connection);
 var remainCancelReasonRouter = require('./routes/meetCancel/remainCancelReason.js')(app,connection);
 var meetingAlarmRouter = require('./routes/pushAlarm/cancelAlarm.js')(app,connection);
-var maxOccupancyAlarmRouter = require('./routes/pushAlarm/maxOccupancyAlarm.js')(app,connection);
 var joinRouter = require('./routes/login/join.js')(app,connection);
 var logRouter = require('./routes/login/login.js')(app,connection);
 var myPage = require('./routes/mypage/mypage.js')(app,connection);

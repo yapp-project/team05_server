@@ -1,4 +1,4 @@
-CREATE TABLE `meett` (
+CREATE TABLE `meettable` (
   `fk_meetcaptain` varchar(20) DEFAULT NULL,
   `meet_Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `meet_name` varchar(50) NOT NULL,
