@@ -3,6 +3,7 @@ module.exports = function(app,connection){
         var meetcaptain = req.query.userId;
         var meetId = req.query.meetId;
         var cancel;
+        console.log(meetId);
         var sqlone = "select a.fk_attendants_Id AS attendant, c.usertoken AS clientToken " +
                  "from meetAttendants AS a" + " JOIN usertokens AS c ON c.fk_userId = a.fk_attendants_Id where a.fk_meet_Id = " +
                   meetId+" ;";
@@ -19,7 +20,7 @@ module.exports = function(app,connection){
                     console.error(err);
                 }
                 else{
-                    var data = require('./cancelAlarmData.js');
+                    var data = require('./getcancelData.js');
                     cancel = row[0].cancelReason;
                     var clientToken = new Array();
                     for(var i = 0; i < rows.length; i++)
