@@ -4,12 +4,14 @@ module.exports = function(app,connection){
         var sql = "INSERT INTO usertokens SET ?;";
         var params = {
             "fk_userId" : req.body.userId,
-            "client_token" : usertoken
+            "usertoken" : usertoken
         };
         connection.query(sql,params,function(error,rows,fields){
             if(error)res.status(400).json({"state": 400});
+            
             else
                 res.status(200).json({"state" : 200});
+                console.log(error);
         });
     });
 }
