@@ -1,7 +1,7 @@
 module.exports = function(app,connection){
     app.post('/meet/client-token',function(req,res){
         var usertoken = req.body.usertoken;
-        var sql = "INSERT INTO usertoken SET ?;";
+        var sql = "INSERT INTO usertokens SET ?;";
         var params = {
             "fk_userId" : req.body.userId,
             "client_token" : usertoken

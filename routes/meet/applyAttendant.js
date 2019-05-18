@@ -6,6 +6,7 @@ module.exports = function(app,connection)
         var meetId = req.body.meet_Id;
         var meetCaptain;
         var attendantId = req.body.user_Id; 
+
         var sql_one = "select fk_meetcaptain, meet_personNum from meettable where meet_Id = " + meetId + ";";
         var sqltwo= "select count(*)+1 AS count from meetAttendants where fk_meet_Id = " + meetId + ";";
         var sql = 'INSERT INTO meetAttendants SET ?;';
@@ -21,8 +22,8 @@ module.exports = function(app,connection)
                 meetCaptain = result[0].fk_meetcaptain;
                 personNum = result[0].meet_personNum;
                 connection.query(sqltwo, function(err,row,fields){
-                    console.log(personNum);
-                    if(meetCaptain != attendantId && row[0].count <= personNum - 1){
+                    console.log(personNum +' '+ row[0].count);
+                    if(meetCaptain != attendantId && row[0].count <= personNum){
                         connection.query(sql,params,function(error, result, fields){
                             if(error) res.status(400).json({"state" : 400,"err":error});
                             else{
