@@ -3,9 +3,9 @@ module.exports = function(app,connection)
 //모임정보 상세 내 참여 신청
     app.post('/meet/attendant', function(req,res){
         console.log("post /meet/attendant");
-        var meetId = req.body.meetId;
+        var meetId = req.body.meet_Id;
         var meetCaptain;
-        var attendantId = req.body.userId; 
+        var attendantId = req.body.user_Id; 
         var sql_one = "select fk_meetcaptain, meet_personNum from meettable where meet_Id = " + meetId + ";";
         var sqltwo= "select count(*)+1 AS count from meetAttendants where fk_meet_Id = " + meetId + ";";
         var sql = 'INSERT INTO meetAttendants SET ?;';
