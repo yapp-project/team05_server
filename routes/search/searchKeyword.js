@@ -34,12 +34,12 @@ module.exports = function(app,connection){
 
 
                             connection.query(sqltwo,function(error,results,fields){
-                                if(error) {res.status(400).json({"states": 400});
+                                if(error) {res.status(400).json({"state": 400});
                             console.log(error);}
                                 else{
                                     var distanceSort = require('../module/distanceSort.js');
                                     var searchingResult = distanceSort(results,latitude,longitude);
-                                    res.status(200).json({"states": 200, "list" : searchingResult});
+                                    res.status(200).json({"state": 200, "list" : searchingResult});
                                     
                                 }
                             });
@@ -49,9 +49,9 @@ module.exports = function(app,connection){
                     connection.query(sqlthree,function(error,results,fields){
                       if(error) {
                         console.log(error);
-                        res.status(400).json({"states": 400});
+                        res.status(400).json({"state": 400});
                       }else{
-                          res.status(300).json({"states": 300, "list" : results});
+                          res.status(300).json({"state": 300, "list" : results});
                           console.log(results);
                       }
                   });

@@ -13,7 +13,7 @@ module.exports = function(app,connection){
                 console.log(error);
             }
             else{
-              res.status(200).json({"states": 200, "list" : result});
+              res.status(200).json({"state": 200, "list" : result});
 
             }
 

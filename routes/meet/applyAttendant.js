@@ -16,7 +16,7 @@ module.exports = function(app,connection)
         }
         connection.query(sql_one, function(error,result, fields){
             if(error)
-                res.status(400).send('err :' + error);
+                res.status(400).json({'state' : 400});
             else{
                 console.log(result);
                 meetCaptain = result[0].fk_meetcaptain;
