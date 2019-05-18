@@ -6,6 +6,7 @@ module.exports = function(connection,meetId,res){
         else{
             console.log(rows);
             var sql = "select usertoken,fk_userId as userId from usertokens where fk_userId = '";
+            if(Object.keys(rows).length > 0){
             for(var i = 0; i < Object.keys(rows).length; i++){
                 if(i == Object.keys(rows).length-1)
                     sql = sql.concat(rows[i].attendant+"';");
@@ -23,9 +24,14 @@ module.exports = function(connection,meetId,res){
                     var fcmAlarm = require('./fcmAlarm.js');
                     fcmAlarm(push_data,res);
                 }
-            })
+            });
+        }
+        else{
+            res.status(200).json({"state": 200});
+        }
+            
         }
 
-    })
+    });
 
 }

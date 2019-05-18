@@ -21,7 +21,7 @@ module.exports = function(app,connection){
                 var eqaulKeyword = require('../module/equalKeyword.js');
                 idKeyArray = eqaulKeyword(result,keyword);            
                     if(idKeyArray.length > 0){
-                        var sqltwo = "select meet_Id,meet_name, meet_datetime, meet_location, meet_personNumMax, " + 
+                        var sqltwo = "select meet_Id,meet_name, meet_datetime, meet_location, meet_personNum, " + 
                         "meet_latitude as latitude, meet_longitude as longitude from meettable where ";
                         for(var i = 0; i < idKeyArray.length; i++){
                             if(i != idKeyArray.length - 1){
