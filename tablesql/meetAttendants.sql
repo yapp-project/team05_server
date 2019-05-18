@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `test`.`meetattendants` (
+CREATE TABLE IF NOT EXISTS `test`.`meetAttendants` (
   `fk_meet_Id` INT UNSIGNED NOT NULL,
   `fk_attendants_Id` VARCHAR(20) NOT NULL,
   `meetAttendants_Id` INT NOT NULL AUTO_INCREMENT,
