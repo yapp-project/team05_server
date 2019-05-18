@@ -3,7 +3,7 @@ module.exports = function(app,connection){
         var meetcaptain = req.query.userId;
         var meetId = req.query.meetId;
         var cancel;
-        var sqlone = "select a.fk_attendants_Id AS attendant, c.client_token AS clientToken " +
+        var sqlone = "select a.fk_attendants_Id AS attendant, c.usertoken AS clientToken " +
                  "from meetAttendants AS a" + " JOIN usertokens AS c ON c.fk_userId = a.fk_attendants_Id where a.fk_meet_Id = " +
                   meetId+" ;";
         var sqltwo = "select cancelReason from cancelreasons where fk_meetId = " + meetId+" ;";
