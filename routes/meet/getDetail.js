@@ -10,7 +10,7 @@ module.exports = function(app,connection){
         var sqltwo = 'IF EXISTS( SELECT fk_meetId FROM meetviews where fk_meetId='+meetId+') BEGIN UPDATE meetviews SET views = views+1 where fk_meetId ='+ meetId+'END ELSE BEGIN INSERT INTO meetviews(fk_meetId,views) VALUES('+meetId+',1) END';
         */connection.query(sql, function(error,result, fields){
             if(error)
-            res.status(400).json({"states" : 400, "err":error});
+            res.status(400).json({"state" : 400, "err":error});
             else{
              /* connection.query(sqltwo, function(errortwo,resulttwo, fieldstwo){
                   if(errortwo){

@@ -15,7 +15,7 @@ module.exports = function(app,connection){
         "meet_personNum from meettable where meet_scheduledEnd = 0 ORDER BY meet_datetime" +" limit " + firstIndex +", " + offset +";";
         connection.query(sql,function(error,result,fields){
             if(error) {
-                res.status(400).json({"states" : 400});
+                res.status(400).json({"state" : 400});
                 console.log(error);
             }
             else{

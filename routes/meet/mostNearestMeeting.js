@@ -17,7 +17,7 @@ module.exports = function(app,connection){
         "meet_location from meettable where meet_scheduledEnd = 0 and fk_meetcaptain != '" + myId + "' and(";
         connection.query(sqlone,function(error,result,fields){
             if(error){
-                res.status(400).json({"states" : 400});
+                res.status(400).json({"state" : 400});
                 console.log(error);
             }
             else if(result[0].hasOwnProperty('meet_Id')){
