@@ -1,4 +1,4 @@
-CREATE TABLE `meetInterests` (
+CREATE TABLE `meetinterests` (
   `meetIntId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `sports` tinyint(1) DEFAULT '0',
   `activity` tinyint(1) DEFAULT '0',

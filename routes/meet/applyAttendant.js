@@ -21,18 +21,24 @@ module.exports = function(app,connection)
                 meetCaptain = result[0].fk_meetcaptain;
                 personNum = result[0].meet_personNum;
                 connection.query(sqltwo, function(err,row,fields){
-                    if(meetCaptain != attendantId && row[0].count < personNum){
+                    console.log(personNum);
+                    if(meetCaptain != attendantId && row[0].count <= personNum - 1){
                         connection.query(sql,params,function(error, result, fields){
                             if(error) res.status(400).json({"state" : 400,"err":error});
                             else{
+                                if(row[0].count == personNum-1){
+                                    var alarm = require('../pushAlarm/maxOccupancyAlarm.js');
+                                    alarm(meetId,res,connection);
+                                }
+                                else{
                                 res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
                                 console.log(meetId+' '+ attendantId);
+                                }
                             }
                         });
                     }
-                    else if(row[0].count == personNum){
-                        var alarm = require('../pushAlarm/maxOccupancyAlarm.js');
-                        alarm(meetId,res,connection);
+                    else{
+                        res.status(300).json({"state" : 300});
                     }
                 });
             }

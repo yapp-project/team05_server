@@ -1,6 +1,6 @@
 module.exports = function(connection,meetId,res){
     var sql = "select m.fk_meetcaptain as meetcaptain, m.meet_name as meetname,a.fk_attendants_Id as attendant from meettable " +
-    "as m join meetattendants as a on m.meet_Id = a.fk_meet_Id where m.meet_Id = " + meetId+";";
+    "as m join meetAttendants as a on m.meet_Id = a.fk_meet_Id where m.meet_Id = " + meetId+";";
     connection.query(sql,function(error,rows,field){
         if(error)res.status(400).json({"state": 400,"err" : error});
         else{
