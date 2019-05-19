@@ -64,7 +64,7 @@ else if(result[0].hasOwnProperty('meet_Id')){
                                         participantImgArray.push("null");
                                         for(var j = 0; j < Object.keys(row).length; j++){
                                             console.log("results " + results[i].meet_Id+"row");
-                                            if(results[i].meet_Id == row[j].meet_Id&&participantImgArray.length == 1){
+                                            if(results[i].meet_Id == row[j].meet_Id&&participantImgArray[0] == "null"){
                                                 participantImgArray.pop();
                                                 participantImgArray.push(row[j].userImg);
                                             }
