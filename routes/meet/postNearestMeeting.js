@@ -19,7 +19,8 @@ else if(result[0].hasOwnProperty('meet_Id')){
     row = findMeeting(result,sqltwo,latitude,longitude);
     var count = row[1];
     var sql = row[0];
-    var distance = row[2];
+    var meetId = row[2];
+    var distance = row[3];
     if(count == 0) res.status(300).json({"state" : 300, "string" : "there is no closest meeting."});
     else {
 
@@ -54,26 +55,8 @@ else if(result[0].hasOwnProperty('meet_Id')){
                         console.log(err);
                         }
                         else{
-                            var imageObject = new Object();
-                            for(var i = 0; i < Object.keys(results).length; i++){
-                                imageObject[results[i].meet_Id] = "nudfsfll";
-                            }
-                            console.log(rows);
-                            for(var i = 0; i < Object.keys(results).length; i++){
-                                for(var j = 0; j < Object.keys(rows).length; j++){
-                                    if(results[i].meet_Id == rows[j].meet_Id && imageObject[results[i].meet_Id].length == 1){
-                                        delete imageObject[results[i].meet_Id];
-                                        imageObject[results[i].meet_Id] = rows[j].userImg;
-                                        }
-                                    else if(results[i].meet_Id == rows[j].meet_Id && imageObject[results[i].meet_Id].length < 4)
-                                        imageObject[results[i].meet_Id] = rows[j].userImg;
-                                        }
-                                }
-                            console.log(imageObject);
-                            for(var i = 0; i < Object.keys(results).length; i++){
-                                results[i].participantImg = imageObject[results[i].meet_Id];
-                                console.log(results[i].participantImg);
-                            }
+                            var getimage = require('../imageModule/getimageObject.js');
+                            
                         }
                         });
                         }
