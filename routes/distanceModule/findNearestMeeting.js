@@ -1,4 +1,4 @@
-module.exports= function(result,latitude,longitude){
+module.exports= function(result,myId,latitude,longitude){
     var current;
     var count = 0;
     var sqltwo = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
@@ -8,7 +8,7 @@ module.exports= function(result,latitude,longitude){
                 var row = new Array();
                 var meetId = new Array();
                 var distance = new Array();
-                var computeDistance = require('../module/computeDistance.js');
+                var computeDistance = require('../distanceModule/computeDistance.js');
                 for(var i = 0; i < Object.keys(result).length; i++){
                     if(i != 0)
                         past.push(current);

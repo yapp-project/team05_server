@@ -1,6 +1,6 @@
 //지금 나와 1km 이내에 있는 가장 가까운 모임 전달 5개까지 업로드
 module.exports = function(app,connection){
-var computeDistance = require('../module/computeDistance.js');
+var computeDistance = require('../distanceModule/computeDistance.js');
 
 app.post('/meet/meetId/near',function(req,res){
 console.log('get /meet/meetId/near');
@@ -15,8 +15,8 @@ if(error){
         console.log(error);
     }
 else if(result[0].hasOwnProperty('meet_Id')){
-    var findMeeting = require('../module/findNearestMeeting.js');
-    row = findMeeting(result,sqltwo,latitude,longitude);
+    var findMeeting = require('../distanceModule/findNearestMeeting.js');
+    row = findMeeting(result,myId,latitude,longitude);
     var count = row[1];
     var sql = row[0];
     var meetId = row[2];
@@ -31,7 +31,7 @@ else if(result[0].hasOwnProperty('meet_Id')){
         }
         else{
             if(Object.keys(results).length > 0){
-                var write = require('./module/writeSQLPtcNum.js');
+                var write = require('../sqlModule/writeSQLPtcNum.js');
                 var sql = write(results);
                 connection.query(sql,function(err,row,field){
                     if(err){
@@ -46,7 +46,7 @@ else if(result[0].hasOwnProperty('meet_Id')){
                                     results[i].participantNum = row[j].count;
                         }      
                     }
-                        var writesql = require('./module/writeSQLPtcImg.js');
+                        var writesql = require('../sqlModule/writeSQLPtcImg.js');
                         var sqltwo = writesql(row,results); 
                         console.log(sqltwo);
                     connection.query(sqltwo, function(err,rows,field){
@@ -56,7 +56,7 @@ else if(result[0].hasOwnProperty('meet_Id')){
                         }
                         else{
                             var getimage = require('../imageModule/getimageObject.js');
-                            
+                            results = getimage(results,rows);
                         }
                         });
                         }

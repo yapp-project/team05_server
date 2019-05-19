@@ -1,6 +1,6 @@
 module.exports = function(app,connection){
  //메인화면 내 실시간심모
- var computeDistance = require('../module/computeDistance.js');
+ var computeDistance = require('../distanceModule/computeDistance.js');
     app.post('/meet/scheduled', function(req,res){
         console.log("get /meet/scheduedMeeting");
         var myId = req.body.userId;
