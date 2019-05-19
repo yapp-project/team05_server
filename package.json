@@ -9,6 +9,7 @@
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "fcm-node": "^1.4.0",
+<<<<<<< Updated upstream
     "moment": "^2.24.0",
     "mongoose": "^5.4.15",
     "multer": "^1.4.1",
@@ -16,6 +17,10 @@
     "multiparty": "^4.2.1",
     "mysql": "^2.17.1",
     "session-file-store": "^1.2.0"
+=======
+    "mongoose": "^5.4.15",
+    "multiparty": "^4.2.1"
+>>>>>>> Stashed changes
   },
   "devDependencies": {},
   "scripts": {
