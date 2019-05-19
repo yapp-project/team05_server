@@ -17,14 +17,14 @@ if(error){
 else if(result[0].hasOwnProperty('meet_Id')){
     var findMeeting = require('../distanceModule/findNearestMeeting.js');
     row = findMeeting(result,myId,latitude,longitude);
-    var count = row[1];
-    var sql = row[0];
-    var meetId = row[2];
-    var distance = row[3];
+    var sqltwo = row[0];
+    var sqlthree = row[1];
+    var count = row[2];
+    var meetId = row[3];
+    var distance = row[4];
     if(count == 0) res.status(300).json({"state" : 300, "string" : "there is no closest meeting."});
     else {
-
-        connection.query(sql,function(error,results,fields){
+        connection.query(sqltwo,function(error,results,fields){
         if(error){
             res.status(400).json({"state" : 400});
             console.log(error);
@@ -38,39 +38,59 @@ else if(result[0].hasOwnProperty('meet_Id')){
                         res.status(400).json({"state":400});
                         console.log(err);
                     }
-                    else if(row[0].count != 0){
-                        for(var i = 0; i < Object.keys(results).length; i++){
-                            results[i].participantNum = 1;
-                            for(var j = 0; j < Object.keys(row).length; j++){
-                                if(results[i].meet_Id == row[j].meet_Id)
-                                    results[i].participantNum = row[j].count;
-                        }      
-                    }
-                        var writesql = require('../sqlModule/writeSQLPtcImg.js');
-                        var sqltwo = writesql(row,results); 
-                        console.log(sqltwo);
-                    connection.query(sqltwo, function(err,rows,field){
-                        if(err){
-                        res.status(400).json({"state":400});
-                        console.log(err);
+                    else{
+                        if(Object.keys(row).length > 0 && row[0].meet_Id != null){
+                            for(var i = 0; i < Object.keys(results).length; i++){
+                                results[i].participantNum = 1;
+                                for(var j = 0; j < Object.keys(row).length; j++){
+                                    if(results[i].meet_Id == row[j].meet_Id)
+                                        results[i].participantNum = row[j].count;
+                                }      
+                            }
                         }
                         else{
-                            var getimage = require('../imageModule/getimageObject.js');
-                            results = getimage(results,rows);
+                            for(var i = 0; i < Object.keys(results).length; i++)
+                                results[i].participantNum = 1;
                         }
+                        connection.query(sqlthree, function(err,row,field){
+                            if(err){
+                                res.status(400).json({"state":400});
+                                console.log(err);
+                            }
+                            else{
+                                if(Object.keys(row).length > 0){
+                                    for(var i = 0; i < Object.keys(results).length; i++){
+                                        var participantImgArray = new Array();
+                                        participantImgArray.push("null");
+                                        for(var j = 0; j < Object.keys(row).length; j++){
+                                            console.log("results " + results[i].meet_Id+"row");
+                                            if(results[i].meet_Id == row[j].meet_Id&&participantImgArray.length == 1){
+                                                participantImgArray.pop();
+                                                participantImgArray.push(row[j].userImg);
+                                            }
+                                            else if(results[i].meet_Id == row[j].meet_Id&&participantImgArray.length < 4){
+                                                participantImgArray.push(row[j].userImg);
+                                            }
+                                            else if(participantImgArray.length == 4)
+                                            break;
+                                        }
+                                        results[i].participantImg = participantImgArray;
+                                    }   
+                                }
+                                else{
+                                    for(var i = 0; i < Object.keys(results).length; i++)
+                                        results[i].participantImg = "null";
+                                }
+                                var sort = require("../sortModule/distanceSort.js");
+                                var list= sort(results,latitude,longitude);
+                                res.status(200).json({"state": 200,"list" : list});
+                            }
                         });
-                        }
-                else{
-                    for(var i = 0; i < Object.keys(results).length; i ++){
-                        results[i].participantimg = "nuldsfl";
-                        results[i].participantNum = 1;
-
                     }
-                }
             });          
         }
     }
-    res.status(200).json({"state" : 200, "list" : results});
+    
 });
 
 }

@@ -6,7 +6,7 @@ for(var i = 0; i < Object.keys(results).length; i++){
     if(i != Object.keys(results).length -1)
         sql = sql.concat(meetId + " or fk_meet_Id = ");
     else
-        sql = sql.concat(meetId + ";");
+        sql = sql.concat(meetId + " group by fk_meet_Id;");
 }
 return sql;
 }
