@@ -21,7 +21,7 @@ module.exports = function(app,connection){
             else{
                 for(var i = 0; i < Object.keys(result).length; i++){
                     distance[i] = computeDistance(latitude,longitude,result[i].latitude,result[i].longitude);
-                    result[i].distance = distance[i].toFixed(1);
+                    result[i].distance = distance[i].toFixed(4);
                 }
                 res.status(200).json({"state" : 200 , "list" : result});
                 console.log(result);

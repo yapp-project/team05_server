@@ -9,6 +9,5 @@ module.exports = function(startlati,startlongi,destlati,destlongi){
     var distance = Math.acos(Math.sin(startLatitude) * Math.sin(destLatitude) + 
                     Math.cos(startLatitude) * Math.cos(destLatitude) *
                     Math.cos(startLongitude - destLongitude)) * Radius;
-    console.log(distance);
     return distance;   
 }
