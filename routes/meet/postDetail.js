@@ -59,7 +59,7 @@ module.exports = function(app,connection)
                                         console.error('error'+ err);
                                     }
                                     else{
-                                        res.status(200).json({"state" : 200});
+                                        res.status(200).json({"state" : 200, "meetId" : result.insertId});
                                     }
                                 });
                             }
