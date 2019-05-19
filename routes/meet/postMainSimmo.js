@@ -1,6 +1,6 @@
 module.exports = function(app,connection){
  //메인화면 내 실시간심모
- var computeDistance = require('../module/computeDistance.js');
+ var computeDistance = require('../distanceModule/computeDistance.js');
     app.post('/meet/scheduled', function(req,res){
         console.log("get /meet/scheduedMeeting");
         var myId = req.body.userId;
@@ -21,7 +21,7 @@ module.exports = function(app,connection){
             else{
                 for(var i = 0; i < Object.keys(result).length; i++){
                     distance[i] = computeDistance(latitude,longitude,result[i].latitude,result[i].longitude);
-                    result[i].distance = distance[i].toFixed(1);
+                    result[i].distance = distance[i].toFixed(4);
                 }
                 res.status(200).json({"state" : 200 , "list" : result});
                 console.log(result);

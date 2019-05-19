@@ -25,6 +25,7 @@ module.exports = function(app,connection){
                         "meet_latitude as latitude, meet_longitude as longitude from meettable where ";
                         for(var i = 0; i < idKeyArray.length; i++){
                             if(i != idKeyArray.length - 1){
+                                console.log(idKeyArray[i]);
                                 sqltwo = sqltwo.concat("meet_Id="+idKeyArray[i]+" or ");
                                 console.log(sqltwo);
                             }
@@ -45,7 +46,7 @@ module.exports = function(app,connection){
                             });
                 }
                 else{
-                    var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc ;"
+                    var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNum from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc ;"
                     connection.query(sqlthree,function(error,results,fields){
                       if(error) {
                         console.log(error);

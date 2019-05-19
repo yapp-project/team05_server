@@ -23,7 +23,7 @@ module.exports = function(app,connection)
                 personNum = result[0].meet_personNum;
                 connection.query(sqltwo, function(err,row,fields){
                     console.log(personNum +' '+ row[0].count);
-                    if(meetCaptain != attendantId && row[0].count <= personNum){
+                    if(meetCaptain != attendantId && row[0].count <= personNum-1){
                         connection.query(sql,params,function(error, result, fields){
                             if(error) res.status(400).json({"state" : 400,"err":error});
                             else{
@@ -31,7 +31,7 @@ module.exports = function(app,connection)
                                     var alarm = require('../pushAlarm/maxOccupancyAlarm.js');
                                     alarm(meetId,res,connection);
                                 }
-                                else{
+                                else {
                                 res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
                                 console.log(meetId+' '+ attendantId);
                                 }
@@ -40,6 +40,7 @@ module.exports = function(app,connection)
                     }
                     else{
                         res.status(300).json({"state" : 300});
+                        
                     }
                 });
             }

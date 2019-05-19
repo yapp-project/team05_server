@@ -1,5 +1,5 @@
 module.exports = function(app,connection){
-  var processImage = require('../module/processImage.js');
+  var processImage = require('../imageModule/processImage.js');
         var upload = processImage();
   app.post('/meet/image',upload.single("userImg"), function(req, res, next){
         var up = upload.single("userImg");
