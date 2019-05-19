@@ -1,12 +1,12 @@
 module.exports = function(app,connection){
   var processImage = require('../imageModule/processImage.js');
         var upload = processImage();
-  app.post('/meet/image',upload.single("userImg"), function(req, res, next){
-        var up = upload.single("userImg");
+  app.post('/meet/image',upload.single("meetImg"), function(req, res, next){
+        var up = upload.single("meetImg");
         var meetId = req.query.meetId;
-        let imgFile = req.file;
-        console.log(imgFile);
-        if(!imgFile){
+        let meetImg = req.file;
+        console.log(meetImg);
+        if(!meetImg){
           var sql = 'INSERT INTO meetimgs(fkmeetId,meetImg) VALUES ("'+meetId+'","null") ON DUPLICATE KEY UPDATE meetImg="null";';
           connection.query(sql, function (error, result,fields){
               if(error) {
@@ -22,8 +22,8 @@ module.exports = function(app,connection){
             if(err)
               res.status(400).json({'state':400});
             else {
-              console.log(imgFile.location);
-              var sql = 'INSERT INTO meetimgs(fkmeetId,meetImg) VALUES ("'+meetId+'","'+imgFile.location+'") ON DUPLICATE KEY UPDATE meetImg="'+imgFile.location+'";';
+              console.log(meetImg.location);
+              var sql = 'INSERT INTO meetimgs(fkmeetId,meetImg) VALUES ("'+meetId+'","'+meetImg.location+'") ON DUPLICATE KEY UPDATE meetImg="'+meetImg.location+'";';
               connection.query(sql, function (error, result,fields){
                   if(error) {
                       res.status(400).json({'state': 400});
