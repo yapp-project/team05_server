@@ -13,7 +13,7 @@ module.exports = function(key,connection,meetId){
         connection.query(sqlquery, function(error,row,field){
             if(error)console.log(error);
             else{
-                var sqlKeyword = require('./writesqlKeyword.js');
+                var sqlKeyword = require('../sqlModule/writesqlKeyword.js');
                 var sql = sqlKeyword(row,word,meetId);
                 if(sql.length > 1){
                     connection.query(sql[0],function(err,row,field){
