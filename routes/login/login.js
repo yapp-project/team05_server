@@ -6,16 +6,16 @@ module.exports = function(app, connection)
 app.get('/', (req, res) => {      // 1
   console.log(req.session.logined);
   if(req.session.logined) {
-    res.send({'status': 400});
+    res.send({'state': 400});
   } else {
-    res.send({'status':500});
+    res.send({'state':500});
   }
 });
 
 //session logout
 app.post('/logout', (req, res) => {      // 3
   req.session.destroy();
-  res.send({'status':400})
+  res.send({'state':400})
 });
 
 //login
@@ -26,7 +26,7 @@ app.post('/login/login', function(req, res){
   function(error,results,fields){
       if (error) {
         res.json({
-          'status': 500
+          'state': 500
         });
       } else {
         console.log(results[0]);
@@ -35,16 +35,16 @@ app.post('/login/login', function(req, res){
                 req.session.logined = true;
                 req.session.userId = req.body.userId;
                 res.json({
-                  'status': 200
+                  'state': 200
                 });
               } else {
                 res.json({
-                  'status': 300
+                  'state': 300
                 });
               }
           } else {
             res.json({
-              'status': 400
+              'state': 400
             });
           }
       }

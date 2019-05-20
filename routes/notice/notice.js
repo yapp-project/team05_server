@@ -13,13 +13,13 @@ module.exports = function(app, connection)
     connection.query(sql, function (error, result,fields){
         if(error) {
             res.json({
-              'status': 400
+              'state': 400
             });
             console.error('error', error);
         }else{
           console.log(meetId + ',' + contents);
           res.json({
-            'status': 200
+            'state': 200
           });
         };
       });
@@ -37,13 +37,13 @@ module.exports = function(app, connection)
   connection.query(sql, function (error, result,fields){
       if(error) {
           res.json({
-            'status': 400
+            'state': 400
           });
           console.error('error', error);
       }else{
         console.log(meetId + ',' + comment);
         res.json({
-          'status': 200
+          'state': 200
         });
       };
     });
@@ -57,18 +57,14 @@ app.get('/notice/view', function(req,res){
  var statement = 'select * from notice where fk_meetId ='+meetId+';';
  var sql2 = 'select * from noticecomment where fk_meetId ='+meetId+';';
       connection.query(statement, function (err, rows, fields){
-          if(err) return res.status(4000).send({error: 'database failure'});
+          if(err) return res.json({'state':400});
           else{
             connection.query(sql2, function (err2, rows2, fields2){
-                if(err2) return res.status(4000).send({error: 'database failure'});
+                if(err2) return res.json({'state':400});
                 else{
-                    // console.log('success ',rows);
-                    console.log(rows2);
-                    // for (var i = 0; i < rows2.length; i++) {
-                    //   c
-                    // }
-
+                    // console.log(rows2);
                     res.json({
+                      'state':200,
                       'notice': rows,
                       'comment': rows2
 

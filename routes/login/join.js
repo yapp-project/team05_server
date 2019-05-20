@@ -24,7 +24,7 @@ module.exports = function(app, connection)
     connection.query(sql,params, function (error, result,fields){
         if(error) {
             res.json({
-              'status': 400
+              'state': 400
             });
             console.error('error', error);
         }
@@ -54,7 +54,7 @@ module.exports = function(app, connection)
           connection.query(sql,params, function (error, result,fields){
               if(error) {
                   res.json({
-                    'status': 400
+                    'state': 400
                   });
                   console.error('error', error);
               }
@@ -63,7 +63,7 @@ module.exports = function(app, connection)
                   console.log(userId + ',' + userPw);
                   console.log(userImg);
                   res.json({
-                    'status': 200
+                    'state': 200
                   });
               }
           });
@@ -79,19 +79,19 @@ module.exports = function(app, connection)
     var sql1 = "select userId from users where userId = '" + userId + "' ;";
     var sql2 = "select userNick from users where userNick = '" + userNick + "' ;";
     connection.query(sql1,function(error1, rows1, fields1){
-      if(error1) res.status(400).json({"status": 400});
+      if(error1) res.json({"state": 400});
       else{
         connection.query(sql2,function(error2, rows2, fields2){
-          if(error2) res.status(400).json({"status": 400});
+          if(error2) res.json({"state": 400});
           else{
             if(rows1.length !== 0 && rows2.length !== 0 ){
-               res.status(300).json({"status" : 300});//둘 다 중복
+               res.json({"state" : 300});//둘 다 중복
             }else if(rows1.length !== 0  && rows2.length == 0){
-                res.status(260).json({"status" : 260});//아이디 중복
+                res.json({"state" : 260});//아이디 중복
             }else if(rows1.length == 0  && rows2.length !== 0){
-                res.status(230).json({"status" : 230});//닉네임 중복
+                res.json({"state" : 230});//닉네임 중복
             }else{
-                res.status(200).json({"status" : 200});//둘 다 중복 아님
+                res.json({"state" : 200});//둘 다 중복 아님
             }
         }
         });
@@ -105,7 +105,7 @@ module.exports = function(app, connection)
    console.log('get /login/join');
    var statement = 'select * from users';
         connection.query(statement, function (err, rows, fields){
-            if(err) return res.status(4000).send({error: 'database failure'});
+            if(err) return res.state(4000).send({error: 'database failure'});
             else{
                 console.log('success ',rows);
                 res.send(rows);
@@ -121,18 +121,18 @@ module.exports = function(app, connection)
       connection.query('SELECT * FROM users WHERE userId = ?', [userId], function(error,results,fields){
           if (error) {
             res.json({
-              'status': 400
+              'state': 400
             });
           } else {
             connection.query('DELETE FROM users WHERE userId = ?', [userId], function(error,results,fields){
                 if (error) {
                   console.log(error);
                   res.json({
-                    'status': 400
+                    'state': 400
                   });
                 } else {
                   res.json({
-                    'status': 200
+                    'state': 200
                   });
                 }
             })

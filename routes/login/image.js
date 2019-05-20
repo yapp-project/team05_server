@@ -79,7 +79,7 @@ let upload = multer({
     });
     // all uploads are completed
     form.on('close',function(){
-         res.json({'status':200});
+         res.json({'state':200});
     });
 
     // track progress
@@ -101,31 +101,31 @@ let upload = multer({
       connection.query(sql, function (error, result,fields){
           if(error) {
               res.json({
-                'status': 400
+                'state': 400
               });
               console.error('error', error);
           }else{
             res.json({
-              'status': 200
+              'state': 200
             });
           }
         });
     }else{
       up(req,res,function(err){
         if(err){
-          res.json({'status':400});
+          res.json({'state':400});
         }else {
           console.log(imgFile['location']);
           var sql = 'INSERT INTO userImg(fk_userId,userImg) VALUES ("'+userId+'","'+imgFile["location"]+'") ON DUPLICATE KEY UPDATE userImg="'+imgFile["location"]+'";';
           connection.query(sql, function (error, result,fields){
               if(error) {
                   res.json({
-                    'status': 400
+                    'state': 400
                   });
                   console.error('error', error);
               }else{
                 res.json({
-                  'status': 200
+                  'state': 200
                 });
               }
             });
