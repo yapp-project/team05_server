@@ -9,7 +9,6 @@ module.exports = function(app, connection)
     var userGen = req.body.userGen;
     var userBirth = req.body.userBirth;
     var userNick = req.body.userNick;
-    var userImg = req.file;
     var gps_lat = req.body.gps_lat;
     var gps_lan = req.body.gps_lan;
     var interest = req.body.interest;
@@ -61,7 +60,6 @@ module.exports = function(app, connection)
               else{
 
                   console.log(userId + ',' + userPw);
-                  console.log(userImg);
                   res.json({
                     'state': 200
                   });
