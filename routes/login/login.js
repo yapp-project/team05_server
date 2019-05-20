@@ -28,6 +28,7 @@ app.post('/login/login', function(req, res){
         res.json({
           'state': 500
         });
+        console.log(error);
       } else {
         console.log(results[0]);
           if(results.length > 0) {
@@ -48,7 +49,7 @@ app.post('/login/login', function(req, res){
             });
           }
       }
-  })
+  });
 });
 
 }

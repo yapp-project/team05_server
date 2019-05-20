@@ -1,18 +1,11 @@
 module.exports = function(app, connection)
 {
-
 //aws s3 세팅
 let AWS = require("aws-sdk");
 AWS.config.loadFromPath(__dirname + "/../../config/awsconfig.json");
 let s3 = new AWS.S3();
-let fs = require("fs");
-let path = require('path');
 let multer = require("multer");
 let multerS3 = require('multer-s3');
-var multiparty = require('multiparty');
-var async = require('async');
-
-
 let upload = multer({
     storage: multerS3({
         s3: s3,
@@ -25,6 +18,7 @@ let upload = multer({
         acl: 'public-read-write',
     })
 })
+<<<<<<< HEAD
 
 //  Upload = require('../UploadService');
 // app.post('/test', function (req, res) {
@@ -89,9 +83,10 @@ let upload = multer({
     form.parse(req);
 });
 
+=======
+>>>>>>> f4062f2700829478a75e06c788507effb93fd4b2
   //이미지 업로드 to s3
   app.post('/login/join/uploadImage',upload.single("userImg"), function(req, res, next){
-    console.log('post /upload');
     var userId = req.query.userId;
     var up = upload.single("userImg");
     let imgFile = req.file;
@@ -133,9 +128,5 @@ let upload = multer({
       });
     }
   })
-
-  app.get('/upload', function(req, res, next) {
-      res.render('upload');
-  });
 
 }

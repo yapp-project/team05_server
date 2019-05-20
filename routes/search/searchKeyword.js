@@ -21,10 +21,11 @@ module.exports = function(app,connection){
                 var eqaulKeyword = require('../module/equalKeyword.js');
                 idKeyArray = eqaulKeyword(result,keyword);            
                     if(idKeyArray.length > 0){
-                        var sqltwo = "select meet_Id,meet_name, meet_datetime, meet_location, meet_personNumMax, " + 
+                        var sqltwo = "select meet_Id,meet_name, meet_datetime, meet_location, meet_personNum, " + 
                         "meet_latitude as latitude, meet_longitude as longitude from meettable where ";
                         for(var i = 0; i < idKeyArray.length; i++){
                             if(i != idKeyArray.length - 1){
+                                console.log(idKeyArray[i]);
                                 sqltwo = sqltwo.concat("meet_Id="+idKeyArray[i]+" or ");
                                 console.log(sqltwo);
                             }
@@ -34,24 +35,24 @@ module.exports = function(app,connection){
 
 
                             connection.query(sqltwo,function(error,results,fields){
-                                if(error) {res.status(400).json({"states": 400});
+                                if(error) {res.status(400).json({"state": 400});
                             console.log(error);}
                                 else{
                                     var distanceSort = require('../module/distanceSort.js');
                                     var searchingResult = distanceSort(results,latitude,longitude);
-                                    res.status(200).json({"states": 200, "list" : searchingResult});
+                                    res.status(200).json({"state": 200, "list" : searchingResult});
                                     
                                 }
                             });
                 }
                 else{
-                    var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNumMax from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc ;"
+                    var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNum from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc ;"
                     connection.query(sqlthree,function(error,results,fields){
                       if(error) {
                         console.log(error);
-                        res.status(400).json({"states": 400});
+                        res.status(400).json({"state": 400});
                       }else{
-                          res.status(300).json({"states": 300, "list" : results});
+                          res.status(300).json({"state": 300, "list" : results});
                           console.log(results);
                       }
                   });

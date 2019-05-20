@@ -127,18 +127,18 @@ app.get('/notice/view', function(req,res){
       connection.query('SELECT * FROM users WHERE userId = ?', [userId], function(error,results,fields){
           if (error) {
             res.json({
-              'status': 400
+              'state': 400
             });
           } else {
             connection.query('DELETE FROM users WHERE userId = ?', [userId], function(error,results,fields){
                 if (error) {
                   console.log(error);
                   res.json({
-                    'status': 400
+                    'state': 400
                   });
                 } else {
                   res.json({
-                    'status': 200
+                    'state': 200
                   });
                 }
             })

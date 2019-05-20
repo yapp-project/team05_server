@@ -4,8 +4,6 @@ var mysql = require('mysql');
 var config = require('./db_info.js').local;
 var session = require('express-session');
 const FileStore = require('session-file-store')(session);
-
-
 var app = express();
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -15,6 +13,7 @@ app.use(session({
   saveUninitialized: true,
   store: new FileStore()
 }));
+
 
 var port = process.env.PORT || 8078;
 
@@ -32,20 +31,22 @@ connection.connect();
 app.listen(port ,function(){
     console.log("Express server has started on port " + port);
 });
+var markEndingScheduleRouter = require('./routes/meet/markEndingSchedule.js')(app,connection);
+var countAttendantRouter = require('./routes/meet/countAttendant.js')(app,connection);
 var postDetailRouter = require('./routes/meet/postDetail.js')(app,connection);
 var getDetailRouter = require('./routes/meet/getDetail.js')(app,connection);
+var postMeetImageRouter = require('./routes/meet/postMeetImage.js')(app,connection);
 var meetKeywordRouter = require('./routes/search/searchKeyword.js')(app,connection);
 var meetCategoryRouter = require('./routes/search/searchCategory.js')(app,connection);
-//var searchSuggestionRouter = require('./routes/search/searchSuggetstion.js')(app,connection);
-var meetAttendantRouter = require('./routes/meet/attendant.js')(app, connection);
-var meetScheduledMeetingRouter = require('./routes/meet/scheduledMeeting.js')(app,connection);
-var mostNearestMeetingRouter = require('./routes/meet/mostNearestMeeting.js')(app, connection);
+var recommendKeywordRouter = require('./routes/search/recommendKeyword.js')(app,connection);
+var applyAttendantRouter = require('./routes/meet/applyAttendant.js')(app, connection);
+var meetScheduledMeetingRouter = require('./routes/meet/postMainSimmo.js')(app,connection);
+var mostNearestMeetingRouter = require('./routes/meet/postNearestMeeting.js')(app, connection);
 var clientTokenRouter = require('./routes/meet/clientToken.js')(app,connection);
 var meetingcancelRouter = require('./routes/meetCancel/meetingcancel.js')(app,connection);
 var cancelReasonRouter = require('./routes/meetCancel/cancelreason.js')(app,connection);
 var remainCancelReasonRouter = require('./routes/meetCancel/remainCancelReason.js')(app,connection);
 var meetingAlarmRouter = require('./routes/pushAlarm/cancelAlarm.js')(app,connection);
-var maxOccupancyAlarmRouter = require('./routes/pushAlarm/maxOccupancyAlarm.js')(app,connection);
 var joinRouter = require('./routes/login/join.js')(app,connection);
 var logRouter = require('./routes/login/login.js')(app,connection);
 var myPage = require('./routes/mypage/mypage.js')(app,connection);

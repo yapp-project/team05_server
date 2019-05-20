@@ -7,4 +7,4 @@ CREATE TABLE `test`.`cancelreasons` (
     FOREIGN KEY (`fk_meetId`)
     REFERENCES `test`.`meettable` (`meet_Id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -1,4 +1,4 @@
-CREATE TABLE `meetInterests` (
+CREATE TABLE `meetinterests` (
   `meetIntId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `sports` tinyint(1) DEFAULT '0',
   `activity` tinyint(1) DEFAULT '0',
@@ -25,4 +25,4 @@ CREATE TABLE `meetInterests` (
   CONSTRAINT `meet_id` FOREIGN KEY (`fk_meetId`) REFERENCES `meettable` (`meet_Id`) 
   ON DELETE CASCADE 
   ON UPDATE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
