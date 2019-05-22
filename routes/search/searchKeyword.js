@@ -24,10 +24,10 @@ module.exports = function(app,connection){
                         ", m.meet_personNum as meet_personNum, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude" + 
                         ",i.meetImg as meet_Img from meettable as m join meetimgs as i on m.meet_Id = i.fkmeetId where meet_scheduledEnd = 0 and (";
                         for(var i = 0; i < idKeyArray.length; i++){
-                            if(i != idKeyArray.length - 1){
+                            if(i != idKeyArray.length - 1 && i != offset - 2){
                                 sqltwo = sqltwo.concat("m.meet_Id="+idKeyArray[i]+" or ");
                             }
-                            else
+                            else if(i == idKeyArray.length -1 || i == offset -2)
                                 sqltwo = sqltwo.concat("m.meet_Id="+idKeyArray[i]+");");
                             if(i == offset - 1) break;
                         }
