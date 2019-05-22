@@ -1,14 +1,14 @@
 module.exports = function(app,connection){
  //메인화면 내 실시간심모
- var computeDistance = require('../distanceModule/computeDistance.js');
     app.post('/meet/scheduled', function(req,res){
         console.log("post /meet/scheduled");
         var myId = req.body.userId;
         var latitude = req.body.latitude;
         var longitude = req.body.longitude;
         var count = req.body.meetPage;
-        var distance = new Array();
         var offset, firstIndex;
+        firstIndex = (parseInt(count)-1) * 20;
+        offset = 20;
         var findSimmo = require("../module/findSimmo.js");
         var sql = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
         "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude,"+
@@ -21,7 +21,7 @@ module.exports = function(app,connection){
                 console.log(error);
             }
             else{
-                var sqltwo = findSimmo(myId,latitude,longitude,count,results);
+                var sqltwo = findSimmo(myId,latitude,longitude,results);
                 connection.query(sqltwo,function(error,row,field){
                     if(error)res.status(400).json({"state":400, "err" : error});
                     else{
@@ -47,7 +47,7 @@ module.exports = function(app,connection){
                             for(var i = 0; i < Object.keys(results).length; i++)
                                 results[i].participantNum = 1;
                         }
-                        connection.query(sqlthree, function(err,row,field){
+                        connection.query(sqltwo, function(err,row,field){
                             if(err){
                                 res.status(400).json({"state":400});
                                 console.log(err);
