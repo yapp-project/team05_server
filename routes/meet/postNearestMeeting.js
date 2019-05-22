@@ -70,6 +70,7 @@ else if(result[0].hasOwnProperty('meet_Id')){
             });          
         }
         else{
+            res.status(300).json({"state" : 300});
             
         }
     }
@@ -79,7 +80,7 @@ else if(result[0].hasOwnProperty('meet_Id')){
 }
 }
 else 
-res.status(300).json({"state" : 300, "string" : "there is no meeting."});
+res.status(300).json({"state" : 300});
 });
 
 });
