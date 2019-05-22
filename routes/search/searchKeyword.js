@@ -27,9 +27,11 @@ module.exports = function(app,connection){
                             if(i != idKeyArray.length - 1 && i != offset - 2){
                                 sqltwo = sqltwo.concat("m.meet_Id="+idKeyArray[i]+" or ");
                             }
-                            else if(i == idKeyArray.length -1 || i == offset -2)
+                            else if(i == idKeyArray.length -1 || i == offset -2){
                                 sqltwo = sqltwo.concat("m.meet_Id="+idKeyArray[i]+");");
-                            if(i == offset - 1) break;
+                                break;
+                            }
+                    
                         }
                         console.log(sqltwo);
                             connection.query(sqltwo,function(error,results,fields){
