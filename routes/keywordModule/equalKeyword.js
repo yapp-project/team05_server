@@ -4,7 +4,6 @@ module.exports = function(result,keyword){
     for(var i = 0; i < Object.keys(result).length; i++){
         var target = result[i].word;
         var comparisonTargetArray = target.split('#');
-        console.log(comparisonTargetArray);
         for(var j = 0; j < comparisonTargetArray.length; j++){
            if(comparisonTargetArray[j] == keyword){
                idKeyArray[index] = result[i].meetId;
@@ -13,5 +12,6 @@ module.exports = function(result,keyword){
            }
         }
     }
+    console.log(idKeyArray);
     return idKeyArray;
 }

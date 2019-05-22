@@ -13,7 +13,6 @@ module.exports = function(results,latitude,longitude){
         searching.meet_Img = results[i].meet_Img;
         searching.participantNum = results[i].participantNum;
         searching.participantImg = results[i].participantImg;
-        console.log(searching);
         searchingArray.push(searching);
     } 
     var customSort = require('./customSort.js');
