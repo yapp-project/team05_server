@@ -33,6 +33,7 @@ module.exports = function(app,connection){
                             }
                     
                         }
+                        console.log(sqlone);
                             connection.query(sqlone,function(error,results,fields){
                                 if(error) {
                                     res.status(400).json({"state": 400});
