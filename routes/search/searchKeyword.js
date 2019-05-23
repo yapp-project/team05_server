@@ -45,8 +45,10 @@ module.exports = function(app,connection){
                                             if(i != Object.keys(results).length - 1 && i != offset -1)
                                                 sqltwo = sqltwo.concat("m.meet_Id="+results[i].meet_Id+" or ");
                                             
-                                            else
-                                                sqltwo = sqltwo.concat("m.meet_Id="+results[i].meet_Id+");");   
+                                            else{
+                                                sqltwo = sqltwo.concat("m.meet_Id="+results[i].meet_Id+");");
+                                                break;
+                                            }   
                                         }
                                         connection.query(sqltwo,function(err,results,fields){
                                             if(err){
