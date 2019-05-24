@@ -50,11 +50,18 @@ module.exports = function(app,connection){
                                         for(var i = 0; i < Object.keys(results).length; i++)
                                             results[i].participantNum = 1;
                                     }
-                                    var setPtcImage = require("../imageModule/setParticipantImage.js");
-                                var result = setPtcImage(results,row);
-                                var sort = require("../sortModule/distanceSort.js");
-                                var list= sort(result,latitude,longitude);
-                                res.status(200).json({"state": 200,"list" : list});
+                                    var findSimmo = require('../module/findSimmo.js');
+                                    var sqlthree= findSimmo(myId,latitude,longitude,results);
+                                    connection.query(sqlthree,function(err,row,field){
+                                        if(err) res.status(400).json({"state": 400, "err" : err});
+                                        else{
+                                            var setPtcImage = require("../imageModule/setParticipantImage.js");
+                                            var result = setPtcImage(results,row);
+                                            var distanceSort = require('../sortModule/distanceSort.js');
+                                            var searchingResult = distanceSort(results,latitude,longitude);
+                                            res.status(200).json({"state": 200, "list" : searchingResult});
+                                        }
+                                    });
                     }
                 });
             }
