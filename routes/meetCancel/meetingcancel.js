@@ -8,9 +8,7 @@ module.exports = function(app, connection){
                 res.status(400).json({"state" : 400});
                 console.error(error);
             }
-            else
-                res.status(200).json({"state" : 200});
-        });
+            else{
 
         connection.query(sqltwo, function(error,row,field){
             if(error){
@@ -20,7 +18,8 @@ module.exports = function(app, connection){
             else
                 res.status(200).json({"state" : 200});
         });
-       
+    }
+});  
         
     });
 }

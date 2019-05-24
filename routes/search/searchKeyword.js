@@ -4,9 +4,11 @@ module.exports = function(app,connection){
         var keyword = req.query.keyword;
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
+        var page = req.query.page;
         var myId = null;
         var offset, firstIndex;
         var searching = new Object();
+        firstIndex = (parseInt(page)-1) * 20;
         offset = 20;
         var sql = "select fk_meet_Id AS meetId, meet_keyword AS word from meetkeywords;";
         var idKeyArray = new Array();
@@ -23,7 +25,7 @@ module.exports = function(app,connection){
                         var sqlone = "select meet_Id from meettable where meet_scheduledEnd = 0 and (";
                         var sqltwo = "select m.meet_Id as meet_Id,m.meet_name as meet_name, m.meet_datetime as meet_datetime, m.meet_location as meet_location"+
                         ", m.meet_personNum as meet_personNum, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude" + 
-                        ",i.meetImg as meet_Img from meettable as m join meetimgs as i on m.meet_Id = i.fkmeetId where meet_scheduledEnd = 0 and (";
+                        ",i.meetImg as meet_Img from meettable as m join meetimgs as i on m.meet_Id = i.fkmeetId where ";
                         for(var i = 0; i < idKeyArray.length; i++){
                             if(i != idKeyArray.length - 1){
                                 sqlone = sqlone.concat("meet_Id="+idKeyArray[i]+" or ");
@@ -46,7 +48,7 @@ module.exports = function(app,connection){
                                                 sqltwo = sqltwo.concat("m.meet_Id="+results[i].meet_Id+" or ");
                                             
                                             else{
-                                                sqltwo = sqltwo.concat("m.meet_Id="+results[i].meet_Id+");");
+                                                sqltwo = sqltwo.concat("m.meet_Id="+results[i].meet_Id+";");
                                                 break;
                                             }   
                                         }

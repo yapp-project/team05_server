@@ -3,7 +3,7 @@ module.exports= function(result,myId,latitude,longitude){
     var count = 0;
     var sqltwo = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
 "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude, i.meetImg as meet_Img "+
-"from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where meet_scheduledEnd = 0 and fk_meetcaptain != '" + myId + "' and (";
+"from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId + "' and (";
     
 var sqlthree = "select a.fk_meet_Id as meet_Id, i.userImg as userImg, i.fk_userId as userId from userImg as i" + 
     " right outer join meetAttendants as a on a.fk_attendants_Id = i.fk_userId where "; 
