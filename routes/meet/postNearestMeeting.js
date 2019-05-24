@@ -8,7 +8,7 @@ var longitude = req.body.myLongitude;
 var latitude = req.body.myLatitude;
 var myId = req.body.userId;
 var row = new Array();
-var sqlone = "select meet_latitude, meet_longitude,meet_Id from meettable where meet_scheduledEnd = 0;";
+var sqlone = "select meet_latitude, meet_longitude,meet_Id from meettable;";
 connection.query(sqlone,function(error,result,fields){
 if(error){
         res.status(400).json({"state" : 400});
