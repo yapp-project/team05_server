@@ -10,13 +10,14 @@ module.exports = function(app,connection)
         var sql_one = "select fk_meetcaptain, meet_personNum from meettable where meet_Id = " + meetId + ";";
         var sqltwo= "select count(*)+1 AS count from meetAttendants where fk_meet_Id = " + meetId + ";";
         var sql = 'INSERT INTO meetAttendants SET ?;';
+        var sqlthree = 'INSERT INTO endmeetAttendants SET ?;';
         var params = {
             "fk_meet_Id" : meetId,
             "fk_attendants_Id" : attendantId
         }
         connection.query(sql_one, function(error,result, fields){
             if(error)
-                res.status(400).json({'state' : 400});
+                res.status(400).json({'state' : 400, "error" : error});
             else{
                 console.log(result);
                 meetCaptain = result[0].fk_meetcaptain;
@@ -32,8 +33,17 @@ module.exports = function(app,connection)
                                     alarm(meetId,res,connection);
                                 }
                                 else {
-                                res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
-                                console.log(meetId+' '+ attendantId);
+                                    connection.query(sqlthree,params, function(err,result,fields){
+                                        if(err) {
+                                    res.status(400).json({"state": 400});
+                                    console.log(err);
+                                }
+                                else{
+                                    res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
+                                    console.log(meetId+' '+ attendantId);
+                                }
+                                    });
+                                
                                 }
                             }
                         });
