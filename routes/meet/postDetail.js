@@ -7,9 +7,6 @@ module.exports = function(app,connection)
         var meet_name = req.body.name;
         var meet_longitude = req.body.longitude;
         var sql = 'INSERT INTO meettable SET ?;';
-        var sqlone = "insert into meetendtable (fk_meetcaptain,meet_Id,meet_name,meet_datetime,meet_location,meet_latitude,meet_longitude,meet_explanation,meet_personNum) values ('"+
-        req.body.userId+"',"+result.insertId+",'"+req.body.name+"','"+date+"','"+req.body.location+"',"+req.body.latitude+","+req.body.longitude+",'"+
-        req.body.explanation+"',"+req.body.personNum+");";
         var sqltwo = 'INSERT INTO meetkeywords SET ?;';
         var sqlthree = 'INSERT INTO meetinterests SET ?;';
         var list = req.body.list;
@@ -34,6 +31,9 @@ module.exports = function(app,connection)
                 console.error('error'+ error);
             }
             else{
+                var sqlone = "insert into meetendtable (fk_meetcaptain,meet_Id,meet_name,meet_datetime,meet_location,meet_latitude,meet_longitude,meet_explanation,meet_personNum) values ('"+
+                req.body.userId+"',"+result.insertId+",'"+req.body.name+"','"+date+"','"+req.body.location+"',"+req.body.latitude+","+req.body.longitude+",'"+
+                req.body.explanation+"',"+req.body.personNum+");";
                 connection.query(sqlone,function(err,row,field){
                     if(err){
                         res.status(400).json({"state" : 400});
