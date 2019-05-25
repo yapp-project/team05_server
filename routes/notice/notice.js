@@ -98,7 +98,7 @@ app.get('/notice/view', function(req,res){
            return res.json({'state':400});
          }
          else{
-             // console.log(rows2);
+             console.log(rows2);
              res.json({
                'state':200,
                'comment': rows2,
