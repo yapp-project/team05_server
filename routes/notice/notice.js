@@ -59,7 +59,10 @@ app.get('/notice/view', function(req,res){
  var sql2 = 'select count(*) from noticecomment where fk_meetId ='+meetId+';';
  console.log(sql2);
       connection.query(statement, function (err, rows, fields){
-          if(err) return res.json({'state':400});
+          if(err) {
+            console.log(err);
+            return res.json({'state':400});
+          }
           else{
             connection.query(sql2, function (err2, rows2, fields2){
                 if(err2) return res.json({'state':400});
