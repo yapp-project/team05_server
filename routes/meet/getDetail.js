@@ -24,20 +24,19 @@ module.exports = function(app,connection){
                   else{*/
                     console.log(sql);
                     if(Object.keys(result).length > 0){
+                        result[0].endingflag = 0;
                         var getimgdetail = require("../detailModule/getimgdetail.js");
-                        var detailObject = getimgdetail(connection,result,res,meetId);
-                        detailObject.endingflag = 0;
-                        res.status(200).json({"state": 200, "result" : detailObject});
+                        getimgdetail(connection,result,res,meetId);
+                       
                 }
                     else{
                         connection.query(sqlone, function(err,result,fields){
                             if(error)
                                 res.status(400).json({"state" : 400});
                                 else{
+                                    result[0].endingflag = 1;
                                     var getimgdetail = require("../detailModule/getimgdetail.js");
-                                    var detailObject = getimgdetail(connection,result,res,meetId);
-                                    detailObject.endingflag = 1;
-                                    res.status(200).json({"state": 200, "result" : detailObject});
+                                    getimgdetail(connection,result,res,meetId);
                                 }
                             
                             
