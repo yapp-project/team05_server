@@ -91,7 +91,7 @@ app.get('/notice/view', function(req,res){
      console.log('get /notice/comment/view '+ time);
      var meetId=  req.query.meetId
      // var statement = 'select userimg from notice where fk_meetId ='+meetId+';';
-     var sql2 = 'SELECT * from noticecomment as nc left join userImg as ui  on ui.fk_userId = nc.fk_userId where nc.fk_meetId ='+meetId+';';
+     var sql2 = 'SELECT * from noticecomment as nc left join userImg as ui  using(fk_userId) where nc.fk_meetId ='+meetId+';';
      connection.query(sql2, function (err2, rows2, fields2){
          if(err2) {
            console.log(err2);
