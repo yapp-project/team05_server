@@ -3,8 +3,8 @@ module.exports = function(app,connection){
     app.post('/meet/scheduled', function(req,res){
         console.log("post /meet/scheduled");
         var myId = req.body.userId;
-        var latitude = req.body.latitude;
-        var longitude = req.body.longitude;
+        var latitude = req.body.myLatitude;
+        var longitude = req.body.myLongitude;
         var count = req.body.meetPage;
         var offset, firstIndex;
         firstIndex = (parseInt(count)-1) * 20;
