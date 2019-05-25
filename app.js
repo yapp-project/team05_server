@@ -34,6 +34,7 @@ app.listen(port ,function(){
 var markEndingScheduleRouter = require('./routes/meet/markEndingSchedule.js')(app,connection);
 var postDetailRouter = require('./routes/meet/postDetail.js')(app,connection);
 var getDetailRouter = require('./routes/meet/getDetail.js')(app,connection);
+var getendDetailRouter = require('./routes/meet/getendDetail.js')(app,connection);
 var postMeetImageRouter = require('./routes/meet/postMeetImage.js')(app,connection);
 var meetKeywordRouter = require('./routes/search/searchKeyword.js')(app,connection);
 var meetCategoryRouter = require('./routes/search/searchCategory.js')(app,connection);
