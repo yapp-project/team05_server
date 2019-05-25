@@ -65,7 +65,10 @@ app.get('/notice/view', function(req,res){
           }
           else{
             connection.query(sql2, function (err2, rows2, fields2){
-                if(err2) return res.json({'state':400});
+                if(err2) {
+                  console.log(err2);
+                  return res.json({'state':400});
+                }
                 else{
                     console.log(rows2[0]);
                     res.json({
