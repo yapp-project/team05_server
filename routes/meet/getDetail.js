@@ -4,7 +4,7 @@ module.exports = function(app,connection){
         console.log('get /meet/detail');
         var meetId = req.query.meetId;
         var sql = "select m.fk_meetcaptain as captain_id, m.meet_latitude as latitude,m.meet_longitude as longitude, m.meet_personNum as person_num," +
-         "u.userNick as user_nick from meettable AS m join users as u on m.fk_meetcaptain = u.userId where m.meet_Id = " + meetId +";";
+         "m.meet_explanation as meet_explanation,u.userNick as user_nick from meettable AS m join users as u on m.fk_meetcaptain = u.userId where m.meet_Id = " + meetId +";";
          var sqltwo = "select u.userImg as participants_img from meetAttendants as m join userImg as u on m.fk_attendants_Id = u.fk_userId where " +
          "m.fk_meet_Id = " + meetId +  ";";
          var sqlthree = "select u.userImg as captain_img from meettable as m join userImg as u on m.fk_meetcaptain = u.fk_userId where " +
