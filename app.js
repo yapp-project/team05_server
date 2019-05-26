@@ -32,11 +32,13 @@ app.listen(port ,function(){
     console.log("Express server has started on port " + port);
 });
 var markEndingScheduleRouter = require('./routes/meet/markEndingSchedule.js')(app,connection);
+var getNearestRouter = require('./routes/search/getNearestView.js')(app,connection);
+var getTimeRouter = require('./routes/search/getTimeView.js')(app,connection);
 var postDetailRouter = require('./routes/meet/postDetail.js')(app,connection);
 var getDetailRouter = require('./routes/meet/getDetail.js')(app,connection);
-var getendDetailRouter = require('./routes/meet/getendDetail.js')(app,connection);
 var postMeetImageRouter = require('./routes/meet/postMeetImage.js')(app,connection);
-var meetKeywordRouter = require('./routes/search/searchKeyword.js')(app,connection);
+var meetKeywordRouter = require('./routes/search/searchdisKeyword.js')(app,connection);
+var meettimeKeywordRouter = require('./routes/search/searchtimeKeyword.js')(app,connection);
 var meetCategoryRouter = require('./routes/search/searchCategory.js')(app,connection);
 var recommendKeywordRouter = require('./routes/search/recommendKeyword.js')(app,connection);
 var applyAttendantRouter = require('./routes/meet/applyAttendant.js')(app, connection);
