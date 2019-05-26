@@ -17,8 +17,8 @@ module.exports = function(connection,keyword,latitude,longitude,page,res){
                 var eqaulKeyword = require('../keywordModule/equalKeyword.js');
                 idKeyArray = eqaulKeyword(result,keyword);            
                     if(idKeyArray.length > 0){
-                        var sqltwo = "select m.meet_Id as meetId,m.meet_name as meetName, m.meet_datetime as meetDatetime, m.meet_location as meetlocation"+
-                        ", m.meet_personNum as meet_personNum, m.meet_latitude as latitude, m.meet_longitude as longitude" + 
+                        var sqltwo = "select m.meet_Id as meetId,m.meet_name as meet_name, m.meet_datetime as meet_datetime, m.meet_location as meet_location"+
+                        ", m.meet_personNum as meet_personNum, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude" + 
                         ",i.meetImg as meet_Img from meettable as m join meetimgs as i on m.meet_Id = i.fkmeetId where ";
                         for(var i = 0; i < idKeyArray.length; i++){
                             if(i != idKeyArray.length - 1){
@@ -66,7 +66,9 @@ module.exports = function(connection,keyword,latitude,longitude,page,res){
                                         else{
                                             var setPtcImage = require("../imageModule/setParticipantImage.js");
                                             var result = setPtcImage(results,row);
-                                            res.status(200).json({"state": 200, "list" : result});
+                                            var distanceSort = require('../sortModule/distanceSort.js');
+                                            var searchingResult = distanceSort(result,latitude,longitude);
+                                            res.status(200).json({"state": 200, "list" : searchingResult});
                                         }
                                     });
                                 }

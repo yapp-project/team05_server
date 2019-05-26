@@ -60,7 +60,7 @@ module.exports = function(app,connection){
                                                var setPtcImage = require("../imageModule/setParticipantImage.js");
                                                var result = setPtcImage(results,row);
                                                var distanceSort = require('../sortModule/distanceSort.js');
-                                               var searchingResult = distanceSort(results,latitude,longitude);
+                                               var searchingResult = distanceSort(result,latitude,longitude);
                                                res.status(200).json({"state": 200, "list" : searchingResult});
                                            }
                                        });
