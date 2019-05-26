@@ -23,7 +23,7 @@ module.exports = function(app,connection){
                 var eqaulKeyword = require('../keywordModule/equalKeyword.js');
                 idKeyArray = eqaulKeyword(result,keyword);            
                     if(idKeyArray.length > 0){
-                        var sqltwo = "select m.meet_Id as meet_Id,m.meet_name as meet_name, m.meet_datetime as meet_datetime, m.meet_location as meet_location"+
+                        var sqltwo = "select m.meet_Id as meetId,m.meet_name as meet_name, m.meet_datetime as meet_datetime, m.meet_location as meet_location"+
                         ", m.meet_personNum as meet_personNum, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude" + 
                         ",i.meetImg as meet_Img from meettable as m join meetimgs as i on m.meet_Id = i.fkmeetId where ";
                         for(var i = 0; i < idKeyArray.length; i++){
@@ -56,7 +56,7 @@ module.exports = function(app,connection){
                                                     for(var i = 0; i < Object.keys(results).length; i++){
                                                         results[i].participantNum = 1;
                                                         for(var j = 0; j < Object.keys(row).length; j++){
-                                                            if(results[i].meet_Id == row[j].meet_Id)
+                                                            if(results[i].meetId == row[j].meet_Id)
                                                                 results[i].participantNum = row[j].count;
                                                         }      
                                                     }
@@ -73,7 +73,7 @@ module.exports = function(app,connection){
                                             var setPtcImage = require("../imageModule/setParticipantImage.js");
                                             var result = setPtcImage(results,row);
                                             var distanceSort = require('../sortModule/distanceSort.js');
-                                            var searchingResult = distanceSort(results,latitude,longitude);
+                                            var searchingResult = distanceSort(result,latitude,longitude);
                                             res.status(200).json({"state": 200, "list" : searchingResult});
                                         }
                                     });

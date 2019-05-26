@@ -4,8 +4,8 @@ module.exports = function(myId,latitude,longitude,count,res,connection){
            firstIndex = (parseInt(count)-1) * 20;
            offset = 20;
            var findSimmo = require("../module/findSimmo.js");
-           var sql = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
-           "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as latitude, m.meet_longitude as longitude,"+
+           var sql = "select m.meet_name as meetName, m.meet_datetime as meetDatetime , m.meet_Id as meetId," +
+           "m.meet_personNum as meet_personNum, m.meet_location as meetlocation, m.meet_latitude as latitude, m.meet_longitude as longitude,"+
             "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"' ORDER BY meet_datetime limit "+firstIndex+ ","+offset+" ;";
             console.log(sql);
            connection.query(sql,function(error,results,fields){
@@ -59,7 +59,7 @@ module.exports = function(myId,latitude,longitude,count,res,connection){
                    });
                }
                else{
-                   res.status(300).json({"State" : 300});
+                   res.status(300).json({"state" : 300});
                }
            }
            });

@@ -10,12 +10,12 @@ module.exports= function(myId,latitude,longitude,results){
                 distance[i] = computeDistance(latitude,longitude,results[i].latitude,results[i].longitude);
                 results[i].distance = distance[i].toFixed(4);
                 if(i != Object.keys(results).length -1){
-                    sqlthree = sqlthree.concat(" a.fk_meet_Id = " + results[i].meet_Id + " or ");
-                    sqlthr = sqlthr.concat(" a.meet_Id = " + results[i].meet_Id + " or ");
+                    sqlthree = sqlthree.concat(" a.fk_meet_Id = " + results[i].meetId + " or ");
+                    sqlthr = sqlthr.concat(" a.meet_Id = " + results[i].meetId + " or ");
                 }
                 else{
-                    sqlthree = sqlthree.concat(" a.fk_meet_Id = " + results[i].meet_Id);
-                    sqlthr = sqlthr.concat(" a.meet_Id = " + results[i].meet_Id + ";");
+                    sqlthree = sqlthree.concat(" a.fk_meet_Id = " + results[i].meetId);
+                    sqlthr = sqlthr.concat(" a.meet_Id = " + results[i].meetId + ";");
                     sqlthree = sqlthree.concat(sqlthr);
                 }
             }
