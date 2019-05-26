@@ -1,11 +1,12 @@
 module.exports = function(app,connection){
     //검색 메인 가장 가까운 순
-       app.post('/meet/dsearch', function(req,res){
-           console.log("post /meet/dsearch");
-           var myId = req.body.userId;
-           var latitude = req.body.latitude;
-           var longitude = req.body.longitude;
-           var count = req.body.page;
+       app.get('/meet/dsearch', function(req,res){
+           console.log("get /meet/dsearch");
+           var myId = req.query.userId;
+           var latitude = req.query.latitude;
+           var longitude = req.query.longitude;
+           var count = req.query.page;
+           var distancebool = req.query.distancebool;
            var offset, firstIndex;
            firstIndex = (parseInt(count)-1) * 20;
            offset = 20;
@@ -14,6 +15,7 @@ module.exports = function(app,connection){
            "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude,"+
             "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"' limit "+firstIndex+ ","+offset+" ;";
             console.log(sql);
+        if(distancebool == 1){
            connection.query(sql,function(error,results,fields){
                if(error) {
                    res.status(400).json({"state" : 400});
@@ -72,5 +74,10 @@ module.exports = function(app,connection){
            });
        }
        });
+    }
+    else{
+        var timeview = require('./getTimeView.js');
+        timeview(myId,latitude,longitude,count,res,connection);
+    }
    });
     }

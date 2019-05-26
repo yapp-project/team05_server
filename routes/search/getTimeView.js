@@ -1,11 +1,5 @@
-module.exports = function(app,connection){
+module.exports = function(myId,latitude,longitude,count,res,connection){
     //검색 메인 가장 가까운 시간 순
-       app.post('/meet/tsearch', function(req,res){
-           console.log("post /meet/tsearch");
-           var myId = req.body.userId;
-           var latitude = req.body.latitude;
-           var longitude = req.body.longitude;
-           var count = req.body.page;
            var offset, firstIndex;
            firstIndex = (parseInt(count)-1) * 20;
            offset = 20;
@@ -70,6 +64,6 @@ module.exports = function(app,connection){
            }
            });
        }
-       });
+       
    });
     }

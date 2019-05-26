@@ -4,6 +4,7 @@ module.exports = function(app,connection){
         var keyword = req.query.keyword;
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
+        var distancebool = req.query.distancebool;
         var page = req.query.page;
         var myId = null;
         var offset, firstIndex;
@@ -12,7 +13,7 @@ module.exports = function(app,connection){
         offset = 20;
         var sql = "select fk_meet_Id AS meetId, meet_keyword AS word from meetkeywords limit " +firstIndex+","+offset+";";
         var idKeyArray = new Array();
-
+    if(distancebool == 1){
             connection.query(sql, function(error,result,fields){
             if(error){
                 res.status(400).json({"state" : 400});
@@ -97,5 +98,11 @@ module.exports = function(app,connection){
     }
 }
     });
+}
+else{
+    var searchtimeKeyword = require('./searchtimeKeyword.js');
+    searchtimeKeyword(connection,keyword,latitude,longitude,page,res);
+}
 });
+    
 }

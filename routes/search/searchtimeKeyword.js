@@ -1,13 +1,8 @@
 //사용자 키워드 검색 결과
-module.exports = function(app,connection){
-    app.get('/meet/time/keyword',function(req,res){
-        var keyword = req.query.keyword;
-        var latitude = req.query.latitude;
-        var longitude = req.query.longitude;
-        var page = req.query.page;
-        var myId = null;
+module.exports = function(connection,keyword,latitude,longitude,page,res){
         var offset, firstIndex;
         var searching = new Object();
+        var myId = null;
         firstIndex = (parseInt(page)-1) * 20;
         offset = 20;
         var sql = "select fk_meet_Id AS meetId, meet_keyword AS word from meetkeywords limit " +firstIndex+","+offset+";";
@@ -77,23 +72,24 @@ module.exports = function(app,connection){
                                 }
                             });
                         } 
-                else{
-                    var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNum from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc ;"
-                    connection.query(sqlthree,function(error,results,fields){
-                      if(error) {
-                        console.log(error);
-                        res.status(400).json({"state": 400});
-                      }else{
-                          res.status(300).json({"state": 300, "list" : results});
-                          console.log(results);
-                      }
-                  });
-                    // res.status(300).json({"states" : 300, "string" : "there is no meeting for the keyword."});
-                }
+                
             }
         });
     }
+    else{
+        var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNum from meettable as m join meetviews as v on m.meet_Id = v.fk_meetId order by v.views asc ;"
+        connection.query(sqlthree,function(error,results,fields){
+          if(error) {
+            console.log(error);
+            res.status(400).json({"state": 400});
+          }else{
+              res.status(300).json({"state": 300, "list" : results});
+              console.log(results);
+          }
+      });
+        // res.status(300).json({"states" : 300, "string" : "there is no meeting for the keyword."});
+    }
 }
     });
-});
+
 }
