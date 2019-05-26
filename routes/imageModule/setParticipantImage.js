@@ -5,11 +5,11 @@ module.exports = function(results,row){
             participantImgArray.push("null");
             for(var j = 0; j < Object.keys(row).length; j++){
                 
-                if(results[i].meetId == row[j].meet_Id&&participantImgArray[0] == "null"){
+                if(results[i].meet_Id == row[j].meet_Id&&participantImgArray[0] == "null"){
                     participantImgArray.pop();
                     participantImgArray.push(row[j].userImg);
                 }
-                else if(results[i].meetId == row[j].meet_Id&&participantImgArray.length < 4){
+                else if(results[i].meet_Id == row[j].meet_Id&&participantImgArray.length < 4){
                     participantImgArray.push(row[j].userImg);
                 }
                 else if(participantImgArray.length == 4)

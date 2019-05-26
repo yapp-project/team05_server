@@ -11,7 +11,7 @@ module.exports = function(app,connection){
            firstIndex = (parseInt(count)-1) * 20;
            offset = 20;
            var findSimmo = require("../module/findSimmo.js");
-           var sql = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meetId," +
+           var sql = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
            "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude,"+
             "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"' limit "+firstIndex+ ","+offset+" ;";
             console.log(sql);
