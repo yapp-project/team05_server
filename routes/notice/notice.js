@@ -1,15 +1,16 @@
 module.exports = function(app, connection)
 {
-
+  var date = require('date-utils');
+  var newDate = new Date();
+  var time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
+  // console.log(time)
 
   //notice upload
    app.post('/notice/upload', function(req, res, next){
-    console.log('post /notice/upload');
+    console.log('post /notice/upload '+ time);
     var meetId = req.body.meetId;
     var contents = req.body.contents;
-
     var sql = 'INSERT INTO notice(fk_meetId,contents) VALUES('+meetId+',"'+contents+'") ON DUPLICATE KEY UPDATE contents="'+contents+'";';
-    console.log(sql);
     connection.query(sql, function (error, result,fields){
         if(error) {
             res.json({
@@ -28,7 +29,7 @@ module.exports = function(app, connection)
 
 //comment upload
  app.post('/notice/comment/upload', function(req, res, next){
-  console.log('post /notice/comment/upload');;
+  console.log('post /notice/comment/upload '+ time);;
   var userId = req.body.userId;
   var meetId = req.body.meetId;
   var comment= req.body.comment;
@@ -52,21 +53,30 @@ module.exports = function(app, connection)
 
 // view notice
 app.get('/notice/view', function(req,res){
- console.log('get /notice/view');
- var meetId=  req.query.meet_Id
+ console.log('get /notice/view '+ time);
+ var meetId=  req.query.meetId
  var statement = 'select * from notice where fk_meetId ='+meetId+';';
- var sql2 = 'select * from noticecomment where fk_meetId ='+meetId+';';
+ var sql2 = 'select count(*) from noticecomment where fk_meetId ='+meetId+';';
+ console.log(sql2);
       connection.query(statement, function (err, rows, fields){
-          if(err) return res.json({'state':400});
+          if(err) {
+            console.log(err);
+            return res.json({'state':400});
+          }
           else{
             connection.query(sql2, function (err2, rows2, fields2){
-                if(err2) return res.json({'state':400});
+                if(err2) {
+                  console.log(err2);
+                  return res.json({'state':400});
+                }
                 else{
-                    // console.log(rows2);
+                    console.log(rows2[0]);
                     res.json({
                       'state':200,
-                      'notice': rows,
-                      'comment': rows2
+                      'meetId': rows[0]["fk_meetId"],
+                      'notice': rows[0]["contents"],
+                      'date':rows[0]["date"],
+                      'commentNum': rows2[0]["count(*)"]
 
                     });
                 }
@@ -76,74 +86,30 @@ app.get('/notice/view', function(req,res){
 
     });
 
+    // view notice
+    app.get('/notice/comment/view', function(req,res){
+     console.log('get /notice/comment/view '+ time);
+     var meetId=  req.query.meetId
+     // var statement = 'select userimg from notice where fk_meetId ='+meetId+';';
+     var sql2 = 'SELECT * from noticecomment as nc left join userImg as ui  using(fk_userId) where nc.fk_meetId ='+meetId+';';
+     connection.query(sql2, function (err2, rows2, fields2){
+         if(err2) {
+           console.log(err2);
+           return res.json({'state':400});
+         }
+         else{
+             console.log(rows2);
+             res.json({
+               'state':200,
+               'comment': rows2,
+               // 'userImg': results4[0]["userImg"]
 
+             });
+         }
+     });
 
-  // //아이디&닉네임 중복 확인
-  // app.get('/login/join/check', function(req, res){
-  //   var userId = req.query.userId;
-  //   var userNick = req.query.userNick;
-  //   var sql1 = "select userId from users where userId = '" + userId + "' ;";
-  //   var sql2 = "select userNick from users where userNick = '" + userNick + "' ;";
-  //   connection.query(sql1,function(error1, rows1, fields1){
-  //     if(error1) res.status(400).json({"state": 400});
-  //     else{
-  //       connection.query(sql2,function(error2, rows2, fields2){
-  //         if(error2) res.status(400).json({"state": 400});
-  //         else{
-  //           if(rows1.length !== 0 && rows2.length !== 0 ){
-  //              res.status(300).json({"state" : 300});//둘 다 중복
-  //           }else if(rows1.length !== 0  && rows2.length == 0){
-  //               res.status(260).json({"state" : 260});//아이디 중복
-  //           }else if(rows1.length == 0  && rows2.length !== 0){
-  //               res.status(230).json({"state" : 230});//닉네임 중복
-  //           }else{
-  //               res.status(200).json({"state" : 200});//둘 다 중복 아님
-  //           }
-  //       }
-  //       });
-  //   }
-  //   });
-  // });
-
-
-  // get all user data
- app.get('/login/join', function(req,res){
-   console.log('get /login/join');
-   var statement = 'select * from users';
-        connection.query(statement, function (err, rows, fields){
-            if(err) return res.status(4000).send({error: 'database failure'});
-            else{
-                console.log('success ',rows);
-                res.send(rows);
-            }
         });
 
-      });
 
-
-    app.post('/login/withdraw', function(req, res){
-      var userId = req.body.userId;
-      var userPw = req.body.userPw;
-      connection.query('SELECT * FROM users WHERE userId = ?', [userId], function(error,results,fields){
-          if (error) {
-            res.json({
-              'state': 400
-            });
-          } else {
-            connection.query('DELETE FROM users WHERE userId = ?', [userId], function(error,results,fields){
-                if (error) {
-                  console.log(error);
-                  res.json({
-                    'state': 400
-                  });
-                } else {
-                  res.json({
-                    'state': 200
-                  });
-                }
-            })
-          }
-      })
-    });
 
 }
