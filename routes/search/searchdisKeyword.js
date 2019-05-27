@@ -118,7 +118,7 @@ module.exports = function(app,connection){
                                   var result = setPtcImage(results,row);
                                   var distanceSort = require('../sortModule/distanceSort.js');
                                   var searchingResult = distanceSort(results,latitude,longitude);
-                                  res.status(300).json({"state": 300, "list" : searchingResult});
+                                  res.json({"state": 300, "list" : searchingResult});
                               }
                           });
                       }
