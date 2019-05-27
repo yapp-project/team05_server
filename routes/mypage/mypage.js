@@ -3,8 +3,8 @@ module.exports = function(app, connection)
 //mypage 호출시 user정보(닉네임, 생년월일, 성별), 관심사 정보, 모임이름 호출
   app.get('/mypage', (req, res) => {
     console.log("get /mypage");
-
-    connection.query('SELECT * FROM users WHERE userId = ?', req.session.userId,
+    var userId = req.query.userId;
+    connection.query('SELECT * FROM users WHERE userId = ?',userId,
     function(error,results,fields){
         if (error) {
           console.log(error);
@@ -12,7 +12,7 @@ module.exports = function(app, connection)
             'state': 500
           });
         } else {
-          connection.query('SELECT * FROM interests WHERE fk_userId = ?', req.session.userId,
+          connection.query('SELECT * FROM interests WHERE fk_userId = ?', userId,
           function(error2,results2,fields2){
               if (error2) {
                 console.log(error2);
@@ -20,7 +20,7 @@ module.exports = function(app, connection)
                   'state': 400
                 });
               } else {
-                connection.query('SELECT * from meettable where meet_Id = ANY(SELECT meetAttendants_Id FROM meetAttendants WHERE fk_attendants_Id = ?)', req.session.userId,
+                connection.query('SELECT * from meettable where meet_Id = ANY(SELECT meetAttendants_Id FROM meetAttendants WHERE fk_attendants_Id = ?)', userId,
                 function(error3,results3,fields3){
                     if (error3) {
                       console.log(error3);
@@ -28,7 +28,7 @@ module.exports = function(app, connection)
                         'state': 300
                       });
                     } else {
-                      connection.query('SELECT userImg from userimg where fk_userId = ?', req.session.userId,
+                      connection.query('SELECT userImg from userimg where fk_userId = ?', userId,
                       function(error4,results4,fields4){
                           if (error4) {
                             res.json({
