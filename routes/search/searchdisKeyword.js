@@ -4,16 +4,15 @@ module.exports = function(app,connection){
         var keyword = req.query.keyword;
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
-        var distancebool = req.query.distancebool;
         var page = req.query.page;
         var myId = null;
         var offset, firstIndex;
         var searching = new Object();
         firstIndex = (parseInt(page)-1) * 20;
         offset = 20;
-        var sql = "select fk_meet_Id AS meetId, meet_keyword AS word from meetkeywords limit " +firstIndex+","+offset+";";
+        var sql = "select k.fk_meet_Id AS meetId, k.meet_keyword AS word from meetkeywords as k join meettable as m on k.fk_meet_Id = m.meet_Id "+
+         "order by m.meet_datetime limit " +firstIndex+","+offset+";";
         var idKeyArray = new Array();
-    if(distancebool == 1){
             connection.query(sql, function(error,result,fields){
             if(error){
                 res.status(400).json({"state" : 400});
@@ -30,7 +29,7 @@ module.exports = function(app,connection){
                             if(i != idKeyArray.length - 1){
                                 sqltwo = sqltwo.concat("m.meet_Id="+idKeyArray[i]+" or ");
                             }
-                            else if(i == idKeyArray.length -1){
+                            else{
                                 sqltwo = sqltwo.concat("m.meet_Id="+idKeyArray[i]+";");
                             }
 
@@ -44,7 +43,7 @@ module.exports = function(app,connection){
                                 else{
                                         var write = require('../sqlModule/writeSQLPtcNum.js');
                                         var sql = write(results);
-                                        console.log(sql);
+                                        console.log(results);
                                         connection.query(sql,function(err,row,field){
                                             if(err){
                                                 res.status(400).json({"state":400});
@@ -72,7 +71,7 @@ module.exports = function(app,connection){
                                             var setPtcImage = require("../imageModule/setParticipantImage.js");
                                             var result = setPtcImage(results,row);
                                             var distanceSort = require('../sortModule/distanceSort.js');
-                                            var searchingResult = distanceSort(results,latitude,longitude);
+                                            var searchingResult = distanceSort(result,latitude,longitude);
                                             res.status(200).json({"state": 200, "list" : searchingResult});
                                         }
                                     });
@@ -134,11 +133,7 @@ module.exports = function(app,connection){
 
 }
     });
-}
-else{
-    var searchtimeKeyword = require('./searchtimeKeyword.js');
-    searchtimeKeyword(connection,keyword,latitude,longitude,page,res);
-}
+
 });
 
 }
