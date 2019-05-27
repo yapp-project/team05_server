@@ -28,7 +28,7 @@ module.exports = function(app, connection)
                         'state': 300
                       });
                     } else {
-                      connection.query('SELECT userimg from userimg where fk_userId = ?', userId,
+                      connection.query('SELECT userImg from userImg where fk_userId = ?', userId,
                       function(error4,results4,fields4){
                           if (error4) {
                             console.log(error4);
