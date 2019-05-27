@@ -28,11 +28,13 @@ module.exports = function(app, connection)
                         'state': 400
                       });
                     } else {
-                      res.send({'userNick' : results[0].userNick,
-                                'userGen' : results[0].userGen,
-                                'userBirth' :results[0].userBirth,
-                                'userImg' : results4[0],
-                                'interest':results2[0]});
+                      res.send({
+                        'state': 200,
+                        'userNick' : results[0].userNick,
+                        'userGen' : results[0].userGen,
+                        'userBirth' :results[0].userBirth,
+                        'userImg' : results4[0],
+                        'interest':results2[0]});
 
                     }
                 })
