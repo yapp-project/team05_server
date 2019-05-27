@@ -81,7 +81,7 @@ module.exports = function(app,connection){
         });
 
     }else {
-      var sqlthree = "select m.meet_Id,m.meet_name, m.meet_datetime, m.meet_location, m.meet_explanation, m.meet_personNum from meettable as m left join meetviews as v on m.meet_Id = v.fk_meetId order by v.views desc limit 5 ;"
+      var sqlthree = "select m.meet_Id as meet_Id,m.meet_name as meet_name, m.meet_datetime as meet_datetime, m.meet_location as meet_location, m.meet_personNum as meet_personNum, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude,i.meetImg as meet_Img from meettable as m left join meetimgs as i on m.meet_Id = i.fkmeetId left join meetviews as v on m.meet_Id = v.fk_meetId order by v.views desc limit 5 ;"
                           connection.query(sqlthree,function(error,results,fields){
                             if(error) {
                               console.log(error);
