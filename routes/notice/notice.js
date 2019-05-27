@@ -64,6 +64,8 @@ app.get('/notice/view', function(req,res){
             return res.json({'state':400});
           }
           else{
+            if (rows.length>0) {
+
             connection.query(sql2, function (err2, rows2, fields2){
                 if(err2) {
                   console.log(err2);
@@ -81,6 +83,11 @@ app.get('/notice/view', function(req,res){
                     });
                 }
             });
+          }else {
+            res.json({
+              'state':300
+            });
+          }
           }
       });
 
