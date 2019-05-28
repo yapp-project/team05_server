@@ -4,6 +4,7 @@ module.exports = function(app, connection)
   //join
    app.post('/login/join',function(req, res, next){
     console.log('post /login/join');
+    console.log(req.body);
     var userId = req.body.userId;
     var userPw = req.body.userPw;
     var userGen = req.body.userGen;
