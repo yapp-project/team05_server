@@ -20,6 +20,7 @@ module.exports = function(app,connection)
             if(error)
                 res.status(400).json({'state' : 400, "error" : error});
             else{
+                if(Object.keys(result).length > 0){
                 console.log(result);
                 meetCaptain = result[0].fk_meetcaptain;
                 personNum = result[0].meet_personNum;
@@ -74,6 +75,10 @@ module.exports = function(app,connection)
                     }
                 });
             }
+            else{
+                res.status(400).json({"state":400});
+            }
+        }
         });
   
     });

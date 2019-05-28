@@ -56,6 +56,7 @@ module.exports = function(app,connection){
 
                                             }
                                         }
+                                        console.log(result);
                                         var isCancelMeeting = 0;
                                         for(var i = 0; i < Object.keys(result).length; i++){
                                             if(result[i].flag == 0){
