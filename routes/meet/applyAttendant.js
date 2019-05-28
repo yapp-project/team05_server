@@ -10,6 +10,7 @@ module.exports = function(app,connection)
         var sql_one = "select fk_meetcaptain, meet_personNum from meettable where meet_Id = " + meetId + ";";
         var sqltwo= "select count(*)+1 AS count from meetAttendants where fk_meet_Id = " + meetId + ";";
         var sql = 'INSERT INTO meetAttendants SET ?;';
+        var query = "insert into meetinfo (fk_meetId,flag,date,isEnded) values("+meetId+",1,now(),0);";
         var sqlthree = 'INSERT INTO endmeetAttendants SET ?;';
         var params = {
             "fk_meet_Id" : meetId,
@@ -29,21 +30,40 @@ module.exports = function(app,connection)
                             if(error) res.status(400).json({"state" : 400,"err":error});
                             else{
                                 if(row[0].count == personNum-1){
-                                    var alarm = require('../pushAlarm/maxOccupancyAlarm.js');
-                                    alarm(meetId,res,connection);
+                                    connection.query(query,function(err,result,field){
+                                        if(err){
+                                            res.status(400).json({"state":400});
+                                            console.log(err);
+                                        }
+                                        else{
+                                            connection.query(sqlthree,params, function(err,result,fields){
+                                                if(err) {
+                                            res.status(400).json({"state": 400});
+                                            console.log(err);
+                                                }
+                                                else{
+                                            res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
+                                            console.log(meetId+' '+ attendantId);
+                                        }
+                                            });
+                                        }
+                                    });
+
+                                    //var alarm = require('../pushAlarm/maxOccupancyAlarm.js');
+                                    //alarm(meetId,res,connection);
+                                    
                                 }
-                                else {
+                                else{
                                     connection.query(sqlthree,params, function(err,result,fields){
                                         if(err) {
                                     res.status(400).json({"state": 400});
                                     console.log(err);
-                                }
-                                else{
+                                        }
+                                        else{
                                     res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
                                     console.log(meetId+' '+ attendantId);
                                 }
                                     });
-                                
                                 }
                             }
                         });
