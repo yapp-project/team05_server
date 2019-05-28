@@ -54,10 +54,6 @@ var myPageMyMeet = require('./routes/mypage/myMeet.js')(app,connection);
 var myPageMeetHistory = require('./routes/mypage/meetHistory.js')(app,connection);
 var notice = require('./routes/notice/notice.js')(app,connection);
 var image = require('./routes/login/image.js')(app,connection);
-<<<<<<< HEAD
 var getAlarmRouter = require('./routes/alarm/getAlarm.js')(app,connection);
-// var test = require('./routes/search/test.js')(app,connection);
-=======
 var test = require('./routes/search/test.js')(app,connection);
->>>>>>> aeb005115ec63078e0a4cd03ed43b99823517f20
 // var attendantMain = require('./routes/meetAttendant/attendantMain.js')(app,connection);
