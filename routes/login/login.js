@@ -22,7 +22,7 @@ app.post('/logout', (req, res) => {      // 3
 app.post('/login/login', function(req, res){
   var userId = req.body.userId;
   var userPw = req.body.userPw;
-  connection.query('SELECT * FROM users WHERE userId = ?', [userId],
+  connection.query('SELECT * FROM realusers WHERE userId = ?', [userId],
   function(error,results,fields){
       if (error) {
         res.json({
