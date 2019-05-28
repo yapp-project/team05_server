@@ -49,9 +49,15 @@ var remainCancelReasonRouter = require('./routes/meetCancel/remainCancelReason.j
 var meetingAlarmRouter = require('./routes/pushAlarm/cancelAlarm.js')(app,connection);
 var joinRouter = require('./routes/login/join.js')(app,connection);
 var logRouter = require('./routes/login/login.js')(app,connection);
-var myPage = require('./routes/mypage/mypage.js')(app,connection);
+var myPageUser = require('./routes/mypage/mypageUser.js')(app,connection);
+var myPageMyMeet = require('./routes/mypage/myMeet.js')(app,connection);
+var myPageMeetHistory = require('./routes/mypage/meetHistory.js')(app,connection);
 var notice = require('./routes/notice/notice.js')(app,connection);
 var image = require('./routes/login/image.js')(app,connection);
+<<<<<<< HEAD
 var getAlarmRouter = require('./routes/alarm/getAlarm.js')(app,connection);
 // var test = require('./routes/search/test.js')(app,connection);
+=======
+var test = require('./routes/search/test.js')(app,connection);
+>>>>>>> aeb005115ec63078e0a4cd03ed43b99823517f20
 // var attendantMain = require('./routes/meetAttendant/attendantMain.js')(app,connection);
