@@ -5,8 +5,7 @@ module.exports = function(app, connection){
         var sqlone = "insert into meetinfo (fk_meetId,flag,date,isEnded) values ("+meetId+",0,now(),1);";
         var sqltwo = 'CREATE EVENT ' +'event_'+String(meetId)+" on schedule AT date_add(now(),interval 1 month)"+
         +" do delete from meetendtable WHERE meet_Id = "+meetId+";";
-        var sqlthree = 'CREATE EVENT ' +'event_'+String(meetId)+" on schedule AT date_add(now(),interval 1 month)"+
-        +" do delete from meetinfo WHERE fkmeetId = "+meetId+";";
+        
         connection.query(sql, function(error,row,field){
             if(error){
                 res.status(400).json({"state" : 400});
