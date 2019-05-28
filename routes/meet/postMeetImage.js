@@ -7,7 +7,9 @@ module.exports = function(app,connection){
         let meetImg = req.file;
         console.log(meetImg);
         if(!meetImg){
-          var sql = 'INSERT INTO meetimgs(fkmeetId,meetImg) VALUES ("'+meetId+'","null") ON DUPLICATE KEY UPDATE meetImg="null";';
+          var randomNum = Math.floor(Math.random() * 10) + 1;
+          var imgString = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/"+randomNum+".jpg";
+          var sql = 'INSERT INTO meetimgs(fkmeetId,meetImg) VALUES ("'+meetId+'","'+imgString+'") ON DUPLICATE KEY UPDATE meetImg="'+imgString+'";';
           connection.query(sql, function (error, result,fields){
               if(error) {
                   res.status(400).json({'state': 400});
