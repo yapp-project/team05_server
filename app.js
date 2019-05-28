@@ -52,5 +52,6 @@ var logRouter = require('./routes/login/login.js')(app,connection);
 var myPage = require('./routes/mypage/mypage.js')(app,connection);
 var notice = require('./routes/notice/notice.js')(app,connection);
 var image = require('./routes/login/image.js')(app,connection);
+var getAlarmRouter = require('./routes/alarm/getAlarm.js')(app,connection);
 // var test = require('./routes/search/test.js')(app,connection);
 // var attendantMain = require('./routes/meetAttendant/attendantMain.js')(app,connection);
