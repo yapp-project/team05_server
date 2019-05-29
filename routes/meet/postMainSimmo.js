@@ -52,6 +52,7 @@ module.exports = function(app,connection){
                                     }
                                     var findSimmo = require('../module/findSimmo.js');
                                     var sqlthree= findSimmo(myId,latitude,longitude,results);
+                                    console.log(sqlthree);
                                     connection.query(sqlthree,function(err,row,field){
                                         if(err) res.status(400).json({"state": 400, "err" : err});
                                         else{
