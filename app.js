@@ -47,13 +47,21 @@ var meetingcancelRouter = require('./routes/meetCancel/meetingcancel.js')(app,co
 var cancelReasonRouter = require('./routes/meetCancel/cancelreason.js')(app,connection);
 var remainCancelReasonRouter = require('./routes/meetCancel/remainCancelReason.js')(app,connection);
 var meetingAlarmRouter = require('./routes/pushAlarm/cancelAlarm.js')(app,connection);
+//login
 var joinRouter = require('./routes/login/join.js')(app,connection);
 var logRouter = require('./routes/login/login.js')(app,connection);
-var myPageUser = require('./routes/mypage/mypageUser.js')(app,connection);
-var myPageMyMeet = require('./routes/mypage/myMeet.js')(app,connection);
-var myPageMeetHistory = require('./routes/mypage/meetHistory.js')(app,connection);
-var notice = require('./routes/notice/notice.js')(app,connection);
-var image = require('./routes/login/image.js')(app,connection);
+var withdrawRouter = require('./routes/login/withdraw.js')(app,connection);
+var imageRouter = require('./routes/login/image.js')(app,connection);
+
+//mypage
+var myPageUserRouter = require('./routes/mypage/mypageUser.js')(app,connection);
+var myPageMyMeetRouter = require('./routes/mypage/myMeet.js')(app,connection);
+var myPageMeetHistoryRouter = require('./routes/mypage/meetHistory.js')(app,connection);
+
+//notice
+var noticeRouter = require('./routes/notice/notice.js')(app,connection);
+
 var getAlarmRouter = require('./routes/alarm/getAlarm.js')(app,connection);
-var test = require('./routes/search/test.js')(app,connection);
+var testRouter = require('./routes/search/test.js')(app,connection);
+var cancelAttendantRouter = require('./routes/meet/cancelAttendant.js')(app,connection);
 // var attendantMain = require('./routes/meetAttendant/attendantMain.js')(app,connection);

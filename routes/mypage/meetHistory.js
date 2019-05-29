@@ -11,6 +11,7 @@ module.exports = function(app, connection) {
       'left join meetimgs as i on m.meet_Id = i.fkmeetId ' +
       'where meet_Id in (SELECT fk_meet_Id FROM endmeetAttendants  WHERE fk_meet_Id not in (select meet_Id from meettable) and  fk_attendants_Id ="'+userId+'") ';
     connection.query(sql, function(error, results, fields) {
+      console.log(sql);
       if (error) {
         console.log(error);
         res.json({

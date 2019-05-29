@@ -4,6 +4,15 @@ module.exports = function(app, connection)
   //join
    app.post('/login/join',function(req, res, next){
     console.log('post /login/join');
+
+    function find(title){
+      for (var i = 0; i < req.body.interest.length; i++) {
+        if (req.body.interest[i].title ==title) {
+          return req.body.interest[i].isChecked;
+        }
+      }
+
+    }
     var userId = req.body.userId;
     var userPw = req.body.userPw;
     var userGen = req.body.userGen;
@@ -46,24 +55,24 @@ module.exports = function(app, connection)
                 var sql = 'INSERT INTO interests SET ?;';
                 var params = {
                     "fk_userId":userId,
-                    "sports": interest.sports,
-                    "activity":interest.activity,
-                    "writing" : interest.writing,
-                    "study":interest.study,
-                    "exhibition":interest.exhibition,
-                    "music":interest.music,
-                    "movie": interest.movie,
-                    "diy":interest.diy,
-                    "volunteer":interest.volunteer,
-                    "picture":interest.picture,
-                    "game":interest.game,
-                    "cooking" : interest.cooking,
-                    "coffee" : interest.coffee,
-                    "nail":interest.nail,
-                    "car":interest.car,
-                    "interior":interest.interior,
-                    "concert":interest.concert,
-                    "etc":interest.etc
+                    "sports": find("sports"),
+                    "activity":find("activity"),
+                    "writing" : find("write"),
+                    "study": find("study"),
+                    "exhibition":find("exhibition"),
+                    "music":find("music"),
+                    "movie":find("movie"),
+                    "diy":find("diy"),
+                    "volunteer":find("volunteer"),
+                    "picture": find("picture"),
+                    "game": find("game"),
+                    "cooking" : find("cooking"),
+                    "coffee" : find("coffee"),
+                    "nail": find("nail"),
+                    "car": find("car"),
+                    "interior": find("interior"),
+                    "concert": find("concert"),
+                    "etc": find("etc")
                 };
                 connection.query(sql,params, function (error, result,fields){
                     if(error) {
@@ -85,6 +94,30 @@ module.exports = function(app, connection)
         }
     });
   });
+
+  app.post('/interest/modify',function(req, res, next){
+   console.log('/interest/modify');
+   var userId = req.query.userId;
+   var list = req.body.list;
+   var sql = 'UPDATE interests SET ? where fk_userId="'+userId+'";';
+   var insertBinaryInCategory = require('../module/insertBinaryInCategory.js');
+   param = insertBinaryInCategory(list);
+   connection.query(sql,param, function (error, result,fields){
+     console.log(sql);
+       if(error) {
+           res.json({
+             'state': 400
+           });
+           console.error('error', error);
+       }
+       else{
+
+           res.json({
+             'state': 200
+           });
+       }
+   });
+ });
 
 
   //아이디&닉네임 중복 확인
@@ -130,42 +163,6 @@ module.exports = function(app, connection)
       });
 
 
-    app.post('/login/withdraw', function(req, res){
-      var userId = req.body.userId;
-      var userPw = req.body.userPw;
-      connection.query('SELECT userPw FROM realusers WHERE userId = ?', [userId], function(error,results,fields){
-          if (error) {
-            res.json({
-              'state': 400
-            });
-          } else {
-            if (results.length>0) {
-              if (userPw == results[0].userPw) {
-                connection.query('DELETE FROM realusers WHERE userId = ?', [userId], function(error,results,fields){
-                  if (error) {
-                    console.log(error);
-                    res.json({
-                      'state': 400
-                    });
-                  } else {
-                    res.json({
-                      'state': 200
-                    });
-                  }
-                })
-              }else {
-                res.json({
-                  'state': 300
-                });
-              }
 
-            }else {
-              res.json({
-                'state': 300
-              });
-            }
-          }
-      })
-    });
 
 }
