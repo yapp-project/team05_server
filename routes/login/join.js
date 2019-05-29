@@ -13,8 +13,6 @@ module.exports = function(app, connection)
       }
 
     }
-
-
     var userId = req.body.userId;
     var userPw = req.body.userPw;
     var userGen = req.body.userGen;
@@ -100,37 +98,11 @@ module.exports = function(app, connection)
   app.post('/interest/modify',function(req, res, next){
    console.log('/interest/modify');
    var userId = req.query.userId;
-   function find(title){
-     for (var i = 0; i < req.body.interest.length; i++) {
-       if (req.body.interest[i].title ==title) {
-         return req.body.interest[i].isChecked;
-       }
-     }
-
-   }
-   var sql = 'UPDATE interests SET ? where fk_userId="'+userId+'" ;';
-   var params = {
-       "fk_userId":userId,
-       "sports": find("sports"),
-       "activity":find("activity"),
-       "writing" : find("write"),
-       "study": find("study"),
-       "exhibition":find("exhibition"),
-       "music":find("music"),
-       "movie":find("movie"),
-       "diy":find("diy"),
-       "volunteer":find("volunteer"),
-       "picture": find("picture"),
-       "game": find("game"),
-       "cooking" : find("cooking"),
-       "coffee" : find("coffee"),
-       "nail": find("nail"),
-       "car": find("car"),
-       "interior": find("interior"),
-       "concert": find("concert"),
-       "etc": find("etc")
-   };
-   connection.query(sql,params, function (error, result,fields){
+   var list = req.body.list;
+   var sql = 'UPDATE interests SET ? where fk_userId="'+userId+'";';
+   var insertBinaryInCategory = require('../module/insertBinaryInCategory.js');
+   param = insertBinaryInCategory(list);
+   connection.query(sql,param, function (error, result,fields){
      console.log(sql);
        if(error) {
            res.json({
@@ -191,42 +163,6 @@ module.exports = function(app, connection)
       });
 
 
-    app.post('/login/withdraw', function(req, res){
-      var userId = req.body.userId;
-      var userPw = req.body.userPw;
-      connection.query('SELECT userPw FROM realusers WHERE userId = ?', [userId], function(error,results,fields){
-          if (error) {
-            res.json({
-              'state': 400
-            });
-          } else {
-            if (results.length>0) {
-              if (userPw == results[0].userPw) {
-                connection.query('DELETE FROM realusers WHERE userId = ?', [userId], function(error,results,fields){
-                  if (error) {
-                    console.log(error);
-                    res.json({
-                      'state': 400
-                    });
-                  } else {
-                    res.json({
-                      'state': 200
-                    });
-                  }
-                })
-              }else {
-                res.json({
-                  'state': 300
-                });
-              }
 
-            }else {
-              res.json({
-                'state': 300
-              });
-            }
-          }
-      })
-    });
 
 }
