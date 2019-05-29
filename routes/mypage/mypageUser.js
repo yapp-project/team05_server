@@ -2,7 +2,7 @@ module.exports = function(app, connection)
 {
 //mypage 호출시 user정보(닉네임, 생년월일, 성별), 관심사 정보 응답
   app.get('/mypage/user', (req, res) => {
-    console.log("get /mypage");
+    console.log("get /mypage/user");
     var userId = req.query.userId;
     connection.query('SELECT * FROM users WHERE userId = ?',userId,
     function(error,results,fields){
