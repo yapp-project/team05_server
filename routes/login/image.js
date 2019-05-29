@@ -72,6 +72,27 @@ let upload = multer({
     }
   })
 
+  //이미지 삭제
+  app.put('/login/join/removeImage',upload.single("userImg"), function(req, res, next){
+    console.log('post /upload');
+    var userId = req.query.userId;
+    var sql = 'INSERT INTO userImg(fk_userId,userImg) VALUES ("'+userId+'","null") ON DUPLICATE KEY UPDATE userImg="null";';
+    connection.query(sql, function (error, result,fields){
+        if(error) {
+            res.json({
+              'state': 400
+            });
+            console.error('error', error);
+        }else{
+          res.json({
+            'state': 200
+          });
+        }
+      });
+
+  })
+
+
   app.get('/upload', function(req, res, next) {
       res.render('upload');
   });
