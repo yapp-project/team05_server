@@ -14,16 +14,19 @@ module.exports = function(app,connection){
             if(error)
                 res.status(400).json({"state" : 400});
             else{
-             connection.query(sqltwo, function(errortwo,resulttwo, fieldstwo){
-                  if(errortwo){
-                  res.status(300).json({"states" : 300});
-                  console.log(errortwo);
-                  }
-                  else{
+             
                     if(Object.keys(result).length > 0){
+                        connection.query(sqltwo, function(errortwo,resulttwo, fieldstwo){
+                            if(errortwo){
+                            res.status(300).json({"states" : 300});
+                            console.log(errortwo);
+                            }
+                            else{
                         result[0].endingflag = 0;
                         var getimgdetail = require("../detailModule/getimgdetail.js");
                         getimgdetail(connection,result,res,meetId);
+                            }
+                        });
 
                 }
                     else{
@@ -40,9 +43,7 @@ module.exports = function(app,connection){
                         });
 
                     }
-                }
-                   //res.end();
-              });
+                
             }
     });
 });
