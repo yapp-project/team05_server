@@ -19,8 +19,11 @@ module.exports = function(connection,result,res,meetId){
                 result[0].participants_img = imgArray;
             }
             
-            else
-                result[0].participants_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
+            else{
+                imgArray.push("https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg");
+                result[0].participants_img = imgArray;
+            }
+                
 
             connection.query(sqlthree,function(err,row,field){
                 if(err)res.status(400).json({"state" : 400, "err" : err});
@@ -65,9 +68,10 @@ else{
                 result[0].participants_img = imgArray;
             }
             
-            else
-                result[0].participants_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
-
+            else{
+                imgArray.push("https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg");
+                result[0].participants_img = imgArray;
+            }
             connection.query(sqlthree,function(err,row,field){
                 if(err)res.status(400).json({"state" : 400, "err" : err});
                 else{
