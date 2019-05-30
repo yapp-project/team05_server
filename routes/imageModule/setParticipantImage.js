@@ -22,6 +22,6 @@ module.exports = function(results,row){
             results[i].participantImg = participantImgArray;
         }
     }
-
+console.log(results);
     return results;
 }
