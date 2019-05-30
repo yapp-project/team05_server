@@ -11,8 +11,10 @@ module.exports = function(connection,result,res,meetId){
         if(err) res.status(400).json({"state" : 400, "err" : err});
         else{
             if(Object.keys(row).length > 0){
-                for(var i = 0; i < Object.keys(row).length; i++)
-                    imgArray.push(row[i].participants_img);
+                for(var i = 0; i < Object.keys(row).length; i++){
+                    if(row[i].participants_img == "null") imgArray.push("https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg");
+                    else imgArray.push(row[i].participants_img);
+                }
                 console.log(result);
                 result[0].participants_img = imgArray;
             }
@@ -23,8 +25,11 @@ module.exports = function(connection,result,res,meetId){
             connection.query(sqlthree,function(err,row,field){
                 if(err)res.status(400).json({"state" : 400, "err" : err});
                 else{
-                    if(Object.keys(row).length > 0)
+                    if(Object.keys(row).length > 0){
+                        if(row[0].captain_img == "null")result[0].captain_img =  "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
+                        else 
                         result[0].captain_img = row[0].captain_img;
+                    }
                     else
                         result[0].captain_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
                     connection.query(sqlfour,function(err,row,field){
