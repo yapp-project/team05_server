@@ -1,4 +1,5 @@
-module.exports = function(app, connection) {
+module.exports = function(app, connection)
+{
   //mypage 호출시 모임히스토리 정보 응답
   app.get('/mypage/meetHistory', (req, res) => {
     console.log("get /mypage/meetHistory");
@@ -21,7 +22,7 @@ module.exports = function(app, connection) {
         var sql2 = write(results);
         connection.query(sql2, function(err, row, field) {
           if (err) {
-            res.json({
+            res.status(400).json({
               "state": 400
             });
             console.log(err);
@@ -41,10 +42,12 @@ module.exports = function(app, connection) {
             var findSimmo = require('../module/findSimmo.js');
             var sqlthree = findSimmo(myId, latitude, longitude, results);
             connection.query(sqlthree, function(err, row, field) {
-              if (err) res.status(400).json({
-                "state": 400,
-                "err": err
+              if (err){
+                console.log(err);
+                res.json({
+                "state": 400
               });
+            }
               else {
                 var setPtcImage = require("../imageModule/setParticipantImage.js");
                 var result = setPtcImage(results, row);
