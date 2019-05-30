@@ -8,5 +8,5 @@ CREATE TABLE `noticecomment` (
   KEY `fk_meetId123_idx` (`fk_meetId`),
   KEY `fk_userId123_idx` (`fk_userId`),
   CONSTRAINT `fk_meetId123` FOREIGN KEY (`fk_meetId`) REFERENCES `meettable` (`meet_Id`),
-  CONSTRAINT `fk_userId123` FOREIGN KEY (`fk_userId`) REFERENCES `users` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+  CONSTRAINT `fk_userId123` FOREIGN KEY (`fk_userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
