@@ -12,7 +12,7 @@ module.exports = function(connection,result,res,meetId){
         else{
             if(Object.keys(row).length > 0){
                 for(var i = 0; i < Object.keys(row).length; i++){
-                    if(row[i].participants_img == "null") imgArray.push("https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg");
+                    if(row[i].participants_img.equals("null")) imgArray.push("https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg");
                     else imgArray.push(row[i].participants_img);
                 }
                 console.log(result);
@@ -26,7 +26,7 @@ module.exports = function(connection,result,res,meetId){
                 if(err)res.status(400).json({"state" : 400, "err" : err});
                 else{
                     if(Object.keys(row).length > 0){
-                        if(row[0].captain_img == "null")result[0].captain_img =  "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
+                        if(row[0].captain_img.equals("null"))result[0].captain_img =  "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
                         else 
                         result[0].captain_img = row[0].captain_img;
                     }
