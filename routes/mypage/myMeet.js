@@ -12,7 +12,6 @@ module.exports = function(app, connection)
       'left join meetimgs as i on m.meet_Id = i.fkmeetId ' +
       'where meet_Id = ANY(SELECT fk_meet_Id FROM meetAttendants WHERE fk_attendants_Id ="' + userId + '")';
     connection.query(sql, function(error, results, fields) {
-      console.log(sql);
       if (error) {
         console.log(error);
         res.json({
@@ -21,7 +20,6 @@ module.exports = function(app, connection)
       } else {
         var write = require('../sqlModule/writeSQLPtcNum.js');
         var sql2 = write(results);
-        console.log(sql2);
         connection.query(sql2, function(err, row, field) {
           if (err) {
             res.status(400).json({
@@ -44,10 +42,12 @@ module.exports = function(app, connection)
             var findSimmo = require('../module/findSimmo.js');
             var sqlthree = findSimmo(myId, latitude, longitude, results);
             connection.query(sqlthree, function(err, row, field) {
-              if (err) res.status(400).json({
-                "state": 400,
-                "err": err
+              if (err){
+                console.log(err);
+                res.json({
+                "state": 400
               });
+            }
               else {
                 var setPtcImage = require("../imageModule/setParticipantImage.js");
                 var result = setPtcImage(results, row);

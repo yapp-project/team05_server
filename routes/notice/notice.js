@@ -16,9 +16,8 @@ module.exports = function(app, connection)
             res.json({
               'state': 400
             });
-            console.error('error', error);
+            console.error(error);
         }else{
-          console.log(meetId + ',' + contents);
           res.json({
             'state': 200
           });
@@ -34,7 +33,6 @@ module.exports = function(app, connection)
   var meetId = req.body.meetId;
   var comment= req.body.comment;
   var sql = 'INSERT INTO noticecomment(fk_meetId,fk_userId, comment) VALUES('+meetId+',"'+userId+'","'+comment+'")';
-  console.log(sql);
   connection.query(sql, function (error, result,fields){
       if(error) {
           res.json({
@@ -42,7 +40,6 @@ module.exports = function(app, connection)
           });
           console.error('error', error);
       }else{
-        console.log(meetId + ',' + comment);
         res.json({
           'state': 200
         });
@@ -57,7 +54,6 @@ app.get('/notice/view', function(req,res){
  var meetId=  req.query.meetId
  var statement = 'select * from notice where fk_meetId ='+meetId+';';
  var sql2 = 'select count(*) from noticecomment where fk_meetId ='+meetId+';';
- console.log(sql2);
       connection.query(statement, function (err, rows, fields){
           if(err) {
             console.log(err);
@@ -97,7 +93,6 @@ app.get('/notice/view', function(req,res){
     app.get('/notice/comment/view', function(req,res){
      console.log('get /notice/comment/view '+ time);
      var meetId=  req.query.meetId
-     // var statement = 'select userimg from notice where fk_meetId ='+meetId+';';
      var sql2 = 'SELECT * from noticecomment as nc left join userImg as ui  using(fk_userId) where nc.fk_meetId ='+meetId+';';
      connection.query(sql2, function (err2, rows2, fields2){
          if(err2) {
@@ -105,7 +100,6 @@ app.get('/notice/view', function(req,res){
            return res.json({'state':400});
          }
          else{
-             console.log(rows2);
              res.json({
                'state':200,
                'comment': rows2,

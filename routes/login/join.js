@@ -97,7 +97,7 @@ module.exports = function(app, connection)
 
   app.post('/interest/modify',function(req, res, next){
    console.log('/interest/modify');
-   var userId = req.query.userId;
+   var userId = req.body.userId;
    var list = req.body.list;
    var sql = 'UPDATE interests SET ? where fk_userId="'+userId+'";';
    var insertBinaryInCategory = require('../module/insertBinaryInCategory.js');
