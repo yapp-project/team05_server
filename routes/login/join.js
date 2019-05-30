@@ -23,6 +23,7 @@ module.exports = function(app, connection)
     var interest = req.body.interest;
     var sql = 'INSERT INTO users SET ?;';
     var sql2 = 'INSERT INTO realusers SET ?';
+    var sql3 = 'INSERT INTO userImg(fk_userId,userImg) values("'+ userId +'", "null")';
     var params = {
         "userId" : userId,
         "userPw" : userPw,
@@ -82,11 +83,20 @@ module.exports = function(app, connection)
                         console.error('error', error);
                     }
                     else{
-
-                        console.log(userId + ',' + userPw);
-                        res.json({
-                          'state': 200
-                        });
+                      connection.query(sql3, function (error, result,fields){
+                          if(error) {
+                              res.json({
+                                'state': 400
+                              });
+                              console.error('error', error);
+                          }
+                          else{
+                              console.log(userId + ',' + userPw);
+                              res.json({
+                                'state': 200
+                              });
+                          }
+                      });
                     }
                 });
               }
@@ -96,7 +106,7 @@ module.exports = function(app, connection)
   });
 
   app.post('/interest/modify',function(req, res, next){
-   console.log('/interest/modify');
+   console.log('post /interest/modify');
    var userId = req.body.userId;
    var list = req.body.list;
    var sql = 'UPDATE interests SET ? where fk_userId="'+userId+'";';

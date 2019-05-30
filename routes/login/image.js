@@ -29,7 +29,7 @@ let upload = multer({
 
   //이미지 업로드 to s3
   app.post('/login/join/uploadImage',upload.single("userImg"), function(req, res, next){
-    console.log('post /upload');
+    console.log('post /login/join/uploadImage');
     var userId = req.query.userId;
     var up = upload.single("userImg");
     let imgFile = req.file;
@@ -74,7 +74,7 @@ let upload = multer({
 
   //이미지 삭제
   app.put('/login/join/removeImage',upload.single("userImg"), function(req, res, next){
-    console.log('post /upload');
+    console.log('put /login/join/removeImage');
     var userId = req.query.userId;
     var sql = 'INSERT INTO userImg(fk_userId,userImg) VALUES ("'+userId+'","null") ON DUPLICATE KEY UPDATE userImg="null";';
     connection.query(sql, function (error, result,fields){
