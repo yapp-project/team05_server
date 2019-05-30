@@ -18,7 +18,7 @@ module.exports = function(connection,result,res,meetId){
             }
             
             else
-                result[0].participants_img = null;
+                result[0].participants_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
 
             connection.query(sqlthree,function(err,row,field){
                 if(err)res.status(400).json({"state" : 400, "err" : err});
@@ -26,7 +26,7 @@ module.exports = function(connection,result,res,meetId){
                     if(Object.keys(row).length > 0)
                         result[0].captain_img = row[0].captain_img;
                     else
-                        result[0].captain_img = null;
+                        result[0].captain_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
                     connection.query(sqlfour,function(err,row,field){
                         if(err)res.status(400).json({"state" : 400, "err" : err});
                         else{
@@ -59,7 +59,7 @@ else{
             }
             
             else
-                result[0].participants_img = null;
+                result[0].participants_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
 
             connection.query(sqlthree,function(err,row,field){
                 if(err)res.status(400).json({"state" : 400, "err" : err});
@@ -67,7 +67,7 @@ else{
                     if(Object.keys(row).length > 0)
                         result[0].captain_img = row[0].captain_img;
                     else
-                        result[0].captain_img = null;
+                        result[0].captain_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
                     connection.query(sqlfour,function(err,row,field){
                         if(err)res.status(400).json({"state" : 400, "err" : err});
                         else{
