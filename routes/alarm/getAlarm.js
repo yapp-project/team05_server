@@ -49,6 +49,7 @@ module.exports = function(app,connection){
                                         for(var i = 0; i < Object.keys(result).length; i++){
                                             for(var j = 0; j < Object.keys(results).length; j++){
                                                 if(result[i].senderId == results[j].senderId){
+                                                    if(results[j].profileImage == "null") results[j].profileImage = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
                                                     result[i].profileImage = results[j].profileImage;
                                                     result[i].nick = results[j].nick;
                                                     break;
