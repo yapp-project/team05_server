@@ -25,8 +25,8 @@ module.exports = function(app,connection){
               res.status(400).json({'state':400});
             else {
               console.log(meetImg.location);
-              var sql = 'INSERT INTO meetimgs(fkmeetId,meetImg) VALUES ('+meetId+",'"+meetImg.location+'") ON DUPLICATE KEY UPDATE meetImg="'+meetImg.location+'";';
-              var sqltwo = 'INSERT INTO endmeetimgs(fkmeetId,meetImg) VALUES ('+meetId+",'"+meetImg.location+'") ON DUPLICATE KEY UPDATE meetImg="'+meetImg.location+'";';
+              var sql = 'INSERT INTO meetimgs(fkmeetId,meetImg) VALUES ('+meetId+",'"+meetImg.location+"') ON DUPLICATE KEY UPDATE meetImg='"+meetImg.location+"';";
+              var sqltwo = 'INSERT INTO endmeetimgs(fkmeetId,meetImg) VALUES ('+meetId+",'"+meetImg.location+"') ON DUPLICATE KEY UPDATE meetImg='"+meetImg.location+"';";
               connection.query(sql, function (error, result,fields){
                   if(error) {
                       res.status(400).json({'state': 400});
