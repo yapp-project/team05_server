@@ -15,8 +15,12 @@ module.exports = function(results,row){
         }   
     }
     else{
-        for(var i = 0; i < Object.keys(results).length; i++)
-            results[i].participantImg = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
+        var participantImgArray = new Array();
+        for(var i = 0; i < Object.keys(results).length; i++){
+            var img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
+            participantImgArray.push(img);
+            results[i].participantImg = participantImgArray;
+        }
     }
 
     return results;
