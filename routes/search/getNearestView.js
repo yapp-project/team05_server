@@ -68,7 +68,7 @@ module.exports = function(app,connection){
                    });
                }
                else{
-                   res.status(300).json({"State" : 300});
+                   res.json({"state" : 300});
                }
            }
            });
