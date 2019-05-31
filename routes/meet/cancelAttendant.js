@@ -19,7 +19,7 @@ module.exports = function(app,connection)
             res.json({'state' : 400, "error" : error});
           }
           else {
-            if (attendantId== result[0].fk_meetcaptain ) {
+            if (attendantId == result[0].fk_meetcaptain ) {
               res.json({'state' : 300});
             }
             else {
