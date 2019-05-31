@@ -12,7 +12,7 @@ module.exports = function(app, connection) {
     firstIndex = (parseInt(page) - 1) * 20;
     offset = 20;
     var sql = "select k.fk_meet_Id AS meetId, k.meet_keyword AS word from meetkeywords as k join meettable as m on k.fk_meet_Id = m.meet_Id " +
-      "order by m.meet_datetime limit " + firstIndex + "," + offset + ";";
+      "order by m.meet_datetime;";
     var idKeyArray = new Array();
     connection.query(sql, function(error, result, fields) {
       if (error) {
@@ -23,18 +23,9 @@ module.exports = function(app, connection) {
       } else {
         var eqaulKeyword = require('../keywordModule/equalKeyword.js');
         idKeyArray = eqaulKeyword(result, keyword);
-        if (idKeyArray.length > 0) {
-          var sqltwo = "select m.meet_Id as meet_Id,m.meet_name as meet_name, m.meet_datetime as meet_datetime, m.meet_location as meet_location" +
-            ", m.meet_personNum as meet_personNum, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude" +
-            ",i.meetImg as meet_Img from meettable as m join meetimgs as i on m.meet_Id = i.fkmeetId where ";
-          for (var i = 0; i < idKeyArray.length; i++) {
-            if (i != idKeyArray.length - 1) {
-              sqltwo = sqltwo.concat("m.meet_Id=" + idKeyArray[i] + " or ");
-            } else {
-              sqltwo = sqltwo.concat("m.meet_Id=" + idKeyArray[i] + ";");
-            }
-
-          }
+        if (idKeyArray.length > 0 && idKeyArray.length <= 20 ) {
+          var writeQuery = require('./searchModule/writeQuery.js');
+          var sqltwo = writeQuery(idKeyArray,1);
           connection.query(sqltwo, function(error, results, fields) {
             if (error) {
               console.log(error);
@@ -86,7 +77,77 @@ module.exports = function(app, connection) {
             }
           });
 
-        } else {
+        }
+        else if(idKeyArray.length > 0 && idKeyArray.length > 20){
+          var sql = "select k.fk_meet_Id AS meetId, k.meet_keyword AS word from meetkeywords as k join meettable as m on k.fk_meet_Id = m.meet_Id " +
+      "order by m.meet_datetime limit" +firstIndex+","+offset+ ";";
+    var idKeyArray = new Array();
+    connection.query(sql, function(error, result, fields) {
+      if (error) {
+        console.log(error);
+        res.json({
+          "state": 400
+        });
+      } else {
+        var eqaulKeyword = require('../keywordModule/equalKeyword.js');
+        idKeyArray = eqaulKeyword(result, keyword);
+          var writeQuery = require('./searchModule/writeQuery.js');
+          var sqltwo = writeQuery(idKeyArray,1);
+          connection.query(sqltwo, function(error, results, fields) {
+            if (error) {
+              console.log(error);
+              res.json({
+                "state": 400
+              });
+            } else {
+              var write = require('../sqlModule/writeSQLPtcNum.js');
+              var sql = write(results);
+              connection.query(sql, function(err, row, field) {
+                if (err) {
+                  res.json({
+                    "state": 400
+                  });
+                  console.log(err);
+                } else {
+                  if (Object.keys(row).length > 0 && row[0].meet_Id != null) {
+                    for (var i = 0; i < Object.keys(results).length; i++) {
+                      results[i].participantNum = 1;
+                      for (var j = 0; j < Object.keys(row).length; j++) {
+                        if (results[i].meet_Id == row[j].meet_Id)
+                          results[i].participantNum = row[j].count;
+                      }
+                    }
+                  } else {
+                    for (var i = 0; i < Object.keys(results).length; i++)
+                      results[i].participantNum = 1;
+                  }
+                  var findSimmo = require('../module/findSimmo.js');
+                  var sqlthree = findSimmo(myId, latitude, longitude, results);
+                  connection.query(sqlthree, function(err, row, field) {
+                    if (err) {
+                      console.log(error);
+                      res.status(400).json({"state": 400});
+                  }
+                    else {
+                      var setPtcImage = require("../imageModule/setParticipantImage.js");
+                      var result = setPtcImage(results, row);
+                      var distanceSort = require('../sortModule/distanceSort.js');
+                      var searchingResult = distanceSort(result, latitude, longitude);
+                      res.status(200).json({
+                        "state": 200,
+                        "list": searchingResult
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+
+        }
+      });
+    }
+         else {
           var sql = 'select * from interests where fk_userId="' + userId + '";';
           var sql2 = ["select * from meetinterests where "];
           var interestlist = ["sports", "activity", "writing", "study", "exhibition", "music", "movie", "diy", "volunteer", "picture", "cooking", "coffee", "nail", "car", "interior", "concert", "etc"]

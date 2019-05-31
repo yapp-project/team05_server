@@ -43,7 +43,7 @@ module.exports = function(myId,latitude,longitude,count,res,connection){
                                            else{
                                                var setPtcImage = require("../imageModule/setParticipantImage.js");
                                                var result = setPtcImage(valueresults,row);
-                                               var relocationView = require('./relocationview.js');
+                                               var relocationView = require('./searchModule/relocationview.js');
                                                var list = relocationView(result);
                                                res.status(200).json({"state": 200, "list" : list});
                                            }
