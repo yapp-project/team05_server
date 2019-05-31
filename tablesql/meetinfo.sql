@@ -1,4 +1,4 @@
-CREATE TABLE `simmo`.`meetinfo` (
+CREATE TABLE `meetinfo` (
   `fk_meetId` INT UNSIGNED NOT NULL,
   `flag` INT UNSIGNED NOT NULL,
   `date` DATETIME NOT NULL,
