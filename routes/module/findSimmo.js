@@ -8,7 +8,7 @@ module.exports= function(myId,latitude,longitude,results){
         if(Object.keys(results).length > 0){
             for(var i = 0; i < Object.keys(results).length; i++){
                 distance[i] = computeDistance(latitude,longitude,results[i].latitude,results[i].longitude);
-                results[i].distance = distance[i].toFixed(4);
+                results[i].distance = distance[i].toFixed(1);
                 if(i != Object.keys(results).length -1){
                     sqlthree = sqlthree.concat(" a.fk_meet_Id = " + results[i].meet_Id + " or ");
                     sqlthr = sqlthr.concat(" a.meet_Id = " + results[i].meet_Id + " or ");
