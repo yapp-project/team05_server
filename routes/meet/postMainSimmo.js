@@ -13,14 +13,13 @@ module.exports = function(app,connection){
         var sql = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
         "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude,"+
          "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"' ORDER BY meet_datetime limit "+firstIndex+ ","+offset+" ;";
-         console.log(sql);
+        
         connection.query(sql,function(error,results,fields){
             if(error) {
                 res.status(400).json({"state" : 400});
                 console.log(error);
             }
             else{
-                console.log(results);
                 var sqltwo = findSimmo(myId,latitude,longitude,results);
                 connection.query(sqltwo,function(err,row,field){
                     if(err){
@@ -52,9 +51,8 @@ module.exports = function(app,connection){
                                     }
                                     var findSimmo = require('../module/findSimmo.js');
                                     var sqlthree= findSimmo(myId,latitude,longitude,results);
-                                    console.log(sqlthree);
                                     connection.query(sqlthree,function(err,row,field){
-                                        if(err) res.status(400).json({"state": 400, "err" : err});
+                                        if(err) {res.status(400).json({"state": 400});console.log(err);}
                                         else{
                                             var setPtcImage = require("../imageModule/setParticipantImage.js");
                                             var result = setPtcImage(results,row);

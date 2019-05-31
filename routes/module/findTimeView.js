@@ -21,7 +21,6 @@ module.exports= function(myId,latitude,longitude,results){
     var valueObject = new Object();
             valueObject.sqlthree =sqlthree;
             valueObject.results = results;
-            console.log(valueObject);
     return valueObject;
 
 }

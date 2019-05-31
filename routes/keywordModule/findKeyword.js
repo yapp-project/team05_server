@@ -1,6 +1,6 @@
 module.exports = function(key,connection,meetId){
     var word = key.split('#');
-    console.log(word);
+    console.log("keywordModule/findKeyword.js");
     var keywordBinary = new Array();
     var sqlquery = "select keyword from keywordnums where keyword = '" ;
     for(var i = 1; i < word.length; i++){
@@ -9,7 +9,7 @@ module.exports = function(key,connection,meetId){
         else
             sqlquery = sqlquery.concat(word[i] + "' or keyword = '");
     }
-        console.log(sqlquery);
+        
         connection.query(sqlquery, function(error,row,field){
             if(error)console.log(error);
             else{

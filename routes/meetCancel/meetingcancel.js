@@ -1,5 +1,6 @@
 module.exports = function(app, connection){
     app.post('/meet/meetId',function(req,res){
+        console.log('post /meet/meetId');
         var meetId = req.body.meetId;
         var sql = "DELETE from meettable where meet_Id = " + meetId + ";";
         var sqlone = "insert into meetinfo (fk_meetId,flag,date,isEnded) values ("+meetId+",0,now(),1);";

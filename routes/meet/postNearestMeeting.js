@@ -3,7 +3,7 @@ module.exports = function(app,connection){
 var computeDistance = require('../distanceModule/computeDistance.js');
 
 app.post('/meet/meetId/near',function(req,res){
-console.log('get /meet/meetId/near');
+console.log('post /meet/meetId/near');
 var longitude = req.body.myLongitude;
 var latitude = req.body.myLatitude;
 var myId = req.body.userId;
@@ -31,7 +31,6 @@ else if(result[0].hasOwnProperty('meet_Id')){
         }
         else{
             if(Object.keys(results).length > 0){
-                console.log(results);
                 var write = require('../sqlModule/writeSQLPtcNum.js');
                 var sql = write(results);
                 connection.query(sql,function(err,row,field){

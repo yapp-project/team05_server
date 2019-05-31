@@ -2,9 +2,8 @@ module.exports = function(connection,meetId,res){
     var sql = "select m.fk_meetcaptain as meetcaptain, m.meet_name as meetname,a.fk_attendants_Id as attendant from meettable " +
     "as m join meetAttendants as a on m.meet_Id = a.fk_meet_Id where m.meet_Id = " + meetId+";";
     connection.query(sql,function(error,rows,field){
-        if(error)res.status(400).json({"state": 400,"err" : error});
+        if(error){res.status(400).json({"state": 400});console.log(error);}
         else{
-            console.log(rows);
             var sql = "select usertoken,fk_userId as userId from usertokens where fk_userId = '";
             if(Object.keys(rows).length > 0){
             for(var i = 0; i < Object.keys(rows).length; i++){
@@ -14,7 +13,7 @@ module.exports = function(connection,meetId,res){
                     sql = sql.concat(rows[i].attendant+"' or userId = '");
             }
             connection.query(sql,function(err,row,field){
-                if(err)res.status(400).json({"state":400,"err":err});
+                if(err){res.status(400).json({"state":400});console.log(err);}
                 else{
                     var clientToken = new Array();
                     for(var i = 0; i < rows.length; i++)

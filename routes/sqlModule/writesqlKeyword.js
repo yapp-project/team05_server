@@ -1,6 +1,5 @@
 module.exports = function(row,word,meetId){
     var keywordBinary = new Array();
-    console.log("word "+ word + "row " + row);
     var sql = "UPDATE keywordnums SET keywordCount = keywordCount + 1 WHERE keyword = '";
     var query = "INSERT INTO keywordnums (keyword,keywordCount,fk_meet_Id) values ('";
     if(Object.keys(row).length != 0){
@@ -46,8 +45,6 @@ module.exports = function(row,word,meetId){
         var sqlquery = new Array();
         sqlquery.push(query);
     }
-    
-    console.log(sqlquery);
     return sqlquery;
 
 }

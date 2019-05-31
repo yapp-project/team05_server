@@ -20,7 +20,6 @@ module.exports = function(app, connection) {
         res.json({
           "state": 400
         });
-        console.log(error);
       } else {
         var eqaulKeyword = require('../keywordModule/equalKeyword.js');
         idKeyArray = eqaulKeyword(result, keyword);
@@ -42,14 +41,11 @@ module.exports = function(app, connection) {
               res.json({
                 "state": 400
               });
-              console.log(error);
             } else {
               var write = require('../sqlModule/writeSQLPtcNum.js');
               var sql = write(results);
-              console.log(results);
               connection.query(sql, function(err, row, field) {
                 if (err) {
-                  console.log(error);
                   res.json({
                     "state": 400
                   });
@@ -72,8 +68,7 @@ module.exports = function(app, connection) {
                   connection.query(sqlthree, function(err, row, field) {
                     if (err) {
                       console.log(error);
-                      res.status(400).json({"state": 400
-                    });
+                      res.status(400).json({"state": 400});
                   }
                     else {
                       var setPtcImage = require("../imageModule/setParticipantImage.js");

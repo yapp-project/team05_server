@@ -12,6 +12,6 @@ module.exports = function(result,keyword){
            }
         }
     }
-    console.log(idKeyArray);
+    
     return idKeyArray;
 }

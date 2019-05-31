@@ -64,7 +64,7 @@ module.exports = function(app,connection)
                                         +"' do delete from meettable WHERE meet_Id = "+result.insertId+";";
                                         connection.query(sqlfive, function(err, row, fields){
                                             if(err){
-                                                res.status(400).json({"state" : 400,"err" : error + " " +err});
+                                                res.status(400).json({"state" : 400});
                                                 console.error('error'+ err);
                                             }
                                             else{

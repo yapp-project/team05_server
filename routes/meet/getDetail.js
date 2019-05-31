@@ -11,8 +11,10 @@ module.exports = function(app,connection){
 
         var sqltwo = 'INSERT INTO meetviews(fk_meetId,views) VALUES(' + meetId + ',1) ON DUPLICATE KEY UPDATE fk_meetId='+meetId+', views=views+1;';
         connection.query(sql, function(error,result,fields){
-            if(error)
+            if(error){
                 res.status(400).json({"state" : 400});
+                console.log(error);
+            }
             else{
              
                     if(Object.keys(result).length > 0){
@@ -31,8 +33,10 @@ module.exports = function(app,connection){
                 }
                     else{
                         connection.query(sqlone, function(err,result,fields){
-                            if(error)
+                            if(error){
                                 res.status(400).json({"state" : 400});
+                                console.log(error);
+                            }
                                 else{
                                     result[0].endingflag = 1;
                                     var getimgdetail = require("../detailModule/getimgdetail.js");

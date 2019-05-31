@@ -53,8 +53,7 @@ var sqlthree = "select a.fk_meet_Id as meet_Id, i.userImg as userImg, i.fk_userI
                 row.push(count);
                 row.push(meetId);
                 row.push(distance);
-                console.log(sqltwo);
-                console.log(sqlthree);
+                
                 
         
         return row;

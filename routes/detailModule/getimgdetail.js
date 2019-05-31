@@ -17,14 +17,14 @@ module.exports = function(connection,result,res,meetId){
     var imgArray = new Array();
     
     connection.query(sqltwo, function(err,row,field){
-        if(err) res.status(400).json({"state" : 400, "err" : err});
+        if(err) {res.status(400).json({"state" : 400}); console.log(err)}
         else{
             if(Object.keys(row).length > 0){
                 for(var i = 0; i < Object.keys(row).length; i++){
                     if(row[i].participants_img=="null") imgArray.push("https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg");
                     else imgArray.push(row[i].participants_img);
                 }
-                console.log(imgArray);
+                
                 result[0].participants_img = imgArray;
             }
             
@@ -35,7 +35,7 @@ module.exports = function(connection,result,res,meetId){
                 
 
             connection.query(sqlthree,function(err,row,field){
-                if(err)res.status(400).json({"state" : 400, "err" : err});
+                if(err) {res.status(400).json({"state" : 400}); console.log(err)}
                 else{
                     if(Object.keys(row).length > 0){
                         if(row[0].captain_img =="null")result[0].captain_img = "https://s3-us-west-2.amazonaws.com/yappsimmo/meetimg/1.jpg";
