@@ -8,6 +8,7 @@ module.exports = function(app,connection)
         var attendantId = req.body.user_Id;
         var sql_one = "select fk_meetcaptain from meettable where meet_Id = " + meetId + ";";
         var sql = 'DELETE from meetAttendants where fk_attendants_Id ="'+attendantId+'" and fk_meet_Id = '+meetId+';';
+        var sqltwo = "delete from meetendAttendants where fk_attendants_Id ='" + attendantId +"' and fk_meet_Id = " + meetId +";";
         var params = {
             "fk_meet_Id" : meetId,
             "fk_attendants_Id" : attendantId
@@ -28,7 +29,15 @@ module.exports = function(app,connection)
                   res.json({'state' : 400, "error" : error});
                 }
                 else {
-                  res.json({'state' :200});
+                  connection.query(sqltwo, function(err,result,field){
+                    if(err){
+                      console.log(err);
+                      res.json({"state" : 400});
+                    }
+                    else{
+                      res.json({'state' :200});
+                    }
+                  })
                   }
               });
 
