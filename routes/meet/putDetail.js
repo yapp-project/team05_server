@@ -32,7 +32,7 @@ module.exports = function(app,connection)
                     }
                     else{
                        
-                        var sqlfive = 'CREATE EVENT ' +'event_'+String(meet_Id)+" on schedule AT '"+date
+                        var sqlfive = 'alter EVENT ' +'event_'+String(meet_Id)+" on schedule AT '"+date
                         +"' do delete from meettable WHERE meet_Id = "+meet_Id+";";
                         connection.query(sqlfive, function(err, row, fields){
                             if(err){
