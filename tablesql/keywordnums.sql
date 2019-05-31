@@ -1,4 +1,4 @@
-CREATE TABLE `test`.`keywordnums` (
+CREATE TABLE `simmo`.`keywordnums` (
   `keywordnumsId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `fk_meet_Id` int(10) unsigned NOT NULL,
   `keyword` VARCHAR(100) NOT NULL,

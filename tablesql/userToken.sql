@@ -1,4 +1,4 @@
-CREATE TABLE `test`.`usertokens` (
+CREATE TABLE `simmo`.`usertokens` (
   `fk_userId` varchar(20),
   `usertokenId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `usertoken` MEDIUMTEXT NOT NULL,
