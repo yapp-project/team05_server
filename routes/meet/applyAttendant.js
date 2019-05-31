@@ -43,7 +43,7 @@ module.exports = function(app,connection)
                                             console.log(err);
                                                 }
                                                 else{
-                                            res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
+                                            res.status(200).json({"state" : 200});
                                         }
                                             });
                                         }
@@ -60,7 +60,7 @@ module.exports = function(app,connection)
                                     console.log(err);
                                         }
                                         else{
-                                    res.status(200).json({"state" : 200, "meet_Id" : meetId, "userId" : attendantId});
+                                    res.status(200).json({"state" : 200});
                                 }
                                     });
                                 }
