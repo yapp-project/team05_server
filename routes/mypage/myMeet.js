@@ -10,7 +10,7 @@ module.exports = function(app, connection)
     var sql = 'SELECT m.meet_Id as meet_Id,m.meet_name as meet_name, m.meet_datetime as meet_datetime, m.meet_location as meet_location, m.meet_personNum as meet_personNum, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude,i.meetImg as meet_Img ' +
       'from meettable as m ' +
       'left join meetimgs as i on m.meet_Id = i.fkmeetId ' +
-      'where meet_Id = ANY(SELECT fk_meet_Id FROM meetAttendants WHERE fk_attendants_Id ="' + userId + '")';
+      'where meet_Id = ANY(SELECT fk_meet_Id FROM meetAttendants WHERE fk_attendants_Id ="' + userId + '") or fk_meetcaptain = "'+userId+'";';
     connection.query(sql, function(error, results, fields) {
       if (error) {
         console.log(error);
