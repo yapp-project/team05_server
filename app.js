@@ -44,7 +44,6 @@ var meetScheduledMeetingRouter = require('./routes/meet/postMainSimmo.js')(app,c
 var mostNearestMeetingRouter = require('./routes/meet/postNearestMeeting.js')(app, connection);
 var clientTokenRouter = require('./routes/meet/clientToken.js')(app,connection);
 var meetingcancelRouter = require('./routes/meetCancel/meetingcancel.js')(app,connection);
-var cancelReasonRouter = require('./routes/meetCancel/cancelreason.js')(app,connection);
 var remainCancelReasonRouter = require('./routes/meetCancel/remainCancelReason.js')(app,connection);
 var meetingAlarmRouter = require('./routes/pushAlarm/cancelAlarm.js')(app,connection);
 var putDetailRouter = require('./routes/meet/putDetail.js')(app,connection);
