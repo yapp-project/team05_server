@@ -1,4 +1,4 @@
-CREATE TABLE `userimg` (
+CREATE TABLE `userImg` (
   `fk_userId` varchar(20) NOT NULL,
   `userImg` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`fk_userId`),

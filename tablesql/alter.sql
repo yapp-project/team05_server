@@ -4,8 +4,8 @@ alter table interests add constraint `fk_userId2` FOREIGN KEY (`fk_userId`) REFE
 alter table meettable drop foreign key `userId`;
 alter table meettable add CONSTRAINT `userId` FOREIGN KEY (`fk_meetcaptain`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-alter table meetattendants drop foreign key `fk_attendants_Id`;
-alter table meetattendants add CONSTRAINT `fk_attendants_Id` FOREIGN KEY (`fk_attendants_Id`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
+alter table meetAttendants drop foreign key `fk_attendants_Id`;
+alter table meetAttendants add CONSTRAINT `fk_attendants_Id` FOREIGN KEY (`fk_attendants_Id`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 alter table userImg drop foreign key `fkuserId` ;
 alter table userImg add CONSTRAINT `fkuserId` FOREIGN KEY (`fk_userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
