@@ -53,14 +53,22 @@ module.exports = function(app,connection){
                                                var setPtcImage = require("../imageModule/setParticipantImage.js");
                                                var result = setPtcImage(results,row);
                                                var distanceSort = require('../sortModule/distanceSort.js');
-                                               var searchingResult = distanceSort(result,latitude,longitude);
-                                               var list = new Object();
+                                               var results = distanceSort(result,latitude,longitude);
+                                               var searcing = new Object();
                                                var count = 0;
                                                for(var i = firstIndex; i< Object.keys(searchingResult).length; i++){
-                                                   list[i] = searchingResult[i];
+                                                   searcing.distance = results[i].distance;
+                                                    searching.meetId = results[i].meet_Id;
+                                                    searching.meetName = results[i].meet_name;
+                                                    searching.meetDateTime = results[i].meet_datetime;
+                                                    searching.meetlocation = results[i].meet_location;
+                                                    searching.meet_personNum = results[i].meet_personNum;
+                                                    searching.meet_Img = results[i].meet_Img;
+                                                    searching.participantNum = results[i].participantNum;
+                                                    searching.participantImg = results[i].participantImg;
                                                    count = count + 1;
                                                    if(count == offset) break;
-                                                   console.log(list);
+                                                   
                                                }
                                                res.status(200).json({"state": 200, "list" : list});
                                         }
