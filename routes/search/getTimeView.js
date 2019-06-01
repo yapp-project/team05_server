@@ -5,7 +5,7 @@ module.exports = function(myId,latitude,longitude,count,res,connection){
            offset = 20;
            var sql = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
            "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as latitude, m.meet_longitude as longitude,"+
-            "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"' ORDER BY meet_datetime limit "+firstIndex+ ","+offset+" ;";
+            "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"' ORDER BY m.meet_datetime limit "+firstIndex+ ","+offset+" ;";
            connection.query(sql,function(error,results,fields){
                if(error) {
                    res.status(400).json({"state" : 400});
