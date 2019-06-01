@@ -56,7 +56,7 @@ module.exports = function(app,connection){
                                                var searchingResult = distanceSort(result,latitude,longitude);
                                                var list = new Object();
                                                var count = 0;
-                                               for(var i = firstIndex; i< Object.keys(searcingResult).length; i++){
+                                               for(var i = firstIndex; i< Object.keys(searchingResult).length; i++){
                                                    list[i] = searchingResult[i];
                                                    count = count + 1;
                                                    if(count == offset) break;
