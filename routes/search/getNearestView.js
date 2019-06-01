@@ -13,7 +13,7 @@ module.exports = function(app,connection){
            var findSimmo = require("../module/findSimmo.js");
            var sql = "select m.meet_name as meet_name, m.meet_datetime as meet_datetime , m.meet_Id as meet_Id," +
            "m.meet_personNum as meet_personNum, m.meet_location as meet_location, m.meet_latitude as meet_latitude, m.meet_longitude as meet_longitude,"+
-            "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"' limit "+firstIndex+ ","+offset+" ;";
+            "i.meetImg as meet_Img from meettable AS m Join meetimgs AS i ON m.meet_Id = i.fkmeetId where fk_meetcaptain != '" + myId+"';";
         if(distancebool == 1){
            connection.query(sql,function(error,results,fields){
                if(error) {
@@ -54,7 +54,14 @@ module.exports = function(app,connection){
                                                var result = setPtcImage(results,row);
                                                var distanceSort = require('../sortModule/distanceSort.js');
                                                var searchingResult = distanceSort(result,latitude,longitude);
-                                               res.status(200).json({"state": 200, "list" : searchingResult});
+                                               var list = new Object();
+                                               var count = 0;
+                                               for(var i = firstIndex; i< Object.keys(searcingResult).length; i++){
+                                                   list[i] = searchingResult[i];
+                                                   count = count + 1;
+                                                   if(count == offset) break;
+                                               }
+                                               res.status(200).json({"state": 200, "list" : list});
                                         }
                                     });
                        }
