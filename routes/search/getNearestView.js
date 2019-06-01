@@ -60,6 +60,7 @@ module.exports = function(app,connection){
                                                    list[i] = searchingResult[i];
                                                    count = count + 1;
                                                    if(count == offset) break;
+                                                   console.log(list);
                                                }
                                                res.status(200).json({"state": 200, "list" : list});
                                         }
